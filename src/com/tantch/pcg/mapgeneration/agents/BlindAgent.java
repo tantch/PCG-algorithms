@@ -1,30 +1,53 @@
-package mapgenerator;
+package com.tantch.pcg.mapgeneration.agents;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import mapping.*;
-import mapping.MpCell.CellType;
+import com.tantch.pcg.mapgeneration.representations.*;
+import com.tantch.pcg.mapgeneration.representations.MpCell.CellType;
 
 public class BlindAgent {
 
 	private DunMap map;
 	private int posx, posy;
 	private int curdir;
-	private int turnPb;
-	private int roomPb;
+	private int turnPb,turnInc;
+	private int roomPb,roomInc;
 	private int stamina;
 
 	public void init(DunMap map) {
 
 		this.map = map;
+		//TODO make all random
 		posx = 30;
 		posy = 30;
 		curdir = 2;
 		turnPb = 5;
-		roomPb = 2;
+		roomPb = 0;
 		stamina =300;
 	}
+	
+	public void setInitialPosition(int x,int y){
+		this.posx=x;
+		this.posy=y;
+	}
+	public void setCurrentDirection(int dir){
+		this.curdir= dir;
+	}
+	public void setParameters(int turnProb, int createRoomProb){
+		this.turnPb = turnProb;
+		this.turnInc = turnInc;
+		this.roomPb = createRoomProb;
+		this.roomInc = createRoomProb;
+	}
+	public void setStamina(int stamina){
+		this.stamina=stamina;
+	}
+	
+	public void calculateStamina(){
+		//TODO implemente
+	}
+	
 
 	public void start(){
 		Random rd = new Random();
@@ -60,7 +83,7 @@ public class BlindAgent {
 				curdir = rd.nextInt(4);
 				turnPb = 0;
 			} else {
-				turnPb += 5;
+				turnPb += turnInc;
 			}
 			int room = rd.nextInt(100);
 			if (room < roomPb) {
@@ -81,19 +104,15 @@ public class BlindAgent {
 					roomPb = 0;
 				}
 			} else {
-				roomPb += 2;
+				roomPb += roomInc;
 			}
-			//System.out.print("X:" + posx + "|Y:" + posy);
 			if (map.getCellType(posx, posy) == CellType.FILLED) {
 				stamina--;
 			}
 			map.setCellType(posx, posy, CellType.EMPTY);
-			//System.out.println("|STAMINA:" + stamina);
-			//map.printMapConsole(posx, posy);
-			//TimeUnit.MILLISECONDS.sleep(20);
+
 		}
 		
-		map.printMapConsole(false);
 
 	}
 

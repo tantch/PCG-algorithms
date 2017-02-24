@@ -1,4 +1,4 @@
-package mapping;
+package com.tantch.pcg.mapgeneration.representations;
 
 public class MpCell {
 

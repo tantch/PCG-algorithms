@@ -1,10 +1,11 @@
-package space_partioning;
+package com.tantch.pcg.mapgeneration.spacepartitioning;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import mapping.DunMap;
-import mapping.MpCell.CellType;
+import com.tantch.pcg.mapgeneration.representations.DunMap;
+import com.tantch.pcg.mapgeneration.representations.MpCell.CellType;
+import com.tantch.pcg.utils.Debug;
 
 public class BSPNode {
 	private static int minPartitionSize = 4;
@@ -31,9 +32,8 @@ public class BSPNode {
 
 	public void divide() {
 
-		System.out
-				.println("node bounds: " + xLowerBound + "/" + yLowerBound + " -> " + xUpperBound + "/" + yUpperBound);
-
+		Debug.log("BSPNode",
+				"Node created | Bounds: " + xLowerBound + "/" + yLowerBound + " -> " + xUpperBound + "/" + yUpperBound);
 		Random rd = new Random();
 		int direction = rd.nextInt(2);
 		if (direction == 0) {
@@ -45,8 +45,7 @@ public class BSPNode {
 				do {
 					border = rd.nextInt(yUpperBound - yLowerBound) + yLowerBound;
 				} while ((border - yLowerBound) < minPartitionSize || (yUpperBound - border) < minPartitionSize);
-				System.out.println("hor Border:" + border);
-
+				Debug.log("BSPNode", "Horizontal split in " + border);
 				BSPNode child1 = new BSPNode(xLowerBound, yLowerBound, xUpperBound, border);
 				BSPNode child2 = new BSPNode(xLowerBound, border, xUpperBound, yUpperBound);
 
@@ -63,7 +62,7 @@ public class BSPNode {
 				do {
 					border = rd.nextInt(xUpperBound - xLowerBound) + xLowerBound;
 				} while ((border - xLowerBound) < minPartitionSize || (xUpperBound - border) < minPartitionSize);
-				System.out.println("vertical Border:" + border);
+				Debug.log("BSPNode", "Vertical split in " + border);
 				BSPNode child1 = new BSPNode(xLowerBound, yLowerBound, border, yUpperBound);
 				BSPNode child2 = new BSPNode(border, yLowerBound, xUpperBound, yUpperBound);
 
@@ -126,7 +125,6 @@ public class BSPNode {
 			return false;
 		}
 
-		System.out.println("RES: " + res);
 		if (res > 1) {
 			return true;
 		}
@@ -170,31 +168,30 @@ public class BSPNode {
 
 				if (roomx1 - xLowerBound >= MINROOMSIZE - dif) {
 					roomx1 -= MINROOMSIZE - dif;
-				} else if (xUpperBound - roomx2 -1 >= MINROOMSIZE - dif) {
-					roomx2 += MINROOMSIZE - dif-1;
-				}else{
-					roomx1-=roomx1 - xLowerBound;
-					roomx2+=xUpperBound - roomx2-1;
+				} else if (xUpperBound - roomx2 - 1 >= MINROOMSIZE - dif) {
+					roomx2 += MINROOMSIZE - dif - 1;
+				} else {
+					roomx1 -= roomx1 - xLowerBound;
+					roomx2 += xUpperBound - roomx2 - 1;
 				}
 
 			}
-			
+
 			dif = roomy2 - roomy1;
 			if (dif < MINROOMSIZE) {
 
 				if (roomy1 - yLowerBound >= MINROOMSIZE - dif) {
 					roomy1 -= MINROOMSIZE - dif;
-				} else if (yUpperBound - roomy2 -1 >= MINROOMSIZE - dif) {
-					roomy2 += MINROOMSIZE - dif-1;
-				}else{
-					roomy1-=roomy1 - yLowerBound;
-					roomy2+=yUpperBound - roomy2-1;
+				} else if (yUpperBound - roomy2 - 1 >= MINROOMSIZE - dif) {
+					roomy2 += MINROOMSIZE - dif - 1;
+				} else {
+					roomy1 -= roomy1 - yLowerBound;
+					roomy2 += yUpperBound - roomy2 - 1;
 				}
 
 			}
-			
-			System.out.println("ROOM: " + roomx1 + "/" + roomy1 + "->" + roomx2 + "/" + roomy2 );
 
+			Debug.log("BSPNode", "Room created:" + roomx1 + "/" + roomy1 + "->" + roomx2 + "/" + roomy2);
 		} else {
 			for (int i = 0; i < children.size(); i++) {
 				children.get(i).createRoom();
