@@ -17,9 +17,11 @@ public class BSPNode {
 	private int xUpperBound, yUpperBound;// exclusive
 	private ArrayList<BSPNode> children;
 	private boolean leaf = false;
-
+	
 	private int roomx1, roomx2, roomy1, roomy2;// inclusive
 
+	private int roomId=-1;
+	
 	public BSPNode(int x1, int y1, int x2, int y2) {
 		this.xLowerBound = x1;
 		this.yLowerBound = y1;
@@ -94,7 +96,8 @@ public class BSPNode {
 
 			for (int i = roomx1; i <= roomx2; i++) {
 				for (int j = roomy1; j <= roomy2; j++) {
-					map.setCellType(i, j, CellType.EMPTY);
+					map.setCellType(i, j, CellType.ROOM);
+					map.setCellRoomId(i,j,roomId);
 				}
 			}
 
@@ -138,9 +141,9 @@ public class BSPNode {
 		return true;
 	}
 
-	public void createRoom() {
+	public void createRoom(DunMap dmap) {
 		if (leaf) {
-
+			
 			Random rd = new Random();
 			int x1 = rd.nextInt(xUpperBound - xLowerBound) + xLowerBound;
 			int x2 = rd.nextInt(xUpperBound - xLowerBound) + xLowerBound;
@@ -190,11 +193,11 @@ public class BSPNode {
 				}
 
 			}
-
+			this.roomId = dmap.addRom(roomx1, roomy1, roomx2, roomy2);
 			Debug.log("BSPNode", "Room created:" + roomx1 + "/" + roomy1 + "->" + roomx2 + "/" + roomy2);
 		} else {
 			for (int i = 0; i < children.size(); i++) {
-				children.get(i).createRoom();
+				children.get(i).createRoom(dmap);
 			}
 		}
 	}

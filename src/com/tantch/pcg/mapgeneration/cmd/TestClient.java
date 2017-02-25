@@ -1,40 +1,45 @@
 package com.tantch.pcg.mapgeneration.cmd;
 
-import com.tantch.pcg.mapgeneration.agents.BlindAgent;
+import java.util.ArrayList;
+import java.util.Random;
+
+import com.tantch.pcg.mapgeneration.agents.BlindDAgent;
 import com.tantch.pcg.mapgeneration.representations.DunMap;
+import com.tantch.pcg.mapgeneration.representations.DunRoom;
 import com.tantch.pcg.mapgeneration.spacepartitioning.BSPTree;
 import com.tantch.pcg.utils.Debug;
 
 public class TestClient {
 
-	
-	
-	
 	public static void main(String[] args) {
 
 		Debug.setVerbose(true);
-		DunMap dmap= new DunMap(30);
+		DunMap dmap = new DunMap(30);
 		BSPTree tree = new BSPTree(dmap);
 		tree.run();
 		tree.createRooms();
 		tree.buildMap();
 
-		
-		BlindAgent ag = new BlindAgent();
-		ag.init(dmap);
-		ag.setInitialPosition(10, 10);
-		ag.setStamina(30);
-		ag.setCurrentDirection(2);
-		ag.setParameters(2, 0);
-		ag.setStamina(20);
-		ag.start();
-		Draw.drawMap(dmap,false);
-		
-		
+
+		ArrayList<DunRoom> rooms = dmap.getRooms();
+		for (DunRoom dunRoom : rooms) {
+			BlindDAgent ag = new BlindDAgent();
+
+			ag.init(dmap);
+			ag.setMapSize(30);
+			int[] pos = dunRoom.getPositionInRoom();
+			ag.setInitialPosition(pos[0], pos[1]);
+			ag.setStamina(30);
+			Random rd= new Random();
+			ag.setCurrentDirection(rd.nextInt(4));
+			ag.setParameters(4, 0);
+			ag.setStamina(10);
+			ag.start();
+		}
+		Draw.drawMap(dmap, false,true);
+
+		Draw.drawMap(dmap, false,false);
+
 	}
-	
-	
-	
-	
 
 }

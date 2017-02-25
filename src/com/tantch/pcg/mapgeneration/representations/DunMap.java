@@ -1,16 +1,18 @@
 package com.tantch.pcg.mapgeneration.representations;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import com.tantch.pcg.mapgeneration.representations.MpCell.CellType;
 
 public class DunMap {
 
 	private MpCell[][] map;
+	private ArrayList<DunRoom> rooms;
 	private int size;
 
 	public DunMap(int size) {
 		this.size = size;
+		rooms= new ArrayList<DunRoom>();
 		init();
 
 	}
@@ -41,6 +43,11 @@ public class DunMap {
 		map[col][row].setDivisions(i,div);
 
 	}
+	
+	public void setCellRoomId(int row, int col, int roomId) {
+		map[col][row].setRoomId(roomId);
+		
+	}
 
 	public int getSize() {
 		// TODO Auto-generated method stub
@@ -51,7 +58,18 @@ public class DunMap {
 		// TODO Auto-generated method stub
 		return map;
 	}
+	
+	public int addRom(int x1, int y1, int x2, int y2){
+		int roomId = rooms.size();
+		rooms.add(new DunRoom(roomId,x1,y1,x2,y2));
+		return roomId;
+	}
 
+	public ArrayList<DunRoom> getRooms() {
+		return rooms;
+	}
+
+	
 	
 
 }

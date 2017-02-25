@@ -14,4 +14,9 @@ public class Debug {
 		verbose = b;
 	}
 
+	public static void logError(String type, String msg) {
+		System.out.println("Error:" + type + " | " + msg);
+		
+	}
+
 }

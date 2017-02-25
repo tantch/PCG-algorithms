@@ -1,13 +1,16 @@
 package com.tantch.pcg.mapgeneration.representations;
 
+import com.tantch.pcg.utils.Debug;
+
 public class MpCell {
 
 	public enum CellType {
-		EMPTY, FILLED
+		EMPTY,ROOM, FILLED
 	}
-
-	private CellType type;
 	
+	private int roomId=-1;
+	
+	private CellType type;
 	private boolean[] debugDivisions = {false,false};
 	
 	public MpCell(CellType type) {
@@ -30,6 +33,18 @@ public class MpCell {
 	
 	public void setType(CellType type){
 		this.type = type;
+	}
+	
+	public void setRoomId(int id){
+		if(type != CellType.ROOM){
+			Debug.logError("MpCell", "Can't set room id of cell type != ROOM");
+		}else{
+			roomId= id;
+		}
+	}
+	
+	public int getRoomId(){
+		return roomId;
 	}
 	
 }
