@@ -23,4 +23,10 @@ public class DunRoom {
 		return ret;
 	}
 
+	public int getRoomId() {
+		return roomId;
+	}
+
+
+
 }

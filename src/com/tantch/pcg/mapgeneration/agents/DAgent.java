@@ -10,6 +10,7 @@ public class DAgent {
 	int posx, posy;
 	int curdir;
 	int stamina;
+	int mapSize;
 
 	public void init(DunMap map) {
 
@@ -68,5 +69,9 @@ public class DAgent {
 			return 0;
 
 		}
+	}
+	
+	public void setMapSize(int size) {
+		this.mapSize = size;
 	}
 }

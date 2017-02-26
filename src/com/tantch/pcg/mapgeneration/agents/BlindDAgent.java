@@ -13,7 +13,6 @@ public class BlindDAgent extends DAgent {
 	private int turnPb, turnInc;
 	private int roomPb, roomInc;
 
-	private int mapSize;
 
 	public void init(DunMap map) {
 
@@ -88,8 +87,6 @@ public class BlindDAgent extends DAgent {
 
 	}
 
-	public void setMapSize(int size) {
-		this.mapSize = size;
-	}
+
 
 }
