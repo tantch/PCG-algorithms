@@ -17,6 +17,22 @@ public class EvSearch {
 
 	private ArrayList<GeneSequence> pop;
 
+	public void run(int it) {
+		generateRandomPopulations();
+		sufflePop();
+		calculateFitnessForPop();
+		sortPop();
+
+		for (int i = 1; i < it; i++) {
+			deleteWorst();
+			generateOffSprings();
+			calculateFitnessForPop();
+			sortPop();
+		}
+
+		Debug.logMonster(new Monster(pop.get(0).getSeq()));
+	}
+
 	public void init(EvRepresentation rp) {
 		pop = new ArrayList<GeneSequence>();
 		sample = rp;
@@ -34,9 +50,7 @@ public class EvSearch {
 
 	public void calculateFitnessForPop() {
 		for (int i = 0; i < pop.size(); i++) {
-			System.out.print("load seq : ");
-			Debug.printBitsequence( pop.get(i).getSeq());
-			System.out.println("");
+
 			Monster mns = new Monster(pop.get(i).getSeq());
 
 			double result = mns.calculateFitness();
@@ -44,30 +58,24 @@ public class EvSearch {
 
 		}
 	}
-	
-	public void deleteWorst(){
-		for(int i = 0;i<v;i++){
+
+	public void deleteWorst() {
+		for (int i = 0; i < v; i++) {
 			pop.remove(u);
 		}
 	}
-	
-	public void generateOffSprings(){
-		for(int i = 0;i<v;i++){
+
+	public void generateOffSprings() {
+		for (int i = 0; i < v; i++) {
 			boolean[] seq = pop.get(i % u).getSeq().clone();
 			Random rd = new Random();
-			System.out.println("-------------" );
-			Debug.printBitsequence(seq);
-			for(int j = 0;j <seq.length;j++){
+
+			for (int j = 0; j < seq.length; j++) {
 				float vl = rd.nextFloat();
-				if(vl < 0.3){
+				if (vl < 0.3) {
 					seq[j] = !seq[j];
 				}
 			}
-			System.out.println("");
-			Debug.printBitsequence(seq);
-			System.out.println("");
-
-			System.out.println("-------------");
 			pop.add(new GeneSequence(seq));
 		}
 	}
