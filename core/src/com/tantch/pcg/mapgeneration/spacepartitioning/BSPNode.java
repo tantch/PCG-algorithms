@@ -31,6 +31,12 @@ public class BSPNode {
 
 		children = new ArrayList<>();
 	}
+	
+	public static void setParameters(int minP,int maxP,int minR){
+		minPartitionSize = minP;
+		maxPartitionSize = maxP;
+		MINROOMSIZE = minR;
+	}
 
 	public void divide() {
 

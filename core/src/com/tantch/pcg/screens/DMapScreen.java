@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.tantch.pcg.MyGdxGame;
 import com.tantch.pcg.mapgeneration.representations.DunMap;
 import com.tantch.pcg.mapgeneration.representations.MpCell;
@@ -21,6 +22,9 @@ public class DMapScreen implements Screen {
 	Texture player;
 	OrthographicCamera camera;
 	int px, py;
+	int sprtn = 1;
+	float acm = 0;
+	float camerazoom = 20;
 
 	public DMapScreen(DunMap dmap, MyGdxGame game) {
 
@@ -55,8 +59,14 @@ public class DMapScreen implements Screen {
 
 			@Override
 			public boolean scrolled(int amount) {
-				// TODO Auto-generated method stub
-				return false;
+
+				float w = Gdx.graphics.getWidth();
+				float h = Gdx.graphics.getHeight();
+				camerazoom += amount;
+				camera.viewportWidth = camerazoom;
+				camera.viewportHeight = camerazoom * h / w;
+				camera.update();
+				return true;
 			}
 
 			@Override
@@ -68,13 +78,13 @@ public class DMapScreen implements Screen {
 			@Override
 			public boolean keyUp(int keycode) {
 				if (keycode == Keys.RIGHT) {
-					px+=2;
-				}else if(keycode == Keys.LEFT){
-					px-=2;
-				}else if(keycode == Keys.UP){
-					py+=2;
-				}else if(keycode == Keys.DOWN){
-					py-=2;
+					px += 2;
+				} else if (keycode == Keys.LEFT) {
+					px -= 2;
+				} else if (keycode == Keys.UP) {
+					py += 2;
+				} else if (keycode == Keys.DOWN) {
+					py -= 2;
 				}
 
 				return true;
@@ -95,7 +105,7 @@ public class DMapScreen implements Screen {
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 20, 20 * (h / w));
+		camera.setToOrtho(false, camerazoom, camerazoom * (h / w));
 		camera.position.set(px, py, 0);
 	}
 
@@ -107,6 +117,15 @@ public class DMapScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
+
+		acm += delta;
+		if (acm > 1 / 12f) {
+			acm = 0;
+			sprtn++;
+			if (sprtn > 2) {
+				sprtn = 1;
+			}
+		}
 
 		// handleinput
 		camera.position.set(px, py, 0);
@@ -144,14 +163,14 @@ public class DMapScreen implements Screen {
 			}
 
 		}
-		game.batch.draw(player, px, py + 1, 2, 2);
+		game.batch.draw(new TextureRegion(player, 0, 0, 320, 320), px, py , 2, 2);
 
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		camera.viewportWidth = 20f;
-		camera.viewportHeight = 20f * height / width;
+		camera.viewportWidth = camerazoom;
+		camera.viewportHeight = camerazoom * height / width;
 
 		camera.update();
 	}

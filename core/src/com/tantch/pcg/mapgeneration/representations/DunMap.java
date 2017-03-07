@@ -28,7 +28,7 @@ public class DunMap {
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 
-				map[i][j] = new MpCell(CellType.FILLED);
+				map[i][j] = new MpCell(CellType.FILLED, j, i);
 
 			}
 		}
@@ -60,12 +60,10 @@ public class DunMap {
 	}
 
 	public int getSize() {
-		// TODO Auto-generated method stub
 		return size;
 	}
 
 	public MpCell[][] getMap() {
-		// TODO Auto-generated method stub
 		return map;
 	}
 
@@ -79,21 +77,65 @@ public class DunMap {
 		return rooms;
 	}
 
-	public DunRoom getRandomUnvisitedRoom() {
+	public DunRoom getRandomUnvisitedRoom(DunRoom room1) {
 
 		Random rd = new Random();
-		if (unvisitedRooms.size() != 0) {
-			int id = rd.nextInt(unvisitedRooms.size());
-			return rooms.get(id);
-		}else{
-			int id = rd.nextInt(rooms.size());
-			return rooms.get(id);
+		ArrayList<DunRoom> roomsClone = (ArrayList<DunRoom>) rooms.clone();
+		ArrayList<Integer> unvisitedRoomsClone = (ArrayList<Integer>) unvisitedRooms.clone();
+		roomsClone.remove(room1);
+		unvisitedRoomsClone.remove(new Integer(room1.getRoomId()));
+		if (unvisitedRoomsClone.size() != 0) {
+			int id = rd.nextInt(unvisitedRoomsClone.size());
+			return roomsClone.get(id);
+		} else {
+			int id = rd.nextInt(roomsClone.size());
+			return roomsClone.get(id);
 		}
 
 	}
 
 	public void markAsVisited(DunRoom room2) {
 		unvisitedRooms.remove(room2);
+	}
+
+	public void perfectMap() {
+		
+		
+		
+		
+		for (int i = 0; i < map.length; i++) {
+			MpCell[] row = map[i];
+			for (int j = 0; j < row.length; j++) {
+				MpCell cell = row[j];
+
+				cell.updateBelongtoRoom(this);
+				
+				
+				
+				
+				//check if create new room
+				if (cell.isSurroundedByRoomCells(this)) {
+					System.out.println("Should create room in cell: " + j + "/" + i);
+					for (int x = -1; x < 2; x++) {
+						for (int y = -1; y < 2; y++) {
+							map[i+y][j+x].setType(CellType.ROOM);
+							map[i+y][j+x].setRoomId(rooms.size());
+						}
+					}
+					
+
+					addRom(j - 1, i - 1, j + 1, i + 1);
+
+				}
+
+			}
+		}
+
+	}
+
+	public int getRoomId(int x, int y) {
+		return map[y][x].getRoomId();
+
 	}
 
 }
