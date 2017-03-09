@@ -1,6 +1,7 @@
 package com.tantch.pcg.utils;
 
 import com.tantch.pcg.assets.Monster;
+import com.tantch.pcg.assets.Player;
 
 public class Debug {
 
@@ -34,12 +35,23 @@ public class Debug {
 	public static void logMonster(Monster ms){
 		
 		System.out.println("Monster stats : ");
-		System.out.println("Strength: " + ms.getStrength());
-		System.out.println("Charisma: " + ms.getCharisma());
-		System.out.println("Constitution: " + ms.getConstitution());
-		System.out.println("Dexterity: " + ms.getDexterity());
-		System.out.println("Intelligence: " + ms.getIntelligence());
-		System.out.println("Wisdom: " + ms.getWisdom());
+		System.out.println("Strength: " + ms.getMaxHealth());
+		System.out.println("Charisma: " + ms.getLuck());
+		System.out.println("Constitution: " + ms.getAttackSpeed());
+		System.out.println("Dexterity: " + ms.getAttack());
+		System.out.println("Intelligence: " + ms.getArmor());
+		System.out.println("Wisdom: " + ms.getSpeed());
+		
+	}
+
+	public static void logPlayer(Player pl) {
+		System.out.println("Player stats : ");
+		System.out.println("MaxLife: " + pl.getMaxLife());
+		System.out.println("Attack: " + pl.getAttack());
+		System.out.println("Armor: " + pl.getArmor());
+		System.out.println("Speed: " + pl.getSpeed());
+		System.out.println("Luck: " + pl.getLuck());
+		System.out.println("Attack Speed: " + pl.getAtkSpeed());
 		
 	}
 	

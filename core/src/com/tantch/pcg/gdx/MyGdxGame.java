@@ -1,21 +1,21 @@
-package com.tantch.pcg;
+package com.tantch.pcg.gdx;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.tantch.pcg.assets.Monster;
+import com.tantch.pcg.assets.Player;
+import com.tantch.pcg.evolutionarysearch.EvSearch;
+import com.tantch.pcg.gdx.screens.DMapScreen;
 import com.tantch.pcg.mapgeneration.agents.ConnectorDAgent;
 import com.tantch.pcg.mapgeneration.cmd.Draw;
 import com.tantch.pcg.mapgeneration.representations.DunMap;
 import com.tantch.pcg.mapgeneration.representations.DunRoom;
 import com.tantch.pcg.mapgeneration.spacepartitioning.BSPNode;
 import com.tantch.pcg.mapgeneration.spacepartitioning.BSPTree;
-import com.tantch.pcg.screens.DMapScreen;
+import com.tantch.pcg.utils.Debug;
 
 public class MyGdxGame extends Game {
 	public SpriteBatch batch;
@@ -24,6 +24,7 @@ public class MyGdxGame extends Game {
 	@Override
 	public void create() {
 
+		Debug.setVerbose(false);
 		batch = new SpriteBatch();
 		DunMap dmap = new DunMap(70);
 		BSPTree tree = new BSPTree(dmap);
@@ -59,9 +60,30 @@ public class MyGdxGame extends Game {
 			ag.setTarget(room2);
 			ag.start();
 		}
-		Draw.drawMap(dmap, false, true);
+		//Draw.drawMap(dmap, false, true);
+		dmap.perfectMap();
+		dmap.perfectMap();
 
-		Draw.drawMap(dmap, false, false);
+		Draw.drawMap(dmap, false, true);
+		
+		Player player = new Player("Pim");
+		player.setDefaultStats();
+		
+		EvSearch es = new EvSearch();
+		es.init(player);
+		es.run(30);
+		player.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
+		dmap.loadPlayer(player);
+		Debug.logPlayer(player);
+
+		Monster mns = new Monster();
+		mns.setStats(10, 10, 10, 10, 10, 10);
+
+		es = new EvSearch();
+		es.init(mns);
+		es.run(30);
+		mns.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
+		dmap.loadMonster(mns);
 		DMapScreen screen = new DMapScreen(dmap, this);
 
 		setScreen(screen);

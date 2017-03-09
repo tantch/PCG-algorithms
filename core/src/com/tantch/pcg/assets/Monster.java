@@ -16,49 +16,47 @@ public class Monster implements EvRepresentation {
 	String typeName;
 	// 0|10-20|30
 
-	int strength;
-	int dexterity;
-	int constitution;
-	int intelligence;
-	int wisdom;
-	int charisma;
-
+	int maxHealth;
+	int attack;
+	int attackSpeed;
+	int armor;
+	int speed;
+	int luck;
+	
+	
+	//map
+	int mapX,mapY;
 	public Monster() {
 
 	}
 
-	public Monster(boolean[] seq) {
-
-		String temp = "";
-		for (int i = 0; i < seq.length; i++) {
-
-			temp += seq[i] ? "1" : "0";
-
-		}
-		
-		
-		strength = Integer.parseInt(temp.substring(0, 5), 2);
-		dexterity = Integer.parseInt(temp.substring(5, 10), 2);
-		constitution = Integer.parseInt(temp.substring(10, 15), 2);
-		intelligence = Integer.parseInt(temp.substring(15, 20), 2);
-		wisdom = Integer.parseInt(temp.substring(20, 25), 2);
-		charisma = Integer.parseInt(temp.substring(25, 30), 2);
-
-
+	public void setPosition(int x, int y){
+		mapX = x;
+		mapY = y;
+	}
+	public int[] getPosition(){
+		int[] res = new int[2];
+		res[0]= mapX;
+		res[1]=mapY;
+		return res;
+	}
+	
+	private void reset(){
+		name="";
+		typeName="";
 	}
 
-	public void setStats(int str, int dex, int con, int ite, int wis, int cha) {
-		this.strength = str;
-		this.dexterity = dex;
-		this.constitution = con;
-		this.intelligence = ite;
-		this.wisdom = wis;
-		this.charisma = cha;
+	public void setStats(int health, int atk, int ats, int arm, int spd, int lck) {
+		this.maxHealth = health;
+		this.attack = atk;
+		this.attackSpeed = ats;
+		this.armor = arm;
+		this.speed = spd;
+		this.luck = lck;
 	}
 
 	@Override
 	public double calculateFitness() {
-		int res = 0;
 		double statScore = calculateScore();
 		double dificultyScore = 27;
 		double xtemp = statScore / dificultyScore;
@@ -68,8 +66,9 @@ public class Monster implements EvRepresentation {
 			ytemp = - Math.pow(xtemp-0.9, 2);
 		} else {
 			ytemp = 1 - Math.pow(Math.tan(((xtemp - 0.9) * 10) / (Math.PI)), 2);
-			ytemp = ytemp*10;
 		}
+		ytemp = ytemp*10;
+
 		Debug.log("Monster", "fitness result for statsum:" + statScore + " -> " + xtemp + " | " + ytemp);
 
 		return ytemp;
@@ -77,8 +76,8 @@ public class Monster implements EvRepresentation {
 
 	private double calculateScore() {
 
-		return valueToScore(charisma) + valueToScore(constitution) + valueToScore(dexterity)
-				+ valueToScore(intelligence) + valueToScore(strength) + valueToScore(wisdom);
+		return valueToScore(luck) + valueToScore(attackSpeed) + valueToScore(attack)
+				+ valueToScore(armor) + valueToScore(maxHealth) + valueToScore(speed);
 
 	}
 
@@ -93,7 +92,7 @@ public class Monster implements EvRepresentation {
 		} else if (val == 18) {
 			return 18;
 		} else {
-			return 50;
+			return (int) (18 + Math.pow(val-18,2));
 		}
 	}
 
@@ -102,29 +101,29 @@ public class Monster implements EvRepresentation {
 
 		boolean[] seq = new boolean[SEQSIZE];
 
-		boolean[] seqStr = BitOperations.intToBits(strength, 5);
+		boolean[] seqStr = BitOperations.intToBits(maxHealth, 5);
 
 		for (int i = 0; i < seqStr.length; i++) {
 			seq[i] = seqStr[i];
 		}
-		seqStr = BitOperations.intToBits(dexterity, 5);
+		seqStr = BitOperations.intToBits(attack, 5);
 		for (int i = 0; i < seqStr.length; i++) {
 			seq[i + 5] = seqStr[i];
 		}
-		seqStr = BitOperations.intToBits(constitution, 5);
+		seqStr = BitOperations.intToBits(attackSpeed, 5);
 		for (int i = 0; i < seqStr.length; i++) {
 			seq[i + 5 * 2] = seqStr[i];
 		}
-		seqStr = BitOperations.intToBits(intelligence, 5);
+		seqStr = BitOperations.intToBits(armor, 5);
 		for (int i = 0; i < seqStr.length; i++) {
 			seq[i + 5 * 3] = seqStr[i];
 		}
-		seqStr = BitOperations.intToBits(wisdom, 5);
+		seqStr = BitOperations.intToBits(speed, 5);
 		for (int i = 0; i < seqStr.length; i++) {
 			seq[i + 5 * 4] = seqStr[i];
 		}
 
-		seqStr = BitOperations.intToBits(charisma, 5);
+		seqStr = BitOperations.intToBits(luck, 5);
 		for (int i = 0; i < seqStr.length; i++) {
 			seq[i + 5 * 5] = seqStr[i];
 		}
@@ -156,28 +155,47 @@ public class Monster implements EvRepresentation {
 		return typeName;
 	}
 
-	public int getStrength() {
-		return strength;
+	public int getMaxHealth() {
+		return maxHealth;
 	}
 
-	public int getDexterity() {
-		return dexterity;
+	public int getAttack() {
+		return attack;
 	}
 
-	public int getConstitution() {
-		return constitution;
+	public int getAttackSpeed() {
+		return attackSpeed;
 	}
 
-	public int getIntelligence() {
-		return intelligence;
+	public int getArmor() {
+		return armor;
 	}
 
-	public int getWisdom() {
-		return wisdom;
+	public int getSpeed() {
+		return speed;
 	}
 
-	public int getCharisma() {
-		return charisma;
+	public int getLuck() {
+		return luck;
+	}
+
+	public void loadFromGene(boolean[] seq){
+		this.reset();
+		String temp = "";
+		for (int i = 0; i < seq.length; i++) {
+
+			temp += seq[i] ? "1" : "0";
+
+		}
+		
+		
+		maxHealth = Integer.parseInt(temp.substring(0, 5), 2);
+		attack = Integer.parseInt(temp.substring(5, 10), 2);
+		attackSpeed = Integer.parseInt(temp.substring(10, 15), 2);
+		armor = Integer.parseInt(temp.substring(15, 20), 2);
+		speed = Integer.parseInt(temp.substring(20, 25), 2);
+		luck = Integer.parseInt(temp.substring(25, 30), 2);
+
 	}
 
 }

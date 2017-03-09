@@ -7,7 +7,7 @@ public class BitOperations {
 		boolean[] seq = new boolean[size];
 		
 		for (int i = size -1; i >= 0; i--) {
-	        seq[i] = (input & (1 << i)) != 0;
+	        seq[size-1-i] = (input & (1 << i)) != 0;
 	    }
 		
 		return seq;

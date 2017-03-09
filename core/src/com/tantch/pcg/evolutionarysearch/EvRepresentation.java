@@ -9,5 +9,5 @@ public interface EvRepresentation {
 	public int getGeneSeqSize();
 	public boolean[] getGeneSeq();
 	public boolean[] generateRandomGeneSeq();
-
+	public void loadFromGene(boolean[] seq);
 }

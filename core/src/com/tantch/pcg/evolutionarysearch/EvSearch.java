@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Random;
 
 import com.tantch.pcg.assets.Monster;
+import com.tantch.pcg.assets.Player;
 import com.tantch.pcg.utils.Debug;
 
 public class EvSearch {
@@ -22,15 +23,14 @@ public class EvSearch {
 		sufflePop();
 		calculateFitnessForPop();
 		sortPop();
-
 		for (int i = 1; i < it; i++) {
 			deleteWorst();
 			generateOffSprings();
 			calculateFitnessForPop();
 			sortPop();
 		}
+	
 
-		Debug.logMonster(new Monster(pop.get(0).getSeq()));
 	}
 
 	public void init(EvRepresentation rp) {
@@ -50,10 +50,11 @@ public class EvSearch {
 
 	public void calculateFitnessForPop() {
 		for (int i = 0; i < pop.size(); i++) {
+			
+			sample.loadFromGene(pop.get(i).getSeq());
+			
+			double result = sample.calculateFitness();
 
-			Monster mns = new Monster(pop.get(i).getSeq());
-
-			double result = mns.calculateFitness();
 			pop.get(i).setFitnessValue(result);
 
 		}

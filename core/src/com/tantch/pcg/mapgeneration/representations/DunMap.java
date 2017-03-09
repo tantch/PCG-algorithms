@@ -3,6 +3,8 @@ package com.tantch.pcg.mapgeneration.representations;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.tantch.pcg.assets.Monster;
+import com.tantch.pcg.assets.Player;
 import com.tantch.pcg.mapgeneration.representations.MpCell.CellType;
 
 public class DunMap {
@@ -10,6 +12,8 @@ public class DunMap {
 	private MpCell[][] map;
 	private ArrayList<DunRoom> rooms;
 	private ArrayList<Integer> unvisitedRooms;
+	private Player player;
+	private Monster mons;
 	private int size;
 
 	public DunMap(int size) {
@@ -19,6 +23,19 @@ public class DunMap {
 		resetUnvisitedRooms();
 		init();
 
+	}
+
+	public void loadPlayer(Player player) {
+		this.player = player;
+		
+		int[] pos = rooms.get(0).getPositionInRoom();
+		player.setPosition(pos[0], pos[1]);
+		
+	}
+	public void loadMonster(Monster mos){
+		this.mons = mos;
+		int[] pos = rooms.get(1).getPositionInRoom();
+		mons.setPosition(pos[0], pos[1]);
 	}
 
 	private void init() {
@@ -99,30 +116,23 @@ public class DunMap {
 	}
 
 	public void perfectMap() {
-		
-		
-		
-		
+
 		for (int i = 0; i < map.length; i++) {
 			MpCell[] row = map[i];
 			for (int j = 0; j < row.length; j++) {
 				MpCell cell = row[j];
 
 				cell.updateBelongtoRoom(this);
-				
-				
-				
-				
-				//check if create new room
+
+				// check if create new room
 				if (cell.isSurroundedByRoomCells(this)) {
 					System.out.println("Should create room in cell: " + j + "/" + i);
 					for (int x = -1; x < 2; x++) {
 						for (int y = -1; y < 2; y++) {
-							map[i+y][j+x].setType(CellType.ROOM);
-							map[i+y][j+x].setRoomId(rooms.size());
+							map[i + y][j + x].setType(CellType.ROOM);
+							map[i + y][j + x].setRoomId(rooms.size());
 						}
 					}
-					
 
 					addRom(j - 1, i - 1, j + 1, i + 1);
 
@@ -136,6 +146,23 @@ public class DunMap {
 	public int getRoomId(int x, int y) {
 		return map[y][x].getRoomId();
 
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+	
+	public void movePlayerTo(int x, int y){
+		if(x>=size || x<0 || y<0 || y>= size){
+			return;
+		}
+		if(map[y][x].getType() != CellType.FILLED){
+			player.setPosition(x, y);
+		}
+	}
+
+	public Monster getMoster() {
+		return mons;
 	}
 
 }

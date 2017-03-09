@@ -22,6 +22,9 @@ public class TestMonsterGeneration {
 
 		es.init(ms);
 		es.run(60);
+		Monster reslt = new Monster();
+		reslt.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
+		Debug.logMonster(reslt);
 
 	}
 }

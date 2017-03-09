@@ -1,4 +1,4 @@
-package com.tantch.pcg.screens;
+package com.tantch.pcg.gdx.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -8,105 +8,44 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.tantch.pcg.MyGdxGame;
+import com.tantch.pcg.gdx.MyGdxGame;
 import com.tantch.pcg.mapgeneration.representations.DunMap;
 import com.tantch.pcg.mapgeneration.representations.MpCell;
 import com.tantch.pcg.mapgeneration.representations.MpCell.CellType;
 
 public class DMapScreen implements Screen {
 
-	DunMap dmap;
+	public DunMap dmap;
 	MyGdxGame game;
 	Texture floor1;
 	Texture floor2;
+	Texture roomFloor;
 	Texture player;
-	OrthographicCamera camera;
-	int px, py;
+	Texture monster;
+	public OrthographicCamera camera;
+	public boolean right = false, left = false, up = false, down = false;
 	int sprtn = 1;
 	float acm = 0;
-	float camerazoom = 20;
+	public float camerazoom = 20;
 
 	public DMapScreen(DunMap dmap, MyGdxGame game) {
 
 		this.dmap = dmap;
 		this.game = game;
 
-		floor1 = new Texture("Floor1.png");
+		floor1 = new Texture(Gdx.files.internal("Floor1.png"));
 		floor2 = new Texture("Floor2.png");
+		roomFloor = new Texture("Floor_Room.png");
 		player = new Texture("Player.png");
+		monster = new Texture("Monster.png");
 
-		px = 0;
-		py = 0;
-		Gdx.input.setInputProcessor(new InputProcessor() {
-
-			@Override
-			public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			public boolean touchDragged(int screenX, int screenY, int pointer) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			public boolean scrolled(int amount) {
-
-				float w = Gdx.graphics.getWidth();
-				float h = Gdx.graphics.getHeight();
-				camerazoom += amount;
-				camera.viewportWidth = camerazoom;
-				camera.viewportHeight = camerazoom * h / w;
-				camera.update();
-				return true;
-			}
-
-			@Override
-			public boolean mouseMoved(int screenX, int screenY) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			public boolean keyUp(int keycode) {
-				if (keycode == Keys.RIGHT) {
-					px += 2;
-				} else if (keycode == Keys.LEFT) {
-					px -= 2;
-				} else if (keycode == Keys.UP) {
-					py += 2;
-				} else if (keycode == Keys.DOWN) {
-					py -= 2;
-				}
-
-				return true;
-			}
-
-			@Override
-			public boolean keyTyped(char character) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			public boolean keyDown(int keycode) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-		});
+		Gdx.input.setInputProcessor(new GameInputProcessor(this));
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, camerazoom, camerazoom * (h / w));
-		camera.position.set(px, py, 0);
+		int[] pos = dmap.getPlayer().getPosition();
+		camera.position.set(pos[0], pos[1], 0);
 	}
 
 	@Override
@@ -127,8 +66,10 @@ public class DMapScreen implements Screen {
 			}
 		}
 
-		// handleinput
-		camera.position.set(px, py, 0);
+		handleInput(delta);
+		int[] pos = dmap.getPlayer().getPosition();
+
+		camera.position.set(pos[0] * 2, pos[1] * 2, 0);
 
 		camera.update();
 		game.batch.setProjectionMatrix(camera.combined);
@@ -139,6 +80,23 @@ public class DMapScreen implements Screen {
 		game.batch.begin();
 		drawMap();
 		game.batch.end();
+
+	}
+
+	private void handleInput(float delta) {
+		int[] pos = dmap.getPlayer().getPosition();
+		if (dmap.getPlayer().canMove(delta)) {
+
+			if (right) {
+				dmap.movePlayerTo(pos[0] + 1, pos[1]);
+			} else if (left) {
+				dmap.movePlayerTo(pos[0] - 1, pos[1]);
+			} else if (up) {
+				dmap.movePlayerTo(pos[0], pos[1] + 1);
+			} else if (down) {
+				dmap.movePlayerTo(pos[0], pos[1] - 1);
+			}
+		}
 
 	}
 
@@ -155,6 +113,9 @@ public class DMapScreen implements Screen {
 				if (row[j].getType() == CellType.FILLED) {
 					game.batch.draw(floor1, 0 + j * cellSize, 0 + i * cellSize, cellSize, cellSize);
 
+				} else if (row[j].getType() == CellType.ROOM) {
+					game.batch.draw(roomFloor, 0 + j * cellSize, 0 + i * cellSize, cellSize, cellSize);
+
 				} else {
 					game.batch.draw(floor2, 0 + j * cellSize, 0 + i * cellSize, cellSize, cellSize);
 
@@ -163,7 +124,10 @@ public class DMapScreen implements Screen {
 			}
 
 		}
-		game.batch.draw(new TextureRegion(player, 0, 0, 320, 320), px, py , 2, 2);
+		int[] pos = dmap.getMoster().getPosition();
+		game.batch.draw(new TextureRegion(monster, 0, 0, 320, 320), pos[0] * 2, pos[1] * 2 + 1, 2, 2);
+		pos = dmap.getPlayer().getPosition();
+		game.batch.draw(new TextureRegion(player, 0, 0, 320, 320), pos[0] * 2, pos[1] * 2 + 1, 2, 2);
 
 	}
 
