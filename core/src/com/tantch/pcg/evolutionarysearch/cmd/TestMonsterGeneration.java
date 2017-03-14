@@ -7,6 +7,7 @@ import com.tantch.pcg.assets.Monster;
 import com.tantch.pcg.evolutionarysearch.EvSearch;
 import com.tantch.pcg.evolutionarysearch.GeneSequence;
 import com.tantch.pcg.utils.Debug;
+import com.tantch.pcg.utils.Settings;
 
 public class TestMonsterGeneration {
 	public static void main(String[] args) {
@@ -21,7 +22,7 @@ public class TestMonsterGeneration {
 		EvSearch es = new EvSearch();
 
 		es.init(ms);
-		es.run(60);
+		es.run(Settings.EA_ITERATIONS);
 		Monster reslt = new Monster();
 		reslt.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
 		Debug.logMonster(reslt);

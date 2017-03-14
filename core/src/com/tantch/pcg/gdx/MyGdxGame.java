@@ -16,36 +16,46 @@ import com.tantch.pcg.mapgeneration.representations.DunRoom;
 import com.tantch.pcg.mapgeneration.spacepartitioning.BSPNode;
 import com.tantch.pcg.mapgeneration.spacepartitioning.BSPTree;
 import com.tantch.pcg.utils.Debug;
+import com.tantch.pcg.utils.Settings;
 
 public class MyGdxGame extends Game {
 	public SpriteBatch batch;
 	// Texture img;
+	DunMap dmap;
+
 
 	@Override
 	public void create() {
 
 		Debug.setVerbose(false);
 		batch = new SpriteBatch();
-		DunMap dmap = new DunMap(70);
+		
+		generateMap();
+		load();
+		
+		DMapScreen screen = new DMapScreen(dmap, this);
+
+		setScreen(screen);
+	}
+
+	
+	public void generateMap(){
+		dmap = new DunMap(Settings.MAPSIZE);
 		BSPTree tree = new BSPTree(dmap);
-		BSPNode.setParameters(7, 15, 5);
+		BSPNode.setParameters(Settings.MINPARTITIONSIZE, Settings.MAXPARTITIONSIZE, Settings.MINROOMSIZE);
 		tree.run();
 		tree.createRooms();
 		tree.buildMap();
-
+		dmap.resetUnvisitedRooms();
 		ArrayList<DunRoom> rooms = dmap.getRooms();
 
 		for (DunRoom dunRoom : rooms) {
-			/*
-			 * BlindDAgent ag = new BlindDAgent();
-			 * 
-			 * ag.init(dmap); ag.setMapSize(30); int[] pos =
-			 * dunRoom.getPositionInRoom(); ag.setInitialPosition(pos[0],
-			 * pos[1]); ag.setStamina(30); Random rd = new Random();
-			 * ag.setCurrentDirection(rd.nextInt(4)); ag.setParameters(4, 0);
-			 * ag.setStamina(10); ag.start();
-			 */
-
+			
+			if(Settings.ROOMSIMPLECONNECTIONS && !dmap.isRoomUnvisited(dunRoom.getRoomId())){
+				System.out.println("skip room:" + dunRoom.getRoomId());
+				continue;
+			}
+			
 			ConnectorDAgent ag = new ConnectorDAgent();
 			ag.init(dmap);
 			ag.setMapSize(dmap.getSize());
@@ -56,22 +66,24 @@ public class MyGdxGame extends Game {
 			ag.setInitialPosition(ipos[0], ipos[1]);
 			Random rd = new Random();
 			ag.setCurrentDirection(rd.nextInt(4));
-			ag.setParameters(5);
+			ag.setParameters(Settings.AGENT_TURNPROB);
 			ag.setTarget(room2);
 			ag.start();
 		}
-		//Draw.drawMap(dmap, false, true);
-		dmap.perfectMap();
 		dmap.perfectMap();
 
 		Draw.drawMap(dmap, false, true);
 		
-		Player player = new Player("Pim");
+		
+	}
+	
+	public void load(){
+		Player player = new Player("Tantch");
 		player.setDefaultStats();
 		
 		EvSearch es = new EvSearch();
 		es.init(player);
-		es.run(30);
+		es.run(Settings.EA_ITERATIONS);
 		player.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
 		dmap.loadPlayer(player);
 		Debug.logPlayer(player);
@@ -81,14 +93,10 @@ public class MyGdxGame extends Game {
 
 		es = new EvSearch();
 		es.init(mns);
-		es.run(30);
+		es.run(Settings.EA_ITERATIONS);
 		mns.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
 		dmap.loadMonster(mns);
-		DMapScreen screen = new DMapScreen(dmap, this);
-
-		setScreen(screen);
 	}
-
 	@Override
 	public void render() {
 		super.render();

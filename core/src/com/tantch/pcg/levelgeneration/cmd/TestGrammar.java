@@ -14,6 +14,8 @@ public class TestGrammar {
 		System.out.println(BNFGrammar.getResult(seq).toString());
 		
 		
+		
+		
 	}
 
 }

@@ -10,15 +10,16 @@ import com.tantch.pcg.mapgeneration.representations.DunRoom;
 import com.tantch.pcg.mapgeneration.spacepartitioning.BSPNode;
 import com.tantch.pcg.mapgeneration.spacepartitioning.BSPTree;
 import com.tantch.pcg.utils.Debug;
+import com.tantch.pcg.utils.Settings;
 
 public class TestClient {
 
 	public static void main(String[] args) {
 
 		Debug.setVerbose(false);
-		DunMap dmap = new DunMap(70);
+		DunMap dmap = new DunMap(Settings.MAPSIZE);
 		BSPTree tree = new BSPTree(dmap);
-		BSPNode.setParameters(7, 15, 5);
+		BSPNode.setParameters(Settings.MINPARTITIONSIZE,Settings.MAXPARTITIONSIZE, Settings.MINROOMSIZE);
 		tree.run();
 		tree.createRooms();
 		tree.buildMap();
@@ -47,7 +48,7 @@ public class TestClient {
 			ag.setInitialPosition(ipos[0], ipos[1]);
 			Random rd = new Random();
 			ag.setCurrentDirection(rd.nextInt(4));
-			ag.setParameters(5);
+			ag.setParameters(Settings.AGENT_TURNPROB);
 			ag.setTarget(room2);
 			ag.start();
 		}

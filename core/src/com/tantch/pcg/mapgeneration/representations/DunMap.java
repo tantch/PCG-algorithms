@@ -20,19 +20,19 @@ public class DunMap {
 		this.size = size;
 		rooms = new ArrayList<DunRoom>();
 		unvisitedRooms = new ArrayList<Integer>();
-		resetUnvisitedRooms();
 		init();
 
 	}
 
 	public void loadPlayer(Player player) {
 		this.player = player;
-		
+
 		int[] pos = rooms.get(0).getPositionInRoom();
 		player.setPosition(pos[0], pos[1]);
-		
+
 	}
-	public void loadMonster(Monster mos){
+
+	public void loadMonster(Monster mos) {
 		this.mons = mos;
 		int[] pos = rooms.get(1).getPositionInRoom();
 		mons.setPosition(pos[0], pos[1]);
@@ -112,7 +112,10 @@ public class DunMap {
 	}
 
 	public void markAsVisited(DunRoom room2) {
-		unvisitedRooms.remove(room2);
+		if (unvisitedRooms.contains(room2.getRoomId())) {
+			unvisitedRooms.remove(new Integer(room2.getRoomId()));
+
+		}
 	}
 
 	public void perfectMap() {
@@ -151,18 +154,23 @@ public class DunMap {
 	public Player getPlayer() {
 		return player;
 	}
-	
-	public void movePlayerTo(int x, int y){
-		if(x>=size || x<0 || y<0 || y>= size){
+
+	public void movePlayerTo(int x, int y) {
+		if (x >= size || x < 0 || y < 0 || y >= size) {
 			return;
 		}
-		if(map[y][x].getType() != CellType.FILLED){
+		if (map[y][x].getType() != CellType.FILLED) {
 			player.setPosition(x, y);
 		}
 	}
 
 	public Monster getMoster() {
 		return mons;
+	}
+
+	public boolean isRoomUnvisited(int id) {
+		boolean rs = unvisitedRooms.contains(id);
+		return unvisitedRooms.contains(id);
 	}
 
 }

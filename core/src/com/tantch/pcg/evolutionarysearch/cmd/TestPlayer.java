@@ -1,10 +1,9 @@
 package com.tantch.pcg.evolutionarysearch.cmd;
 
-import com.tantch.pcg.assets.Monster;
 import com.tantch.pcg.assets.Player;
 import com.tantch.pcg.evolutionarysearch.EvSearch;
-import com.tantch.pcg.utils.BitOperations;
 import com.tantch.pcg.utils.Debug;
+import com.tantch.pcg.utils.Settings;
 
 public class TestPlayer {
 	public static void main(String[] args) {
@@ -21,7 +20,7 @@ public class TestPlayer {
 		EvSearch es = new EvSearch();
 	
 		es.init(ps);
-		es.run(30);
+		es.run(Settings.EA_ITERATIONS);
 		Player reslt = new Player("pim");
 		reslt.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
 		Debug.logPlayer(reslt);
