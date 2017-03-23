@@ -69,7 +69,7 @@ public class Monster implements EvRepresentation {
 		}
 		ytemp = ytemp*10;
 
-		Debug.log("Monster", "fitness result for statsum:" + statScore + " -> " + xtemp + " | " + ytemp);
+		Debug.log(this.getClass(), "fitness result for statsum:" + statScore + " -> " + xtemp + " | " + ytemp);
 
 		return ytemp;
 	}

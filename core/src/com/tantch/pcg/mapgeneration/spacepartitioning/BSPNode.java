@@ -40,7 +40,7 @@ public class BSPNode {
 
 	public void divide() {
 
-		Debug.log("BSPNode",
+		Debug.log(this.getClass(),
 				"Node created | Bounds: " + xLowerBound + "/" + yLowerBound + " -> " + xUpperBound + "/" + yUpperBound);
 		Random rd = new Random();
 		int direction = rd.nextInt(2);
@@ -53,7 +53,7 @@ public class BSPNode {
 				do {
 					border = rd.nextInt(yUpperBound - yLowerBound) + yLowerBound;
 				} while ((border - yLowerBound) < minPartitionSize || (yUpperBound - border) < minPartitionSize);
-				Debug.log("BSPNode", "Horizontal split in " + border);
+				Debug.log(this.getClass(), "Horizontal split in " + border);
 				BSPNode child1 = new BSPNode(xLowerBound, yLowerBound, xUpperBound, border);
 				BSPNode child2 = new BSPNode(xLowerBound, border, xUpperBound, yUpperBound);
 
@@ -70,7 +70,7 @@ public class BSPNode {
 				do {
 					border = rd.nextInt(xUpperBound - xLowerBound) + xLowerBound;
 				} while ((border - xLowerBound) < minPartitionSize || (xUpperBound - border) < minPartitionSize);
-				Debug.log("BSPNode", "Vertical split in " + border);
+				Debug.log(this.getClass(), "Vertical split in " + border);
 				BSPNode child1 = new BSPNode(xLowerBound, yLowerBound, border, yUpperBound);
 				BSPNode child2 = new BSPNode(border, yLowerBound, xUpperBound, yUpperBound);
 
@@ -200,7 +200,7 @@ public class BSPNode {
 
 			}
 			this.roomId = dmap.addRom(roomx1, roomy1, roomx2, roomy2);
-			Debug.log("BSPNode", "Room created:" + roomx1 + "/" + roomy1 + "->" + roomx2 + "/" + roomy2);
+			Debug.log(this.getClass(), "Room created:" + roomx1 + "/" + roomy1 + "->" + roomx2 + "/" + roomy2);
 		} else {
 			for (int i = 0; i < children.size(); i++) {
 				children.get(i).createRoom(dmap);

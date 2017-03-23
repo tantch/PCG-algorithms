@@ -10,7 +10,7 @@ public class TestGrammar {
 		BNFGrammar.initDefaultGrammar();
 		
 		Debug.logBNFGrammar();
-		int[] seq = new int[]{1,3,4,3,8,7,4,4,4,4,4,4,32,4527,12};
+		int[] seq = BNFGrammar.generateRandomSeed();
 		System.out.println(BNFGrammar.getResult(seq).toString());
 		
 		

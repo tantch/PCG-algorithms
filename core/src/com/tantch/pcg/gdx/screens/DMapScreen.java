@@ -1,5 +1,7 @@
 package com.tantch.pcg.gdx.screens;
 
+import java.awt.FlowLayout;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
@@ -33,7 +35,7 @@ public class DMapScreen implements Screen {
 		this.dmap = dmap;
 		this.game = game;
 
-		floor1 = new Texture(Gdx.files.internal("Floor1.png"));
+		floor1 = new Texture("Floor1.png");
 		floor2 = new Texture("Floor2.png");
 		roomFloor = new Texture("Floor_Room.png");
 		player = new Texture("Player.png");
@@ -111,16 +113,16 @@ public class DMapScreen implements Screen {
 			for (int j = 0; j < row.length; j++) {
 
 				if (row[j].getType() == CellType.FILLED) {
-					game.batch.draw(floor1, 0 + j * cellSize, 0 + i * cellSize, cellSize, cellSize);
-
+					game.batch.draw(floor1, 0 + j * cellSize, 0 + i * cellSize,
+							cellSize, cellSize);
 				} else if (row[j].getType() == CellType.ROOM) {
-					game.batch.draw(roomFloor, 0 + j * cellSize, 0 + i * cellSize, cellSize, cellSize);
-
+					game.batch.draw(roomFloor, 0 + j * cellSize, 0 + i * cellSize,
+							cellSize, cellSize);
 				} else {
-					game.batch.draw(floor2, 0 + j * cellSize, 0 + i * cellSize, cellSize, cellSize);
+					game.batch.draw(floor2, 0 + j * cellSize, 0 + i * cellSize,
+							cellSize, cellSize);
 
 				}
-
 			}
 
 		}
@@ -130,6 +132,7 @@ public class DMapScreen implements Screen {
 		game.batch.draw(new TextureRegion(player, 0, 0, 320, 320), pos[0] * 2, pos[1] * 2 + 1, 2, 2);
 
 	}
+
 
 	@Override
 	public void resize(int width, int height) {

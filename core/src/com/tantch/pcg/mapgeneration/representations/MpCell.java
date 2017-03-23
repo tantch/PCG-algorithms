@@ -17,6 +17,7 @@ public class MpCell {
 	private boolean[] debugDivisions = { false, false };
 	private int x, y;
 
+
 	public MpCell(CellType type, int x, int y) {
 
 		this.type = type;
@@ -162,8 +163,7 @@ public class MpCell {
 				}
 			}
 		}
-		
-		
+
 		if (y > 0) {
 			if (dmap.getCellType(x, y - 1) == CellType.ROOM) {
 				int id = dmap.getRoomId(x, y - 1);
@@ -184,10 +184,13 @@ public class MpCell {
 				}
 			}
 		}
-		int tid=-1;
-		
-		rmcnts.forEach((k,v) ->{ if(v>=3) type=CellType.ROOM; roomId=k;});
-		
+		int tid = -1;
+
+		rmcnts.forEach((k, v) -> {
+			if (v >= 3)
+				type = CellType.ROOM;
+			roomId = k;
+		});
 
 	}
 

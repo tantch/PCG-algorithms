@@ -173,4 +173,19 @@ public class DunMap {
 		return unvisitedRooms.contains(id);
 	}
 
+	public DunRoom getMiddleRoom() {
+		
+		for(int x = size/2;x<size;x++){
+			for(int y =size/2;y< size;y++){
+				int r = getRoomId(x,y);
+				if(r != -1){
+					return rooms.get(r);
+				}
+			}
+		}
+		return null;
+	}
+	
+
+
 }

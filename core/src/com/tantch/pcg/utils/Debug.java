@@ -13,9 +13,9 @@ public class Debug {
 
 	private static boolean verbose = true;
 
-	public static void log(String type, String msg) {
+	public static void log(Class<?> cs, String msg) {
 		if (verbose) {
-			System.out.println(type + " | " + msg);
+			System.out.println(cs.getName() + " | " + msg);
 		}
 	}
 

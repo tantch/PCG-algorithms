@@ -2,6 +2,7 @@ package com.tantch.pcg.levelgeneration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 public class BNFGrammar {
 
@@ -121,6 +122,16 @@ public class BNFGrammar {
 
 		return list;
 
+	}
+	
+	public static int[] generateRandomSeed(){
+		
+		Random rd= new Random();
+		int[] ret = new int[10];
+		for(int i=0;i<10;i++){
+			ret[i] = rd.nextInt(100);
+		}
+		return ret;
 	}
 
 }

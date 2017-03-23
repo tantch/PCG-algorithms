@@ -63,7 +63,7 @@ public class Player implements EvRepresentation {
 
 		ytemp = -1 * Math.pow((xtemp - 0.8) * 10, 2) + 1;
 
-		Debug.log("Player", "fitness result for statsum:" + score + " -> " + xtemp + " | " + ytemp);
+		Debug.log(this.getClass(), "fitness result for statsum:" + score + " -> " + xtemp + " | " + ytemp);
 
 		return ytemp;
 	}

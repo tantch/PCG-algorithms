@@ -37,9 +37,6 @@ public class ConnectorDAgent extends DAgent {
 			}
 			
 			
-			Debug.log("ConcDAgent:" + roomId, "X:" + posx + " Y:" + posy);
-			Debug.log("ConcDAgent:"+ roomId, "Xrem:" + xRem + " Yrem:" + yRem);
-			Debug.log("ConcDAgent:"+ roomId, "curDir:" + curdir + "turnProb:" + turnProb);
 			posx += getDirValue(false);
 			posy += getDirValue(true);
 			xRem -= getDirValue(false);
@@ -121,7 +118,6 @@ public class ConnectorDAgent extends DAgent {
 
 			// curdir = rd.nextInt(2) * 2;
 		}
-		Debug.log("ConnectorDAgent", "direction changed to :" + curdir);
 
 	}
 

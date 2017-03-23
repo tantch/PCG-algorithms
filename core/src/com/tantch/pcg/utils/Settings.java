@@ -3,9 +3,9 @@ package com.tantch.pcg.utils;
 public class Settings {
 	
 	
-	public static boolean ROOMSIMPLECONNECTIONS = false;
+	public static boolean ROOMSIMPLECONNECTIONS = true;
 	//map generation settings
-	public static int MAPSIZE=70;
+	public static int MAPSIZE=50;
 	public static int MINPARTITIONSIZE=7;
 	public static int MAXPARTITIONSIZE=15;
 	public static int MINROOMSIZE=5;
