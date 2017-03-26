@@ -29,20 +29,127 @@ public class MIRTools {
 	private float party;
 	private float relaxed;
 	private float sad;
+	public int getBeatCount() {
+		return beatCount;
+	}
+
+	public float getBpmG() {
+		return bpmG;
+	}
+
+	public float getBpmMF() {
+		return bpmMF;
+	}
+
+	public float getAvgLoudness() {
+		return avgLoudness;
+	}
+
+	public float getLength() {
+		return length;
+	}
+
+	public float getDanceable() {
+		return danceable;
+	}
+
+	public float getMale() {
+		return male;
+	}
+
+	public String getGenreDor() {
+		return genreDor;
+	}
+
+	public String getGenreEle() {
+		return genreEle;
+	}
+
+	public String getGenreRos() {
+		return genreRos;
+	}
+
+	public String getGenreTza() {
+		return genreTza;
+	}
+
+	public String getRhythmDance() {
+		return rhythmDance;
+	}
+
+	public float getGenreDorPb() {
+		return genreDorPb;
+	}
+
+	public float getGenreElePb() {
+		return genreElePb;
+	}
+
+	public float getGenreRosPb() {
+		return genreRosPb;
+	}
+
+	public float getGenreTzaPb() {
+		return genreTzaPb;
+	}
+
+	public float getRhythmDancePb() {
+		return rhythmDancePb;
+	}
+
+	public float getAcoustic() {
+		return acoustic;
+	}
+
+	public float getAggressive() {
+		return aggressive;
+	}
+
+	public float getElectronic() {
+		return electronic;
+	}
+
+	public float getHappy() {
+		return happy;
+	}
+
+	public float getParty() {
+		return party;
+	}
+
+	public float getRelaxed() {
+		return relaxed;
+	}
+
+	public float getSad() {
+		return sad;
+	}
+
+	public float getDark() {
+		return dark;
+	}
+
+	public float getTonal() {
+		return tonal;
+	}
+
+	public float getInstrumental() {
+		return instrumental;
+	}
+
 	private float dark;
 	private float tonal;
 	private float instrumental;
 
-	public void loadDescriptors(String musicName) throws IOException, InterruptedException {
+	public boolean loadDescriptors(String musicPath) throws IOException, InterruptedException {
 
 		String cmdPath = "/home/pim/Desktop/essentia/";
 		String cmdName = "essentia_streaming_extractor_music";
 
-		String musicFilePath = "/home/pim/Music/";
 
 		String outputFile = "output.json";
 
-		ProcessBuilder pb = new ProcessBuilder(cmdPath + cmdName, musicFilePath + musicName, outputFile);
+		ProcessBuilder pb = new ProcessBuilder(cmdPath + cmdName, musicPath, outputFile);
 
 		pb.directory(new File("/home/pim/Desktop"));
 
@@ -134,6 +241,8 @@ public class MIRTools {
 		if(!highL.get("voice_instrumental").getString("value").equals("instrumental")){
 			this.instrumental = 1- instrumental;
 		}
+		
+		return true;
 
 
 	}

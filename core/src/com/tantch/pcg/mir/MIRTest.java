@@ -16,7 +16,7 @@ public class MIRTest {
 	public static void main(String[] args) throws IOException, InterruptedException {
 
 		MIRTools mir = new MIRTools();
-		mir.loadDescriptors("PianoBlack.mp3");
+		mir.loadDescriptors("/home/pim/Music/PianoBlack.mp3");
 		
 		System.out.println(mir);
 		

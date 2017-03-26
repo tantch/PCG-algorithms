@@ -1,5 +1,7 @@
 package com.tantch.pcg.gdx.screens;
 
+import java.io.IOException;
+
 import javax.swing.plaf.FileChooserUI;
 
 import com.badlogic.gdx.Gdx;
@@ -29,6 +31,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Source;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Target;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.tantch.pcg.MyGame;
 import com.tantch.pcg.gdx.MyGdxGame;
 import com.tantch.pcg.utils.Settings;
 
@@ -36,7 +39,9 @@ public class SettingsMenuScreen implements Screen {
 
 	Skin skin;
 	Stage stage;
+	final TextField lbl1;
 	MyGdxGame game;
+	private String selectedSong;
 
 	public SettingsMenuScreen(MyGdxGame game) {
 		this.game = game;
@@ -56,9 +61,9 @@ public class SettingsMenuScreen implements Screen {
 
 		WindowStyle windowS = new WindowStyle();
 		windowS.background = skin.newDrawable("white", Color.DARK_GRAY);
-		windowS.titleFont =  skin.getFont("default");
-		
-		skin.add("default",windowS);
+		windowS.titleFont = skin.getFont("default");
+
+		skin.add("default", windowS);
 		LabelStyle labelStyle = new LabelStyle();
 		labelStyle.font = skin.getFont("default");
 		labelStyle.background = skin.newDrawable("white", Color.BLUE);
@@ -85,17 +90,30 @@ public class SettingsMenuScreen implements Screen {
 
 		final TextButton textButton = new TextButton("Load Music File", textButtonStyle);
 		textButton.setPosition(400, 400);
-		textButton.addListener(new ClickListener(){
+		textButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				// TODO Auto-generated method stub
 				super.clicked(event, x, y);
-				FileChooser fc = new FileChooser("Pick track", skin);
+				FileChooser fc = new FileChooser("Pick track", skin, SettingsMenuScreen.this);
 				fc.show(stage);
-				
+
 			}
 		});
 		stage.addActor(textButton);
+
+		final TextButton startButton = new TextButton("Start", textButtonStyle);
+		startButton.setPosition(300, 200);
+		startButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				// TODO Auto-generated method stub
+				super.clicked(event, x, y);
+				startGame();
+
+			}
+		});
+		stage.addActor(startButton);
 
 		final Label mapSizeLbl = new Label("Map Size:" + Settings.MAPSIZE, skin);
 		mapSizeLbl.setBounds(0, 550, 300, 50);
@@ -112,7 +130,7 @@ public class SettingsMenuScreen implements Screen {
 		stage.addActor(mapDivisionLbl);
 		stage.addActor(agentsLbl);
 
-		final TextField lbl1 = new TextField("", skin);
+		lbl1 = new TextField("", skin);
 		lbl1.setBounds(400, 500, 400, 100);
 
 		stage.addActor(lbl1);
@@ -164,6 +182,25 @@ public class SettingsMenuScreen implements Screen {
 		stage.dispose();
 		skin.dispose();
 
+	}
+
+	public void setSongPath(String string) {
+		this.lbl1.setText(string);
+		this.selectedSong = string;
+
+	}
+
+	public void startGame() {
+
+		try {
+			game.startGame(selectedSong);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

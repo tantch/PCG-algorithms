@@ -1,5 +1,6 @@
 package com.tantch.pcg.gdx;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -23,24 +24,16 @@ import com.tantch.pcg.utils.Settings;
 public class MyGdxGame extends Game {
 	public SpriteBatch batch;
 	// Texture img;
-	MyGame game;
+	public MyGame game;
+
 	@Override
 	public void create() {
 
 		batch = new SpriteBatch();
-		game = new MyGame();
-		
-		game.generateMap();
-		game.load();
-		DMapScreen screen = new DMapScreen(game.getDMap(), this);
 
 		setScreen(new SettingsMenuScreen(this));
 	}
 
-	
-	
-	
-	
 	@Override
 	public void render() {
 		super.render();
@@ -49,5 +42,14 @@ public class MyGdxGame extends Game {
 	@Override
 	public void dispose() {
 		batch.dispose();
+	}
+
+	public void startGame(String selectedSong) throws IOException, InterruptedException {
+		game = new MyGame();
+		game.loadMusic(selectedSong);
+		game.generateMap();
+		game.load();
+		DMapScreen screen = new DMapScreen(game.getDMap(), this);
+		setScreen(screen);
 	}
 }
