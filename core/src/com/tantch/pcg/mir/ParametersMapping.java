@@ -1,12 +1,13 @@
-package com.tantch.pcg.utils;
+package com.tantch.pcg.mir;
 
-import com.tantch.pcg.mir.MIRTools;
+import com.tantch.pcg.utils.Settings;
 
 public class ParametersMapping {
+	private static int BASEBPM=60;
 
 	public static void setMapSettings(MIRTools mir) {
 		Settings.MAPSIZE = (int) mir.getLength() / 4;
-		int beatsSpeed = (int) (7- mir.getBpmG()/60); 
+		int beatsSpeed = (int) (6- mir.getBpmG()/BASEBPM); 
 		
 		Settings.MINROOMSIZE = beatsSpeed;
 		Settings.MINPARTITIONSIZE =(int) (beatsSpeed * 1.5);
@@ -18,10 +19,10 @@ public class ParametersMapping {
 	public static void setAgentSettings(MIRTools mir){
 		
 		int res=0;
-		float party =mir.getParty();
+		float aggressive =mir.getAggressive();
 		float relaxed =mir.getRelaxed();
 		
-		res = (int) (party*30 - relaxed*20);
+		res = (int) (aggressive*30 - relaxed*20);
 		
 		if(res < 1){
 			res = 1;
@@ -34,6 +35,14 @@ public class ParametersMapping {
 		
 		
 		Settings.CONNECT_ONLY_TO_MIDDLE_ROOM = (int) (mir.getSad()* 100);
+	}
+	
+	public static void setPlayerStatFocus(MIRTools mir){
+		
+		float loudnessValue= mir.getAvgLoudness();
+		float aggressiveValue = mir.getAggressive();	
+		
+		float speedP = 0;  
 	}
 
 }

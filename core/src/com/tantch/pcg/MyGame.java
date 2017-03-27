@@ -13,8 +13,8 @@ import com.tantch.pcg.mapgeneration.representations.DunRoom;
 import com.tantch.pcg.mapgeneration.spacepartitioning.BSPNode;
 import com.tantch.pcg.mapgeneration.spacepartitioning.BSPTree;
 import com.tantch.pcg.mir.MIRTools;
+import com.tantch.pcg.mir.ParametersMapping;
 import com.tantch.pcg.utils.Debug;
-import com.tantch.pcg.utils.ParametersMapping;
 import com.tantch.pcg.utils.Settings;
 
 public class MyGame {

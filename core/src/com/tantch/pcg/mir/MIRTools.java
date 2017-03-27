@@ -136,10 +136,14 @@ public class MIRTools {
 	public float getInstrumental() {
 		return instrumental;
 	}
+	public String getName(){
+		return name;
+	}
 
 	private float dark;
 	private float tonal;
 	private float instrumental;
+	private String name;
 
 	public boolean loadDescriptors(String musicPath) throws IOException, InterruptedException {
 
@@ -168,6 +172,7 @@ public class MIRTools {
 		this.avgLoudness = base.get("lowlevel").getFloat("average_loudness");
 		JsonValue meta = base.get("metadata");
 		this.length = meta.get("audio_properties").getFloat("length");
+		this.name = meta.get("tags").getString("file_name");
 
 		cmdName = "essentia_streaming_extractor_music_svm";
 
@@ -241,6 +246,7 @@ public class MIRTools {
 		if(!highL.get("voice_instrumental").getString("value").equals("instrumental")){
 			this.instrumental = 1- instrumental;
 		}
+		
 		
 		return true;
 

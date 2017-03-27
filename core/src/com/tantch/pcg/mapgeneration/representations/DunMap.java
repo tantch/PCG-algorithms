@@ -36,7 +36,7 @@ public class DunMap {
 
 	public void loadMonster(Monster mos) {
 		this.mons = mos;
-		int[] pos = rooms.get(1).getPositionInRoom();
+		int[] pos = rooms.get(0).getPositionInRoom();
 		mons.setPosition(pos[0], pos[1]);
 	}
 
@@ -114,6 +114,7 @@ public class DunMap {
 	}
 
 	public void markAsVisited(DunRoom room2) {
+
 		if (unvisitedRooms.contains(room2.getRoomId())) {
 			unvisitedRooms.remove(new Integer(room2.getRoomId()));
 
