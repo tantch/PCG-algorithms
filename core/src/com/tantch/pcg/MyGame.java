@@ -21,6 +21,7 @@ public class MyGame {
 	DunMap dmap;
 	MIRTools mir;
 	boolean musicPCG = false;
+	private String selectedSong;
 
 	public MyGame() {
 		Debug.setVerbose(false);
@@ -95,6 +96,7 @@ public class MyGame {
 
 	public void loadMusic(String selectedSong) throws IOException, InterruptedException {
 		System.out.println("Loading...");
+		this.selectedSong = selectedSong;
 		boolean res = mir.loadDescriptors(selectedSong);
 		System.out.println(mir);
 
@@ -102,8 +104,12 @@ public class MyGame {
 			musicPCG = true;
 			ParametersMapping.setMapSettings(mir);
 			ParametersMapping.setAgentSettings(mir);
-
+			ParametersMapping.setAmbient(mir);
 		}
+	}
+
+	public String getSelectedSong() {
+		return selectedSong;
 	}
 
 }

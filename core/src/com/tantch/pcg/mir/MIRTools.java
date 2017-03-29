@@ -29,121 +29,14 @@ public class MIRTools {
 	private float party;
 	private float relaxed;
 	private float sad;
-	public int getBeatCount() {
-		return beatCount;
-	}
-
-	public float getBpmG() {
-		return bpmG;
-	}
-
-	public float getBpmMF() {
-		return bpmMF;
-	}
-
-	public float getAvgLoudness() {
-		return avgLoudness;
-	}
-
-	public float getLength() {
-		return length;
-	}
-
-	public float getDanceable() {
-		return danceable;
-	}
-
-	public float getMale() {
-		return male;
-	}
-
-	public String getGenreDor() {
-		return genreDor;
-	}
-
-	public String getGenreEle() {
-		return genreEle;
-	}
-
-	public String getGenreRos() {
-		return genreRos;
-	}
-
-	public String getGenreTza() {
-		return genreTza;
-	}
-
-	public String getRhythmDance() {
-		return rhythmDance;
-	}
-
-	public float getGenreDorPb() {
-		return genreDorPb;
-	}
-
-	public float getGenreElePb() {
-		return genreElePb;
-	}
-
-	public float getGenreRosPb() {
-		return genreRosPb;
-	}
-
-	public float getGenreTzaPb() {
-		return genreTzaPb;
-	}
-
-	public float getRhythmDancePb() {
-		return rhythmDancePb;
-	}
-
-	public float getAcoustic() {
-		return acoustic;
-	}
-
-	public float getAggressive() {
-		return aggressive;
-	}
-
-	public float getElectronic() {
-		return electronic;
-	}
-
-	public float getHappy() {
-		return happy;
-	}
-
-	public float getParty() {
-		return party;
-	}
-
-	public float getRelaxed() {
-		return relaxed;
-	}
-
-	public float getSad() {
-		return sad;
-	}
-
-	public float getDark() {
-		return dark;
-	}
-
-	public float getTonal() {
-		return tonal;
-	}
-
-	public float getInstrumental() {
-		return instrumental;
-	}
-	public String getName(){
-		return name;
-	}
 
 	private float dark;
 	private float tonal;
 	private float instrumental;
 	private String name;
+	private float pitch;
+	private String keyScale;
+	private String keyKey;
 
 	public boolean loadDescriptors(String musicPath) throws IOException, InterruptedException {
 
@@ -170,9 +63,12 @@ public class MIRTools {
 		this.beatCount = rhythm.getInt("beats_count");
 		this.bpmG = rhythm.getInt("bpm");
 		this.avgLoudness = base.get("lowlevel").getFloat("average_loudness");
+		this.pitch = base.get("lowlevel").get("pitch_salience").getFloat("mean");
 		JsonValue meta = base.get("metadata");
 		this.length = meta.get("audio_properties").getFloat("length");
 		this.name = meta.get("tags").getString("file_name");
+		this.keyScale = base.get("tonal").getString("key_scale");
+		this.keyKey = base.get("tonal").getString("key_key");
 
 		cmdName = "essentia_streaming_extractor_music_svm";
 
@@ -285,5 +181,128 @@ public class MIRTools {
 
 		return ret;
 	}
+	
+	public int getBeatCount() {
+		return beatCount;
+	}
+
+	public float getBpmG() {
+		return bpmG;
+	}
+
+	public float getBpmMF() {
+		return bpmMF;
+	}
+
+	public float getAvgLoudness() {
+		return avgLoudness;
+	}
+
+	public float getLength() {
+		return length;
+	}
+
+	public float getDanceable() {
+		return danceable;
+	}
+
+	public float getMale() {
+		return male;
+	}
+
+	public String getGenreDor() {
+		return genreDor;
+	}
+
+	public String getGenreEle() {
+		return genreEle;
+	}
+
+	public String getGenreRos() {
+		return genreRos;
+	}
+
+	public String getGenreTza() {
+		return genreTza;
+	}
+
+	public String getRhythmDance() {
+		return rhythmDance;
+	}
+
+	public float getGenreDorPb() {
+		return genreDorPb;
+	}
+
+	public float getGenreElePb() {
+		return genreElePb;
+	}
+
+	public float getGenreRosPb() {
+		return genreRosPb;
+	}
+
+	public float getGenreTzaPb() {
+		return genreTzaPb;
+	}
+
+	public float getRhythmDancePb() {
+		return rhythmDancePb;
+	}
+
+	public float getAcoustic() {
+		return acoustic;
+	}
+
+	public float getAggressive() {
+		return aggressive;
+	}
+
+	public float getElectronic() {
+		return electronic;
+	}
+
+	public float getHappy() {
+		return happy;
+	}
+
+	public float getParty() {
+		return party;
+	}
+
+	public float getRelaxed() {
+		return relaxed;
+	}
+
+	public float getSad() {
+		return sad;
+	}
+
+	public float getDark() {
+		return dark;
+	}
+
+	public float getTonal() {
+		return tonal;
+	}
+
+	public float getInstrumental() {
+		return instrumental;
+	}
+	public String getName(){
+		return name;
+	}
+	public float getPitch(){
+		return pitch;
+	}
+
+	public String getKeyScale() {
+		return keyScale;
+	}
+
+	public String getKeyKey() {
+		return keyKey;
+	}
+
 
 }

@@ -7,6 +7,7 @@ import java.util.Random;
 import com.tantch.pcg.assets.Monster;
 import com.tantch.pcg.assets.Player;
 import com.tantch.pcg.utils.Debug;
+import com.tantch.pcg.utils.Settings;
 
 public class EvSearch {
 
@@ -72,8 +73,8 @@ public class EvSearch {
 			Random rd = new Random();
 
 			for (int j = 0; j < seq.length; j++) {
-				float vl = rd.nextFloat();
-				if (vl < 0.3) {
+				int vl = rd.nextInt(100);
+				if (vl < Settings.EA_MUTATION_PROB) {
 					seq[j] = !seq[j];
 				}
 			}

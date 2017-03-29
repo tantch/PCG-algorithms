@@ -5,6 +5,7 @@ import java.util.Random;
 import com.tantch.pcg.evolutionarysearch.EvRepresentation;
 import com.tantch.pcg.utils.BitOperations;
 import com.tantch.pcg.utils.Debug;
+import com.tantch.pcg.utils.Settings;
 
 public class Player implements EvRepresentation {
 
@@ -62,6 +63,8 @@ public class Player implements EvRepresentation {
 		double ytemp;
 
 		ytemp = -1 * Math.pow((xtemp - 0.8) * 10, 2) + 1;
+		ytemp += 0.1 * ((Settings.PLAYER_SPEED_MULTIPLIER-1)/2f) * speed;
+		ytemp += 0.1 * ((Settings.PLAYER_LIFE_MULTIPLIER-1)/2f) * maxLife;
 
 		Debug.log(this.getClass(), "fitness result for statsum:" + score + " -> " + xtemp + " | " + ytemp);
 
@@ -71,7 +74,7 @@ public class Player implements EvRepresentation {
 	private int calculateStatsScore() {
 		int tScore = 0;
 
-		int tmpScore = (int) Math.floor(Math.pow(maxLife - 2, 2));
+		int tmpScore = (int) Math.floor(Math.pow((maxLife/2) - 2, 2));
 		tScore += tmpScore;
 		tmpScore = (int) Math.floor(Math.pow(attack - 1, 2));
 		tScore += tmpScore;

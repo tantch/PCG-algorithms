@@ -9,7 +9,7 @@ public class CmdGame {
 	public static void main(String[] args) throws IOException, InterruptedException {
 
 		MyGame game = new MyGame();
-		game.loadMusic("/home/pim/Music/Improvisation.mp3");
+		game.loadMusic("/home/pim/Music/Rush.mp3");
 		game.generateMap();
 		game.load();
 		Draw.drawMap(game.getDMap(), false, true);

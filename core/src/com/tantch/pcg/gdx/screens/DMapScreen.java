@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,6 +25,7 @@ public class DMapScreen implements Screen {
 	Texture roomFloor;
 	Texture player;
 	Texture monster;
+	Music music;
 	public OrthographicCamera camera;
 	public boolean right = false, left = false, up = false, down = false;
 	int sprtn = 1;
@@ -48,6 +50,11 @@ public class DMapScreen implements Screen {
 		camera.setToOrtho(false, camerazoom, camerazoom * (h / w));
 		int[] pos = dmap.getPlayer().getPosition();
 		camera.position.set(pos[0], pos[1], 0);
+		
+		music = Gdx.audio.newMusic(Gdx.files.absolute(game.game.getSelectedSong()));
+		music.play();
+		music.setLooping(true);
+
 	}
 
 	@Override
@@ -163,7 +170,7 @@ public class DMapScreen implements Screen {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-
+		music.dispose();
 	}
 
 }

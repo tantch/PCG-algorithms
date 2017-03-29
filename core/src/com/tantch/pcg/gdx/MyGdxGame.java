@@ -49,6 +49,7 @@ public class MyGdxGame extends Game {
 		game.loadMusic(selectedSong);
 		game.generateMap();
 		game.load();
+		batch.setColor(Settings.RGB[0],Settings.RGB[1],Settings.RGB[2],1);
 		DMapScreen screen = new DMapScreen(game.getDMap(), this);
 		setScreen(screen);
 	}
