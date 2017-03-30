@@ -1,6 +1,5 @@
 package com.tantch.pcg.mir;
 
-import com.badlogic.gdx.graphics.Color;
 import com.tantch.pcg.utils.Settings;
 
 public class ParametersMapping {
@@ -45,8 +44,8 @@ public class ParametersMapping {
 
 	public static void setAmbient(MIRTools mir) {
 
-		float light = ((1 - mir.getDark())*0.6f + 0.4f);
-		
+		float light = ((1 - mir.getDark()) * 0.6f + 0.4f);
+
 		Settings.RGB[0] = mir.getAggressive() / 2f * light + 0.5f;
 		Settings.RGB[1] = mir.getDanceable() / 2f * light + 0.5f;
 		Settings.RGB[2] = mir.getSad() / 2f * light + 0.5f;
@@ -57,26 +56,87 @@ public class ParametersMapping {
 
 		float loudnessValue = mir.getAvgLoudness();
 		float aggressiveValue = mir.getAggressive();
+		float relaxedValue = mir.getRelaxed();
+		float sadValue = mir.getSad();
+		float happyValue = mir.getHappy();
+		float instrumentalValue = mir.getInstrumental();
+		float partyValue = mir.getParty();
 
 		int bpm = (int) mir.getBpmG();
-		if(bpm < 80){
+		if (bpm < 80) {
 			Settings.PLAYER_SPEED_MULTIPLIER = 0;
-		}else if( bpm < 120){
+		} else if (bpm < 120) {
 			Settings.PLAYER_SPEED_MULTIPLIER = 1;
 
-		}else if( bpm < 168){
+		} else if (bpm < 168) {
 			Settings.PLAYER_SPEED_MULTIPLIER = 2;
 
-		}else if( bpm < 200){
+		} else if (bpm < 200) {
 			Settings.PLAYER_SPEED_MULTIPLIER = 3;
 
-		}else{
+		} else {
 			Settings.PLAYER_SPEED_MULTIPLIER = 4;
 
 		}
-		
-		
-		Settings.PLAYER_LIFE_MULTIPLIER = (int) (Math.pow(loudnessValue,4)*4);
+
+		float at = aggressiveValue - relaxedValue;
+
+		if (at < 0) {
+			at = 0;
+		}
+
+		float ar = sadValue - happyValue*0.2f;
+
+		if (ar < 0) {
+			ar = 0;
+		}
+
+		Settings.PLAYER_LIFE_MULTIPLIER = (int) (Math.pow(loudnessValue, 4) * 4);
+
+		Settings.PLAYER_ATTACK_MULTIPLIER = (int) (Math.pow(at, 4) * 4);
+
+		Settings.PLAYER_ARMOR_MULTIPLIER = (int) (Math.pow(ar, 4) * 4);
+
+		Settings.PLAYER_LUCK_MULTIPLIER = (int) (Math.pow(instrumentalValue * 0.4f + partyValue * 0.4f + 0.2, 2) * 4);
+
+		String rhythm = mir.getRhythmDance();
+
+		switch (rhythm) {
+		case "ChaChaCha":
+			Settings.PLAYER_ATKSPEED_MULTIPLIER = 3;
+			break;
+		case "Jive":
+			Settings.PLAYER_ATKSPEED_MULTIPLIER = 1;
+
+			break;
+		case "Quickstep":
+			Settings.PLAYER_ATKSPEED_MULTIPLIER = 3;
+			break;
+		case "Rumba-American":
+			Settings.PLAYER_ATKSPEED_MULTIPLIER = 2;
+			break;
+		case "Rumba-International":
+			Settings.PLAYER_ATKSPEED_MULTIPLIER = 1;
+			break;
+		case "Rumba-Misc":
+			Settings.PLAYER_ATKSPEED_MULTIPLIER = 1;
+			break;
+		case "Samba":
+			Settings.PLAYER_ATKSPEED_MULTIPLIER = 2;
+			break;
+		case "Tango":
+			Settings.PLAYER_ATKSPEED_MULTIPLIER = 1;
+			break;
+		case "VienneseWaltz":
+			Settings.PLAYER_ATKSPEED_MULTIPLIER = 2;
+			break;
+		case "Waltz":
+			Settings.PLAYER_ATKSPEED_MULTIPLIER = 1;
+			break;
+		default:
+			Settings.PLAYER_ATKSPEED_MULTIPLIER = 1;
+			break;
+		}
 
 	}
 

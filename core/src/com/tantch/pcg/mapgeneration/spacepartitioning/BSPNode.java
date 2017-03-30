@@ -140,11 +140,8 @@ public class BSPNode {
 		Random rd = new Random();
 		float pb = rd.nextFloat();
 
-		if (pb > Math.pow(res, 3)) {
-			return false;
-		}
-
-		return true;
+		return pb > Math.pow(res, 3);
+		
 	}
 
 	public void createRoom(DunMap dmap) {

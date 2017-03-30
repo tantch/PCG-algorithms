@@ -59,16 +59,7 @@ public class MIRTools {
 		JsonReader json = new JsonReader();
 		JsonValue base = json.parse(new FileHandle("/home/pim/Desktop/output.json"));
 
-		JsonValue rhythm = base.get("rhythm");
-		this.beatCount = rhythm.getInt("beats_count");
-		this.bpmG = rhythm.getInt("bpm");
-		this.avgLoudness = base.get("lowlevel").getFloat("average_loudness");
-		this.pitch = base.get("lowlevel").get("pitch_salience").getFloat("mean");
-		JsonValue meta = base.get("metadata");
-		this.length = meta.get("audio_properties").getFloat("length");
-		this.name = meta.get("tags").getString("file_name");
-		this.keyScale = base.get("tonal").getString("key_scale");
-		this.keyKey = base.get("tonal").getString("key_key");
+		extractLowLevelDescriptors(base);
 
 		cmdName = "essentia_streaming_extractor_music_svm";
 
@@ -79,9 +70,33 @@ public class MIRTools {
 		pb.redirectOutput(Redirect.appendTo(log2));
 		p = pb.start();
 		p.waitFor();
+		
+		
 		base = json.parse(new FileHandle("/home/pim/Desktop/output2.json"));
 
 		JsonValue highL = base.get("highlevel");
+		parseHighLevelDescriptors(highL);
+		
+		
+		return true;
+
+
+	}
+
+	private void extractLowLevelDescriptors(JsonValue base) {
+		JsonValue rhythm = base.get("rhythm");
+		this.beatCount = rhythm.getInt("beats_count");
+		this.bpmG = rhythm.getInt("bpm");
+		this.avgLoudness = base.get("lowlevel").getFloat("average_loudness");
+		this.pitch = base.get("lowlevel").get("pitch_salience").getFloat("mean");
+		JsonValue meta = base.get("metadata");
+		this.length = meta.get("audio_properties").getFloat("length");
+		this.name = meta.get("tags").getString("file_name");
+		this.keyScale = base.get("tonal").getString("key_scale");
+		this.keyKey = base.get("tonal").getString("key_key");
+	}
+
+	private void parseHighLevelDescriptors(JsonValue highL) {
 		this.danceable = highL.get("danceability").getFloat("probability");
 
 		if(!highL.get("danceability").getString("value").equals("danceable")){
@@ -142,11 +157,6 @@ public class MIRTools {
 		if(!highL.get("voice_instrumental").getString("value").equals("instrumental")){
 			this.instrumental = 1- instrumental;
 		}
-		
-		
-		return true;
-
-
 	}
 
 	@Override

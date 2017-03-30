@@ -1,16 +1,13 @@
 package com.tantch.pcg.mapgeneration.agents;
 
-import java.util.Random;
-
 import com.tantch.pcg.mapgeneration.representations.DunMap;
-import com.tantch.pcg.mapgeneration.representations.MpCell.CellType;
 
 public class DAgent {
-	DunMap map;
-	int posx, posy;
-	int curdir;
-	int stamina;
-	int mapSize;
+	protected DunMap map;
+	protected int posx, posy;
+	protected int curdir;
+	protected int stamina;
+	protected int mapSize;
 
 	public void init(DunMap map) {
 

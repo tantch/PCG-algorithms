@@ -4,18 +4,15 @@ import java.util.Random;
 
 import com.tantch.pcg.mapgeneration.representations.DunRoom;
 import com.tantch.pcg.mapgeneration.representations.MpCell.CellType;
-import com.tantch.pcg.utils.Debug;
 
 public class ConnectorDAgent extends DAgent {
 
-	private int roomId;
 	private int xRem, yRem;
 	private int turnProb;
 	private int turnInc;
 
 	public void setTarget(DunRoom room) {
 
-		roomId = room.getRoomId();
 		int pos[] = room.getPositionInRoom();
 		xRem = pos[0] - posx;
 		yRem = pos[1] - posy;
@@ -26,31 +23,20 @@ public class ConnectorDAgent extends DAgent {
 		Random rd = new Random();
 		changeDirection();
 
-		
 		do {
-			if ((curdir % 2) == 0 && yRem==0) {// if walking vert
+			if ((curdir % 2) == 0 && yRem == 0) {// if walking vert
 				changeDirection();
-				turnProb=0;
-			}else if(xRem==0){
+				turnProb = 0;
+			} else if (xRem == 0) {
 				changeDirection();
-				turnProb=0;
+				turnProb = 0;
 			}
-			
-			
-			posx += getDirValue(false);
-			posy += getDirValue(true);
-			xRem -= getDirValue(false);
-			yRem -= getDirValue(true);
-			
-			if(xRem == 0 && yRem == 0){
-				
+
+			updatePosition();
+
+			if (xRem == 0 && yRem == 0) {
 				continue;
-				
 			}
-			
-			
-			
-			
 
 			if (posx >= mapSize) {
 				posx = mapSize - 1;
@@ -59,11 +45,9 @@ public class ConnectorDAgent extends DAgent {
 				continue;
 			} else if (posx < 0) {
 				posx = 0;
-
 				changeDirection();
 				turnProb = 0;
 				continue;
-
 			} else if (posy >= mapSize) {
 				posy = mapSize - 1;
 				changeDirection();
@@ -74,8 +58,8 @@ public class ConnectorDAgent extends DAgent {
 				changeDirection();
 				turnProb = 0;
 				continue;
-
 			}
+			
 			int turn = rd.nextInt(100);
 			if (turn < turnProb) {
 				changeDirection();
@@ -87,10 +71,16 @@ public class ConnectorDAgent extends DAgent {
 			if (map.getCellType(posx, posy) == CellType.FILLED) {
 				map.setCellType(posx, posy, CellType.EMPTY);
 			}
-			
 
-		}while (xRem != 0 || yRem != 0);
+		} while (xRem != 0 || yRem != 0);
 
+	}
+
+	private void updatePosition() {
+		posx += getDirValue(false);
+		posy += getDirValue(true);
+		xRem -= getDirValue(false);
+		yRem -= getDirValue(true);
 	}
 
 	private void changeDirection() {

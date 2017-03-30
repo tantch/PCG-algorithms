@@ -25,35 +25,7 @@ public class Draw {
 
 			for (int j = 0; j < size; j++) {
 
-				if (map[i][j].getType() == CellType.EMPTY) {
-
-					System.out.print("  ");
-
-				} else if (map[i][j].getType() == CellType.ROOM) {
-					if (numbers) {
-						int t_id = map[i][j].getRoomId();
-						if (t_id < 10) {
-							System.out.print(t_id + " ");
-						} else {
-							System.out.print(t_id);
-
-						}
-					}else{
-						System.out.print("  ");
-					}
-				} else {
-					System.out.print("[]");
-
-				}
-				if (divisions) {
-					if (map[i][j].getDivisions()[0]) {
-
-						System.out.print("|");
-					} else {
-						System.out.print(" ");
-
-					}
-				}
+				printCell(divisions, numbers, map, i, j);
 
 			}
 			System.out.println("|");
@@ -85,6 +57,38 @@ public class Draw {
 		}
 		System.out.println("/");
 
+	}
+
+	private static void printCell(boolean divisions, boolean numbers, MpCell[][] map, int i, int j) {
+		if (map[i][j].getType() == CellType.EMPTY) {
+
+			System.out.print("  ");
+
+		} else if (map[i][j].getType() == CellType.ROOM) {
+			if (numbers) {
+				int t_id = map[i][j].getRoomId();
+				if (t_id < 10) {
+					System.out.print(t_id + " ");
+				} else {
+					System.out.print(t_id);
+
+				}
+			}else{
+				System.out.print("  ");
+			}
+		} else {
+			System.out.print("[]");
+
+		}
+		if (divisions) {
+			if (map[i][j].getDivisions()[0]) {
+
+				System.out.print("|");
+			} else {
+				System.out.print(" ");
+
+			}
+		}
 	}
 
 }

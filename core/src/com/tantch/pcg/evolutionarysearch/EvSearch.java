@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-import com.tantch.pcg.assets.Monster;
-import com.tantch.pcg.assets.Player;
-import com.tantch.pcg.utils.Debug;
 import com.tantch.pcg.utils.Settings;
 
 public class EvSearch {

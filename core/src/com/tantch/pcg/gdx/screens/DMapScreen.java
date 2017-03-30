@@ -1,10 +1,6 @@
 package com.tantch.pcg.gdx.screens;
 
-import java.awt.FlowLayout;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
@@ -19,17 +15,17 @@ import com.tantch.pcg.mapgeneration.representations.MpCell.CellType;
 public class DMapScreen implements Screen {
 
 	public DunMap dmap;
-	MyGdxGame game;
-	Texture floor1;
-	Texture floor2;
-	Texture roomFloor;
-	Texture player;
-	Texture monster;
-	Music music;
+	private MyGdxGame game;
+	private Texture floor1;
+	private Texture floor2;
+	private Texture roomFloor;
+	private Texture player;
+	private Texture monster;
+	private Music music;
 	public OrthographicCamera camera;
 	public boolean right = false, left = false, up = false, down = false;
-	int sprtn = 1;
-	float acm = 0;
+	private int sprtn = 1;
+	private float acm = 0;
 	public float camerazoom = 20;
 
 	public DMapScreen(DunMap dmap, MyGdxGame game) {

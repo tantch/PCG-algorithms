@@ -9,10 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 
 public class FileChooser extends Dialog {
-	FileHandle folder;
+	private FileHandle folder;
 	private SettingsMenuScreen screen;
 
 	public FileChooser(String title, Skin skin,SettingsMenuScreen screen) {

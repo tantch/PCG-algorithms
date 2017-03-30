@@ -35,12 +35,12 @@ public class Player implements EvRepresentation {
 	public void setPosition(int x, int y) {
 		mapX = x;
 		mapY = y;
-		timePassed=0;
+		timePassed = 0;
 	}
 
 	public void setDefaultStats() {
-		this.maxLife = 4;
-		this.curLife = 4;
+		this.maxLife = 2;
+		this.curLife = 2;
 		this.attack = 1;
 		this.armor = 1;
 		this.speed = 1;
@@ -63,8 +63,14 @@ public class Player implements EvRepresentation {
 		double ytemp;
 
 		ytemp = -1 * Math.pow((xtemp - 0.8) * 10, 2) + 1;
-		ytemp += 0.1 * ((Settings.PLAYER_SPEED_MULTIPLIER-1)/2f) * speed;
-		ytemp += 0.1 * ((Settings.PLAYER_LIFE_MULTIPLIER-1)/2f) * maxLife;
+
+		ytemp += 0.1 * ((Settings.PLAYER_SPEED_MULTIPLIER - 1) / 2f) * speed;
+		ytemp += 0.1 * ((Settings.PLAYER_LIFE_MULTIPLIER - 1) / 2f) * maxLife;
+		ytemp += 0.1 * ((Settings.PLAYER_ATTACK_MULTIPLIER - 1) / 2f) * attack;
+		ytemp += 0.1 * ((Settings.PLAYER_ARMOR_MULTIPLIER - 1) / 2f) * armor;
+		ytemp += 0.1 * ((Settings.PLAYER_LUCK_MULTIPLIER - 1) / 2f) * luck;
+		ytemp += 0.1 * ((Settings.PLAYER_ATKSPEED_MULTIPLIER - 1) / 2f) * atkSpeed;
+
 
 		Debug.log(this.getClass(), "fitness result for statsum:" + score + " -> " + xtemp + " | " + ytemp);
 
@@ -74,7 +80,7 @@ public class Player implements EvRepresentation {
 	private int calculateStatsScore() {
 		int tScore = 0;
 
-		int tmpScore = (int) Math.floor(Math.pow((maxLife/2) - 2, 2));
+		int tmpScore = (int) Math.floor(Math.pow(maxLife -1, 2));
 		tScore += tmpScore;
 		tmpScore = (int) Math.floor(Math.pow(attack - 1, 2));
 		tScore += tmpScore;
@@ -98,7 +104,7 @@ public class Player implements EvRepresentation {
 	public boolean[] getGeneSeq() {
 		boolean[] seq = new boolean[SEQSIZE];
 
-		boolean[] seqStr = BitOperations.intToBits((maxLife - 2) / 2, 3);
+		boolean[] seqStr = BitOperations.intToBits(maxLife -1 , 3);
 		for (int i = 0; i < seqStr.length; i++) {
 			seq[i] = seqStr[i];
 		}
@@ -178,7 +184,7 @@ public class Player implements EvRepresentation {
 
 		}
 
-		maxLife = Integer.parseInt(temp.substring(0, 3), 2) * 2 + 2;
+		maxLife = Integer.parseInt(temp.substring(0, 3), 2) +1;
 		attack = Integer.parseInt(temp.substring(3, 6), 2) + 1;
 		armor = Integer.parseInt(temp.substring(6, 9), 2);
 		speed = Integer.parseInt(temp.substring(9, 12), 2) + 1;
@@ -188,12 +194,10 @@ public class Player implements EvRepresentation {
 	}
 
 	public boolean canMove(float delta) {
-		timePassed+=delta;
-		if(timePassed >1/(2.0*speed)){
-			return true;
-		}
-		return false;
+		timePassed += delta;
+		return timePassed > 1 / (2.0 * speed);
 		
+
 	}
 
 }

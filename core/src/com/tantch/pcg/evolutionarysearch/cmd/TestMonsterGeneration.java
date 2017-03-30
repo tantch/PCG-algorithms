@@ -1,11 +1,7 @@
 package com.tantch.pcg.evolutionarysearch.cmd;
 
-import java.beans.EventSetDescriptor;
-import java.util.ArrayList;
-
 import com.tantch.pcg.assets.Monster;
 import com.tantch.pcg.evolutionarysearch.EvSearch;
-import com.tantch.pcg.evolutionarysearch.GeneSequence;
 import com.tantch.pcg.utils.Debug;
 import com.tantch.pcg.utils.Settings;
 

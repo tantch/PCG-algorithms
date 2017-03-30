@@ -12,23 +12,20 @@ public class Monster implements EvRepresentation {
 	private static int SEQSIZE = 30;
 
 	// Base Stats
-	String name;
-	String typeName;
+	private String name;
+	private String typeName;
 	// 0|10-20|30
 
-	int maxHealth;
-	int attack;
-	int attackSpeed;
-	int armor;
-	int speed;
-	int luck;
-	
+	private int maxHealth;
+	private int attack;
+	private int attackSpeed;
+	private int armor;
+	private int speed;
+	private int luck;
 	
 	//map
-	int mapX,mapY;
-	public Monster() {
-
-	}
+	private int mapX,mapY;
+	
 
 	public void setPosition(int x, int y){
 		mapX = x;

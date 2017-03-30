@@ -6,7 +6,6 @@ import java.util.Random;
 import com.tantch.pcg.assets.Monster;
 import com.tantch.pcg.assets.Player;
 import com.tantch.pcg.mapgeneration.representations.MpCell.CellType;
-import com.tantch.pcg.utils.Debug;
 
 public class DunMap {
 
@@ -172,7 +171,6 @@ public class DunMap {
 	}
 
 	public boolean isRoomUnvisited(int id) {
-		boolean rs = unvisitedRooms.contains(id);
 		return unvisitedRooms.contains(id);
 	}
 

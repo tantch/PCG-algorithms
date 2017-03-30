@@ -18,9 +18,8 @@ import com.tantch.pcg.utils.Debug;
 import com.tantch.pcg.utils.Settings;
 
 public class MyGame {
-	DunMap dmap;
-	MIRTools mir;
-	boolean musicPCG = false;
+	private DunMap dmap;
+	private MIRTools mir;
 	private String selectedSong;
 
 	public MyGame() {
@@ -101,7 +100,6 @@ public class MyGame {
 		System.out.println(mir);
 
 		if (res) {
-			musicPCG = true;
 			ParametersMapping.setMapSettings(mir);
 			ParametersMapping.setAgentSettings(mir);
 			ParametersMapping.setAmbient(mir);
