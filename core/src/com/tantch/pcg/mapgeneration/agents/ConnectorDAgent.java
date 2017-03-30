@@ -10,12 +10,25 @@ public class ConnectorDAgent extends DAgent {
 	private int xRem, yRem;
 	private int turnProb;
 	private int turnInc;
-
+	
+	//temp
+	private int lastid;
+	private int targetid;
 	public void setTarget(DunRoom room) {
-
+		this.targetid = room.getRoomId();
 		int pos[] = room.getPositionInRoom();
 		xRem = pos[0] - posx;
 		yRem = pos[1] - posy;
+		//temp
+		
+	}
+	
+	@Override
+	public void setInitialPosition(int x, int y) {
+		// TODO Auto-generated method stub
+		super.setInitialPosition(x, y);
+		
+		lastid =map.getRoomId(x, y);
 	}
 
 	public void start() {
@@ -81,6 +94,13 @@ public class ConnectorDAgent extends DAgent {
 		posy += getDirValue(true);
 		xRem -= getDirValue(false);
 		yRem -= getDirValue(true);
+		
+		int newid= map.getRoomId(posx, posy);
+		if(newid != -1 && lastid!=newid && targetid != newid){
+			lastid=newid;
+			map.markAsVisited(map.getRooms().get(newid));
+		}
+		
 	}
 
 	private void changeDirection() {

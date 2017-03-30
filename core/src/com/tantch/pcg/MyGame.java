@@ -41,34 +41,47 @@ public class MyGame {
 		tree.createRooms();
 		tree.buildMap();
 		dmap.resetUnvisitedRooms();
-		ArrayList<DunRoom> rooms = dmap.getRooms();
 		Random rd = new Random();
-		for (DunRoom dunRoom : rooms) {
+		DunRoom room = dmap.getMiddleRoom();
+		if (room == null) {
+			room = dmap.getRooms().get(0);
+		}
+		dmap.markAsVisited(room);
+		while (room != null) {
+			System.out.println("order:" + room.getRoomId());
 
-			if (Settings.ROOMSIMPLECONNECTIONS && !dmap.isRoomUnvisited(dunRoom.getRoomId())) {
-				System.out.println("skip room:" + dunRoom.getRoomId());
-				continue;
-			}
+			room = connectRooms(room, rd);
 
-			ConnectorDAgent ag = new ConnectorDAgent();
-			ag.init(dmap);
-			ag.setMapSize(dmap.getSize());
-			DunRoom room1 = dunRoom;
-			DunRoom room2;
-			if (rd.nextInt(100) < Settings.CONNECT_ONLY_TO_MIDDLE_ROOM) {
-				room2 = dmap.getMiddleRoom();
-			} else {
-				room2 = dmap.getRandomUnvisitedRoom(room1);
-			}
-			dmap.markAsVisited(room2);
-			int[] ipos = room1.getPositionInRoom();
-			ag.setInitialPosition(ipos[0], ipos[1]);
-			ag.setCurrentDirection(rd.nextInt(4));
-			ag.setParameters(Settings.AGENT_TURNPROB);
-			ag.setTarget(room2);
-			ag.start();
 		}
 		dmap.perfectMap();
+
+	}
+
+	private DunRoom connectRooms(DunRoom room1, Random rd) {
+
+		ConnectorDAgent ag = new ConnectorDAgent();
+		ag.init(dmap);
+		ag.setMapSize(dmap.getSize());
+		DunRoom room2 = dmap.getRandomUnvisitedRoom(room1);
+		if (room2 == null) {
+			return room2;
+		}
+
+		dmap.markAsVisited(room2);
+		int[] ipos = room1.getPositionInRoom();
+		ag.setInitialPosition(ipos[0], ipos[1]);
+		ag.setCurrentDirection(rd.nextInt(4));
+		ag.setParameters(Settings.AGENT_TURNPROB);
+		ag.setTarget(room2);
+		ag.start();
+		if (Settings.ROOMSIMPLECONNECTIONS) {
+			return room2;
+		}
+
+		if (rd.nextInt(100) < Settings.CONNECT_ONLY_TO_MIDDLE_ROOM) {
+			return room1;
+		}
+		return room2;
 
 	}
 

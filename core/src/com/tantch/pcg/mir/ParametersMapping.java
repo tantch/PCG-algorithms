@@ -85,7 +85,7 @@ public class ParametersMapping {
 			at = 0;
 		}
 
-		float ar = sadValue - happyValue*0.2f;
+		float ar = sadValue - (happyValue * 0.3f);
 
 		if (ar < 0) {
 			ar = 0;
@@ -107,7 +107,6 @@ public class ParametersMapping {
 			break;
 		case "Jive":
 			Settings.PLAYER_ATKSPEED_MULTIPLIER = 1;
-
 			break;
 		case "Quickstep":
 			Settings.PLAYER_ATKSPEED_MULTIPLIER = 3;

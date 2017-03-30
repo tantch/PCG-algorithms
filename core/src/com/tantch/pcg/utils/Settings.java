@@ -13,7 +13,7 @@ public class Settings {
 	public static int AGENT_TURNPROB = 10;
 
 	// es
-	public static int EA_ITERATIONS = 30;
+	public static int EA_ITERATIONS = 140;
 	public static int EA_MUTATION_PROB = 10;
 	// player and monster
 	public static int PLAYER_ATRIBUTE_FOCUS = 1;

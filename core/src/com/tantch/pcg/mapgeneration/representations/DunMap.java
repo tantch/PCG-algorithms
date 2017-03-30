@@ -98,16 +98,12 @@ public class DunMap {
 	public DunRoom getRandomUnvisitedRoom(DunRoom room1) {
 
 		Random rd = new Random();
-		ArrayList<DunRoom> roomsClone = (ArrayList<DunRoom>) rooms.clone();
-		ArrayList<Integer> unvisitedRoomsClone = (ArrayList<Integer>) unvisitedRooms.clone();
-		roomsClone.remove(room1);
-		unvisitedRoomsClone.remove(new Integer(room1.getRoomId()));
-		if (unvisitedRoomsClone.size() != 0) {
-			int id = rd.nextInt(unvisitedRoomsClone.size());
-			return roomsClone.get(id);
+
+		if (unvisitedRooms.size() != 0) {
+			int id = rd.nextInt(unvisitedRooms.size());
+			return rooms.get(unvisitedRooms.get(id));
 		} else {
-			int id = rd.nextInt(roomsClone.size());
-			return roomsClone.get(id);
+			return null;
 		}
 
 	}
@@ -186,7 +182,7 @@ public class DunMap {
 					}
 				}
 			}
-			return null;
+			return rooms.get(0);
 		}else{
 			return rooms.get(middleRoom);
 		}

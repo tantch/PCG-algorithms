@@ -64,12 +64,12 @@ public class Player implements EvRepresentation {
 
 		ytemp = -1 * Math.pow((xtemp - 0.8) * 10, 2) + 1;
 
-		ytemp += 0.1 * ((Settings.PLAYER_SPEED_MULTIPLIER - 1) / 2f) * speed;
-		ytemp += 0.1 * ((Settings.PLAYER_LIFE_MULTIPLIER - 1) / 2f) * maxLife;
-		ytemp += 0.1 * ((Settings.PLAYER_ATTACK_MULTIPLIER - 1) / 2f) * attack;
+		ytemp += 0.1 * ((Settings.PLAYER_SPEED_MULTIPLIER - 1) / 2f) * (speed-1);
+		ytemp += 0.1 * ((Settings.PLAYER_LIFE_MULTIPLIER - 1) / 2f) * (maxLife-1);
+		ytemp += 0.1 * ((Settings.PLAYER_ATTACK_MULTIPLIER - 1) / 2f) * (attack-1);
 		ytemp += 0.1 * ((Settings.PLAYER_ARMOR_MULTIPLIER - 1) / 2f) * armor;
 		ytemp += 0.1 * ((Settings.PLAYER_LUCK_MULTIPLIER - 1) / 2f) * luck;
-		ytemp += 0.1 * ((Settings.PLAYER_ATKSPEED_MULTIPLIER - 1) / 2f) * atkSpeed;
+		ytemp += 0.1 * ((Settings.PLAYER_ATKSPEED_MULTIPLIER - 1) / 2f) * (atkSpeed -1);
 
 
 		Debug.log(this.getClass(), "fitness result for statsum:" + score + " -> " + xtemp + " | " + ytemp);
