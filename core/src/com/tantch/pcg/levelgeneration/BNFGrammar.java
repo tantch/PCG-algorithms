@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import com.tantch.pcg.mapgeneration.representations.DunMap;
+
 public class BNFGrammar {
 
 	private static HashMap<String, BNFNode> definedNodes;
@@ -44,6 +46,9 @@ public class BNFGrammar {
 		rules.add(rl);
 		rl = new BNFRule();
 		rl.setRuleByString("X/X");
+		rules.add(rl);
+		rl = new BNFRule();
+		rl.setRuleByString("SpecialRoom");
 		rules.add(rl);
 
 		addDefinedNode("X", tNode);
@@ -134,4 +139,21 @@ public class BNFGrammar {
 		return ret;
 	}
 
+	
+	public static void loadToDunMap(DunMap dmap, ArrayList<BNFNode> res){
+		
+		
+		for (BNFNode node : res) {
+			switch (node.getId()) {
+			case "BossRoom":
+				dmap.getEmptyRoom().setAsBossRoom(dmap);
+				break;
+
+			default:
+				break;
+			}
+			
+		}
+		
+	}
 }

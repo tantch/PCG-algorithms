@@ -32,6 +32,7 @@ public class SettingsMenuScreen implements Screen {
 	protected final TextField lbl1;
 	protected MyGdxGame game;
 	private String selectedSong;
+	Label mapSizeLbl,mapDivisionLbl,agentsLbl;
 
 	public SettingsMenuScreen(MyGdxGame game) {
 		this.game = game;
@@ -78,7 +79,7 @@ public class SettingsMenuScreen implements Screen {
 
 		skin.add("default", textFieldStyle);
 
-		final TextButton textButton = new TextButton("Load Music File", textButtonStyle);
+		final TextButton textButton = new TextButton("Pick music Track", textButtonStyle);
 		textButton.setPosition(400, 400);
 		textButton.addListener(new ClickListener() {
 			@Override
@@ -91,6 +92,16 @@ public class SettingsMenuScreen implements Screen {
 			}
 		});
 		stage.addActor(textButton);
+		final TextButton textButton2 = new TextButton("Load Music Track", textButtonStyle);
+		textButton2.setPosition(550, 400);
+		textButton2.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				
+				loadMusic();
+			}
+		});
+		stage.addActor(textButton2);
 
 		final TextButton startButton = new TextButton("Start", textButtonStyle);
 		startButton.setPosition(300, 200);
@@ -105,16 +116,16 @@ public class SettingsMenuScreen implements Screen {
 		});
 		stage.addActor(startButton);
 
-		final Label mapSizeLbl = new Label("Map Size:" + Settings.MAPSIZE, skin);
+		mapSizeLbl = new Label("Map Size:" + Settings.MAPSIZE, skin);
 		mapSizeLbl.setBounds(0, 550, 300, 50);
 
-		final Label mapDivisionLbl = new Label("Map Division: \n  Partition Sizes : " + Settings.MINPARTITIONSIZE + "/"
+		mapDivisionLbl = new Label("Map Division: \n  Partition Sizes : " + Settings.MINPARTITIONSIZE + "/"
 				+ Settings.MAXPARTITIONSIZE + " \n  Minimum Room Size: " + Settings.MINROOMSIZE, skin);
 		mapDivisionLbl.setBounds(0, 450, 300, 100);
 		String AgentOptions = "Agent Settings: \n" + "Agent Turning Probability: " + Settings.AGENT_TURNPROB + "\n"
 				+ "Simple room connections : " + Settings.ROOMSIMPLECONNECTIONS + "\n"
 				+ "Connecting only to middle Room: " + Settings.CONNECT_ONLY_TO_MIDDLE_ROOM;
-		final Label agentsLbl = new Label(AgentOptions, skin);
+		agentsLbl = new Label(AgentOptions, skin);
 		agentsLbl.setBounds(0, 350, 300, 100);
 		stage.addActor(mapSizeLbl);
 		stage.addActor(mapDivisionLbl);
@@ -179,18 +190,32 @@ public class SettingsMenuScreen implements Screen {
 		this.selectedSong = string;
 
 	}
-
-	public void startGame() {
-
+	
+	public void loadMusic(){
 		try {
-			game.startGame(selectedSong);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
+			game.loadMusic(selectedSong);
+			updateSettingsShown();
+		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void startGame() {
+
+		
+			game.startGame();
+		
+	}
+	private void updateSettingsShown(){
+		
+		mapSizeLbl.setText("Map Size:" + Settings.MAPSIZE);
+		mapDivisionLbl.setText("Map Division: \n  Partition Sizes : " + Settings.MINPARTITIONSIZE + "/"
+				+ Settings.MAXPARTITIONSIZE + " \n  Minimum Room Size: " + Settings.MINROOMSIZE);
+		String agentOptions = "Agent Settings: \n" + "Agent Turning Probability: " + Settings.AGENT_TURNPROB + "\n"
+				+ "Simple room connections : " + Settings.ROOMSIMPLECONNECTIONS + "\n"
+				+ "Connecting only to middle Room: " + Settings.CONNECT_ONLY_TO_MIDDLE_ROOM;
+		agentsLbl.setText(agentOptions);
 	}
 
 }

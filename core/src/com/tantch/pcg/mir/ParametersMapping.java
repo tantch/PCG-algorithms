@@ -44,11 +44,11 @@ public class ParametersMapping {
 
 	public static void setAmbient(MIRTools mir) {
 
-		float light = ((1 - mir.getDark()) * 0.6f + 0.4f);
+		float light = ((1 - mir.getDark()) * 0.2f + 0.8f);
 
-		Settings.RGB[0] = mir.getAggressive() / 2f * light + 0.5f;
-		Settings.RGB[1] = mir.getDanceable() / 2f * light + 0.5f;
-		Settings.RGB[2] = mir.getSad() / 2f * light + 0.5f;
+		Settings.RGB[0] = mir.getAggressive()  * light ;
+		Settings.RGB[1] = mir.getDanceable()  * light ;
+		Settings.RGB[2] = mir.getSad()* light;
 
 	}
 

@@ -7,6 +7,8 @@ import java.util.Random;
 import com.tantch.pcg.assets.Monster;
 import com.tantch.pcg.assets.Player;
 import com.tantch.pcg.evolutionarysearch.EvSearch;
+import com.tantch.pcg.levelgeneration.BNFGrammar;
+import com.tantch.pcg.levelgeneration.BNFNode;
 import com.tantch.pcg.mapgeneration.agents.ConnectorDAgent;
 import com.tantch.pcg.mapgeneration.representations.DunMap;
 import com.tantch.pcg.mapgeneration.representations.DunRoom;
@@ -116,7 +118,22 @@ public class MyGame {
 			ParametersMapping.setMapSettings(mir);
 			ParametersMapping.setAgentSettings(mir);
 			ParametersMapping.setAmbient(mir);
+			ParametersMapping.setPlayerStatFocus(mir);
 		}
+	}
+
+	public void generateLevel() {
+		BNFGrammar.initDefaultGrammar();
+
+		Debug.logBNFGrammar();
+		int[] seq = BNFGrammar.generateRandomSeed();
+		ArrayList<BNFNode> res = BNFGrammar.getResult(seq);
+		System.out.println(res.toString());
+		
+		BNFGrammar.loadToDunMap(this.dmap,res);
+		
+		
+		
 	}
 
 	public String getSelectedSong() {

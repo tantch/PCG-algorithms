@@ -195,7 +195,7 @@ public class Player implements EvRepresentation {
 
 	public boolean canMove(float delta) {
 		timePassed += delta;
-		return timePassed > 1 / (2.0 * speed);
+		return timePassed > 1f / (speed);
 		
 
 	}

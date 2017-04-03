@@ -27,6 +27,16 @@ public class DunRoom {
 		return roomId;
 	}
 
+	public void setAsBossRoom(DunMap dmap) {
+		//TODO
+		int[] pos = getPositionInRoom();
+		dmap.addMonster(pos[0], pos[1]);
+		
+		
+		
+		
+	}
+
 
 
 }

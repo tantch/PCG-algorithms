@@ -31,13 +31,17 @@ public class MyGdxGame extends Game {
 	public void dispose() {
 		batch.dispose();
 	}
-
-	public void startGame(String selectedSong) throws IOException, InterruptedException {
+	
+	public void loadMusic(String selectedSong) throws IOException, InterruptedException{
 		game = new MyGame();
 		game.loadMusic(selectedSong);
+	}
+
+	public void startGame()  {
+		
 		game.generateMap();
 		game.load();
-		batch.setColor(Settings.RGB[0],Settings.RGB[1],Settings.RGB[2],1);
+		game.generateLevel();
 		DMapScreen screen = new DMapScreen(game.getDMap(), this);
 		setScreen(screen);
 	}

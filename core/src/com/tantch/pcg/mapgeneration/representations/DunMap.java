@@ -12,15 +12,19 @@ public class DunMap {
 	private MpCell[][] map;
 	private ArrayList<DunRoom> rooms;
 	private ArrayList<Integer> unvisitedRooms;
+	private ArrayList<Integer> emptyRooms;
+
 	private Player player;
 	private Monster mons;
 	private int size;
-	private int middleRoom=-1;
+	private int middleRoom = -1;
 
 	public DunMap(int size) {
 		this.size = size;
 		rooms = new ArrayList<DunRoom>();
 		unvisitedRooms = new ArrayList<Integer>();
+		emptyRooms = new ArrayList<Integer>();
+
 		init();
 
 	}
@@ -56,6 +60,12 @@ public class DunMap {
 	public void resetUnvisitedRooms() {
 		for (DunRoom droom : rooms) {
 			unvisitedRooms.add(droom.getRoomId());
+		}
+	}
+
+	public void resetEmptyRooms() {
+		for (DunRoom droom : rooms) {
+			emptyRooms.add(droom.getRoomId());
 		}
 	}
 
@@ -177,15 +187,32 @@ public class DunMap {
 					int r = getRoomId(x, y);
 					if (r != -1) {
 						System.out.println(" Middle room is: " + r);
-						middleRoom=r;
+						middleRoom = r;
 						return rooms.get(r);
 					}
 				}
 			}
 			return rooms.get(0);
-		}else{
+		} else {
 			return rooms.get(middleRoom);
 		}
+	}
+
+	public DunRoom getEmptyRoom() {
+
+		if (emptyRooms == null || emptyRooms.size() == 0) {
+			resetEmptyRooms();
+		}
+		Random rd = new Random();
+
+		int id = rd.nextInt(emptyRooms.size());
+		return rooms.get(emptyRooms.get(id));
+
+	}
+
+	public void addMonster(int x,int y) {
+		
+		mons.setPosition(x, y);
 	}
 
 }

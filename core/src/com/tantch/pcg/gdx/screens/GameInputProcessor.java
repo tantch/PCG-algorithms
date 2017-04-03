@@ -15,31 +15,36 @@ public class GameInputProcessor implements InputProcessor {
 	@Override
 	public boolean keyDown(int keycode) {
 		if (keycode == Keys.RIGHT) {
-			screen.right=true;
+			screen.right = true;
 		} else if (keycode == Keys.LEFT) {
-			screen.left=true;
+			screen.left = true;
 		} else if (keycode == Keys.UP) {
-			screen.up=true;
+			screen.up = true;
 		} else if (keycode == Keys.DOWN) {
-			screen.down=true;
+			screen.down = true;
 		}
-
+		if(keycode == Keys.SPACE){
+			screen.getGdxPlayer().attack();
+		}
+		screen.getGdxPlayer().moving();
 		return true;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
-		
-		if (keycode == Keys.RIGHT) {
-			screen.right=false;
-		} else if (keycode == Keys.LEFT) {
-			screen.left=false;
-		} else if (keycode == Keys.UP) {
-			screen.up=false;
-		} else if (keycode == Keys.DOWN) {
-			screen.down=false;
-		}
 
+		if (keycode == Keys.RIGHT) {
+			screen.right = false;
+		} else if (keycode == Keys.LEFT) {
+			screen.left = false;
+		} else if (keycode == Keys.UP) {
+			screen.up = false;
+		} else if (keycode == Keys.DOWN) {
+			screen.down = false;
+		}
+		if (!screen.right && !screen.left && !screen.down && !screen.up) {
+			screen.getGdxPlayer().idle();
+		}
 		return true;
 	}
 
