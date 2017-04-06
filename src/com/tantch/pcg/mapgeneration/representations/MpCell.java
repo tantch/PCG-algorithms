@@ -1,6 +1,8 @@
 package com.tantch.pcg.mapgeneration.representations;
 
 import java.util.HashMap;
+
+import com.tantch.pcg.assets.Monster;
 import com.tantch.pcg.utils.Debug;
 
 public class MpCell {
@@ -14,6 +16,8 @@ public class MpCell {
 	private CellType type;
 	private boolean[] debugDivisions = { false, false };
 	private int x, y;
+
+	private Monster mns;
 
 	public MpCell(CellType type, int x, int y) {
 
@@ -145,6 +149,16 @@ public class MpCell {
 			rmcnts.replace(id, rmcnts.get(id) + 1);
 		} else {
 			rmcnts.put(id, 1);
+		}
+	}
+
+	public void monsterInCell(Monster ms) {
+		this.mns = ms;
+	}
+
+	public void receiveAttack() {
+		if (mns != null) {
+			mns.die();
 		}
 	}
 

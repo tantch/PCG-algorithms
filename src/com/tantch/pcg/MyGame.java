@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.json.simple.parser.ParseException;
+
 import com.tantch.pcg.assets.Monster;
 import com.tantch.pcg.assets.Player;
 import com.tantch.pcg.evolutionarysearch.EvSearch;
@@ -108,7 +110,7 @@ public class MyGame {
 		dmap.loadMonster(mns);
 	}
 
-	public void loadMusic(String selectedSong) throws IOException, InterruptedException {
+	public void loadMusic(String selectedSong) throws IOException, InterruptedException, ParseException {
 		System.out.println("Loading...");
 		this.selectedSong = selectedSong;
 		boolean res = mir.loadDescriptors(selectedSong);

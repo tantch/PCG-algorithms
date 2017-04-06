@@ -27,5 +27,8 @@ public class Settings {
 	public static int PLAYER_ARMOR_MULTIPLIER = 1;
 	public static int PLAYER_LUCK_MULTIPLIER = 1;
 	public static int PLAYER_ATKSPEED_MULTIPLIER = 1;
+	
+	public static final float PLAYER_ATTACK_BASE_COOLDOWN = 0.5f;
+	public static final float PLAYER_MOVE_BASE_COOLDOWN = 1f;
 
 }

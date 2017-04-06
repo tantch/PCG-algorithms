@@ -22,25 +22,29 @@ public class Monster implements EvRepresentation {
 	private int armor;
 	private int speed;
 	private int luck;
-	
-	//map
-	private int mapX,mapY;
-	
 
-	public void setPosition(int x, int y){
+	// map
+	private int mapX, mapY;
+
+	private boolean dead=false;
+
+	public void setPosition(int x, int y) {
+		
 		mapX = x;
 		mapY = y;
+		
 	}
-	public int[] getPosition(){
+
+	public int[] getPosition() {
 		int[] res = new int[2];
-		res[0]= mapX;
-		res[1]=mapY;
+		res[0] = mapX;
+		res[1] = mapY;
 		return res;
 	}
-	
-	private void reset(){
-		name="";
-		typeName="";
+
+	private void reset() {
+		name = "";
+		typeName = "";
 	}
 
 	public void setStats(int health, int atk, int ats, int arm, int spd, int lck) {
@@ -60,11 +64,11 @@ public class Monster implements EvRepresentation {
 		double ytemp;
 
 		if (xtemp < 0.65 || xtemp > 1.14) {
-			ytemp = - Math.pow(xtemp-0.9, 2);
+			ytemp = -Math.pow(xtemp - 0.9, 2);
 		} else {
 			ytemp = 1 - Math.pow(Math.tan(((xtemp - 0.9) * 10) / (Math.PI)), 2);
 		}
-		ytemp = ytemp*10;
+		ytemp = ytemp * 10;
 
 		Debug.log(this.getClass(), "fitness result for statsum:" + statScore + " -> " + xtemp + " | " + ytemp);
 
@@ -73,8 +77,8 @@ public class Monster implements EvRepresentation {
 
 	private double calculateScore() {
 
-		return valueToScore(luck) + valueToScore(attackSpeed) + valueToScore(attack)
-				+ valueToScore(armor) + valueToScore(maxHealth) + valueToScore(speed);
+		return valueToScore(luck) + valueToScore(attackSpeed) + valueToScore(attack) + valueToScore(armor)
+				+ valueToScore(maxHealth) + valueToScore(speed);
 
 	}
 
@@ -89,7 +93,7 @@ public class Monster implements EvRepresentation {
 		} else if (val == 18) {
 			return 18;
 		} else {
-			return (int) (18 + Math.pow(val-18,2));
+			return (int) (18 + Math.pow(val - 18, 2));
 		}
 	}
 
@@ -176,7 +180,7 @@ public class Monster implements EvRepresentation {
 		return luck;
 	}
 
-	public void loadFromGene(boolean[] seq){
+	public void loadFromGene(boolean[] seq) {
 		this.reset();
 		String temp = "";
 		for (int i = 0; i < seq.length; i++) {
@@ -184,8 +188,7 @@ public class Monster implements EvRepresentation {
 			temp += seq[i] ? "1" : "0";
 
 		}
-		
-		
+
 		maxHealth = Integer.parseInt(temp.substring(0, 5), 2);
 		attack = Integer.parseInt(temp.substring(5, 10), 2);
 		attackSpeed = Integer.parseInt(temp.substring(10, 15), 2);
@@ -193,6 +196,13 @@ public class Monster implements EvRepresentation {
 		speed = Integer.parseInt(temp.substring(20, 25), 2);
 		luck = Integer.parseInt(temp.substring(25, 30), 2);
 
+	}
+
+	public void die() {
+		this.dead = true;
+	}
+	public boolean isDead(){
+		return dead;
 	}
 
 }

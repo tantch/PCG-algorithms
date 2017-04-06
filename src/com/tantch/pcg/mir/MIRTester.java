@@ -4,11 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.json.simple.parser.ParseException;
+
 import com.tantch.pcg.utils.Settings;
 
 public class MIRTester {
 
-	public static void main(String[] args) throws IOException, InterruptedException {
+	public static void main(String[] args) throws IOException, InterruptedException, ParseException {
 
 		File folder = new File("/home/pim/Music");
 

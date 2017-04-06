@@ -25,7 +25,9 @@ public class Player implements EvRepresentation {
 	// map
 	private int mapX = 0;
 	private int mapY = 0;
-	private float timePassed = 0;
+	private float moveTimer = 0;
+
+	private float attackTimer = 0;
 
 	public Player(String name) {
 		this.name = name;
@@ -35,7 +37,7 @@ public class Player implements EvRepresentation {
 	public void setPosition(int x, int y) {
 		mapX = x;
 		mapY = y;
-		timePassed = 0;
+		moveTimer = Settings.PLAYER_MOVE_BASE_COOLDOWN;
 	}
 
 	public void setDefaultStats() {
@@ -64,13 +66,12 @@ public class Player implements EvRepresentation {
 
 		ytemp = -1 * Math.pow((xtemp - 0.8) * 10, 2) + 1;
 
-		ytemp += 0.1 * ((Settings.PLAYER_SPEED_MULTIPLIER - 1) / 2f) * (speed-1);
-		ytemp += 0.1 * ((Settings.PLAYER_LIFE_MULTIPLIER - 1) / 2f) * (maxLife-1);
-		ytemp += 0.1 * ((Settings.PLAYER_ATTACK_MULTIPLIER - 1) / 2f) * (attack-1);
+		ytemp += 0.1 * ((Settings.PLAYER_SPEED_MULTIPLIER - 1) / 2f) * (speed - 1);
+		ytemp += 0.1 * ((Settings.PLAYER_LIFE_MULTIPLIER - 1) / 2f) * (maxLife - 1);
+		ytemp += 0.1 * ((Settings.PLAYER_ATTACK_MULTIPLIER - 1) / 2f) * (attack - 1);
 		ytemp += 0.1 * ((Settings.PLAYER_ARMOR_MULTIPLIER - 1) / 2f) * armor;
 		ytemp += 0.1 * ((Settings.PLAYER_LUCK_MULTIPLIER - 1) / 2f) * luck;
-		ytemp += 0.1 * ((Settings.PLAYER_ATKSPEED_MULTIPLIER - 1) / 2f) * (atkSpeed -1);
-
+		ytemp += 0.1 * ((Settings.PLAYER_ATKSPEED_MULTIPLIER - 1) / 2f) * (atkSpeed - 1);
 
 		Debug.log(this.getClass(), "fitness result for statsum:" + score + " -> " + xtemp + " | " + ytemp);
 
@@ -80,7 +81,7 @@ public class Player implements EvRepresentation {
 	private int calculateStatsScore() {
 		int tScore = 0;
 
-		int tmpScore = (int) Math.floor(Math.pow(maxLife -1, 2));
+		int tmpScore = (int) Math.floor(Math.pow(maxLife - 1, 2));
 		tScore += tmpScore;
 		tmpScore = (int) Math.floor(Math.pow(attack - 1, 2));
 		tScore += tmpScore;
@@ -104,7 +105,7 @@ public class Player implements EvRepresentation {
 	public boolean[] getGeneSeq() {
 		boolean[] seq = new boolean[SEQSIZE];
 
-		boolean[] seqStr = BitOperations.intToBits(maxLife -1 , 3);
+		boolean[] seqStr = BitOperations.intToBits(maxLife - 1, 3);
 		for (int i = 0; i < seqStr.length; i++) {
 			seq[i] = seqStr[i];
 		}
@@ -184,7 +185,7 @@ public class Player implements EvRepresentation {
 
 		}
 
-		maxLife = Integer.parseInt(temp.substring(0, 3), 2) +1;
+		maxLife = Integer.parseInt(temp.substring(0, 3), 2) + 1;
 		attack = Integer.parseInt(temp.substring(3, 6), 2) + 1;
 		armor = Integer.parseInt(temp.substring(6, 9), 2);
 		speed = Integer.parseInt(temp.substring(9, 12), 2) + 1;
@@ -193,11 +194,35 @@ public class Player implements EvRepresentation {
 
 	}
 
-	public boolean canMove(float delta) {
-		timePassed += delta;
-		return timePassed > 1f / (speed);
-		
+	public boolean canMove() {
+		return moveTimer <= 0;
 
+	}
+
+
+	public void update(float delta) {
+		if (moveTimer > 0) {
+			moveTimer -= delta * speed;
+
+		}
+		if (attackTimer > 0) {
+			attackTimer -= delta * atkSpeed;
+		}
+	}
+
+	public boolean attack() {
+
+		if (attackTimer <= 0) {
+			attackTimer = Settings.PLAYER_ATTACK_BASE_COOLDOWN;
+			return true;
+		}
+
+		return false;
+
+	}
+
+	public boolean isAttacking() {
+		return attackTimer > 0;
 	}
 
 }

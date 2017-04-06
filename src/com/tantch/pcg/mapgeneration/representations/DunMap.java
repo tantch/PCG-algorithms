@@ -210,9 +210,25 @@ public class DunMap {
 
 	}
 
-	public void addMonster(int x,int y) {
-		
+	public void addMonster(int x, int y) {
+		System.out.println("MONSTER IN " + x + "|" +  y);
 		mons.setPosition(x, y);
+		map[y][x].monsterInCell(mons);
+	}
+
+	public void playerAttack() {
+
+		if (player.attack()) {
+
+			int pos[] = player.getPosition();
+			
+			map[pos[1]][pos[0]+1].receiveAttack();
+		}
+
+	}
+
+	public void update(float delta) {
+		player.update(delta);
 	}
 
 }
