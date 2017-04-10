@@ -51,6 +51,13 @@ public class MpCell {
 	}
 
 	public int getRoomId() {
+		if(roomId==-1){
+			if(type==CellType.EMPTY){
+				return -1;
+			}else{
+				return -2;
+			}
+		}
 		return roomId;
 	}
 

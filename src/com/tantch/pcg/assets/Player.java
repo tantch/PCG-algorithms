@@ -25,9 +25,7 @@ public class Player implements EvRepresentation {
 	// map
 	private int mapX = 0;
 	private int mapY = 0;
-	private float moveTimer = 0;
 
-	private float attackTimer = 0;
 
 	public Player(String name) {
 		this.name = name;
@@ -37,7 +35,6 @@ public class Player implements EvRepresentation {
 	public void setPosition(int x, int y) {
 		mapX = x;
 		mapY = y;
-		moveTimer = Settings.PLAYER_MOVE_BASE_COOLDOWN;
 	}
 
 	public void setDefaultStats() {
@@ -191,38 +188,10 @@ public class Player implements EvRepresentation {
 		speed = Integer.parseInt(temp.substring(9, 12), 2) + 1;
 		luck = Integer.parseInt(temp.substring(12, 15), 2);
 		atkSpeed = Integer.parseInt(temp.substring(15, 18), 2) + 1;
-
+		
+		curLife = maxLife;
 	}
 
-	public boolean canMove() {
-		return moveTimer <= 0;
-
-	}
-
-
-	public void update(float delta) {
-		if (moveTimer > 0) {
-			moveTimer -= delta * speed;
-
-		}
-		if (attackTimer > 0) {
-			attackTimer -= delta * atkSpeed;
-		}
-	}
-
-	public boolean attack() {
-
-		if (attackTimer <= 0) {
-			attackTimer = Settings.PLAYER_ATTACK_BASE_COOLDOWN;
-			return true;
-		}
-
-		return false;
-
-	}
-
-	public boolean isAttacking() {
-		return attackTimer > 0;
-	}
+	
 
 }

@@ -96,7 +96,7 @@ public class ConnectorDAgent extends DAgent {
 		yRem -= getDirValue(true);
 		
 		int newid= map.getRoomId(posx, posy);
-		if(newid != -1 && lastid!=newid && targetid != newid){
+		if(newid >=0 && lastid!=newid && targetid != newid){
 			lastid=newid;
 			map.markAsVisited(map.getRooms().get(newid));
 		}

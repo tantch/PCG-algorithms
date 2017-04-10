@@ -102,7 +102,7 @@ public class MyGame {
 
 		Monster mns = new Monster();
 		mns.setStats(10, 10, 10, 10, 10, 10);
-
+ 
 		es = new EvSearch();
 		es.init(mns);
 		es.run(Settings.EA_ITERATIONS);
@@ -125,7 +125,7 @@ public class MyGame {
 	}
 
 	public void generateLevel() {
-		BNFGrammar.initDefaultGrammar();
+		/*BNFGrammar.initDefaultGrammar();
 
 		Debug.logBNFGrammar();
 		int[] seq = BNFGrammar.generateRandomSeed();
@@ -134,7 +134,7 @@ public class MyGame {
 		
 		BNFGrammar.loadToDunMap(this.dmap,res);
 		
-		
+		*/
 		
 	}
 

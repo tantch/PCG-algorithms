@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import com.tantch.pcg.evolutionarysearch.BNFSeq;
 import com.tantch.pcg.mapgeneration.representations.DunMap;
 
 public class BNFGrammar {
@@ -34,8 +35,7 @@ public class BNFGrammar {
 		tNode = new BNFNode("LockedExit");
 		tNode.setAsTerminal();
 		addDefinedNode("LockedExit", tNode);
-		
-		
+
 		// X-> <X> <X>
 		// x-> Special Room
 		tNode = new BNFNode("X");
@@ -52,11 +52,12 @@ public class BNFGrammar {
 		rules.add(rl);
 
 		addDefinedNode("X", tNode);
-		
+
+
+
 		tNode = new BNFNode("SpecialRoom");
 		tNode.setAsTerminal();
 		addDefinedNode("SpecialRoom", tNode);
-
 
 	}
 
@@ -94,55 +95,53 @@ public class BNFGrammar {
 	}
 
 	public static ArrayList<BNFNode> getResult(int[] seq) {
+		int recCount = 0;
 		ArrayList<BNFNode> list = new ArrayList<>();
 		boolean finished = false;
-		int i =0;
+		int i = 0;
 		ArrayList<BNFNode> temp1 = S.getResultingNodes(seq[i]);
 		ArrayList<BNFNode> temp2 = new ArrayList<>();
 		while (!finished) {
-			finished=true;
+			finished = true;
 			for (BNFNode node : temp1) {
-				System.out.println("Processing " +  node.getId());
-				if(node.isTerminal()){
-					
+				if (node.isTerminal()) {
+
 					list.add(node);
-				}else{
+				} else {
 					i++;
-					i = i% seq.length;
-					finished=false;
-					temp2.addAll(node.getResultingNodes(seq[i]));
-					
-					
-					
+					i = i % seq.length;
+					finished = false;
+					recCount++;
+					if (recCount < 30) {
+
+						temp2.addAll(node.getResultingNodes(seq[i]));
+					}
+
 				}
-				
-				
+
 			}
 			temp1 = temp2;
 			temp2 = new ArrayList<>();
-			
-			
-			
+
 		}
 
 		return list;
 
 	}
-	
-	public static int[] generateRandomSeed(){
-		
-		Random rd= new Random();
+
+	public static BNFSeq generateRandomSeed() {
+
+		Random rd = new Random();
 		int[] ret = new int[10];
-		for(int i=0;i<10;i++){
+		for (int i = 0; i < 10; i++) {
 			ret[i] = rd.nextInt(100);
 		}
-		return ret;
+		BNFSeq seq = new BNFSeq(ret);
+		return seq;
 	}
 
-	
-	public static void loadToDunMap(DunMap dmap, ArrayList<BNFNode> res){
-		
-		
+	public static void loadToDunMap(DunMap dmap, ArrayList<BNFNode> res) {
+
 		for (BNFNode node : res) {
 			switch (node.getId()) {
 			case "BossRoom":
@@ -152,8 +151,8 @@ public class BNFGrammar {
 			default:
 				break;
 			}
-			
+
 		}
-		
+
 	}
 }

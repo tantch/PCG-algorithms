@@ -185,7 +185,7 @@ public class DunMap {
 			for (int x = size / 2; x < size; x++) {
 				for (int y = size / 2; y < size; y++) {
 					int r = getRoomId(x, y);
-					if (r != -1) {
+					if (r >=0) {
 						System.out.println(" Middle room is: " + r);
 						middleRoom = r;
 						return rooms.get(r);
@@ -216,19 +216,6 @@ public class DunMap {
 		map[y][x].monsterInCell(mons);
 	}
 
-	public void playerAttack() {
 
-		if (player.attack()) {
-
-			int pos[] = player.getPosition();
-			
-			map[pos[1]][pos[0]+1].receiveAttack();
-		}
-
-	}
-
-	public void update(float delta) {
-		player.update(delta);
-	}
 
 }
