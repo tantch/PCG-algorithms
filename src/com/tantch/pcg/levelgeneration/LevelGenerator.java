@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.tantch.pcg.evolutionarysearch.BNFSeq;
-import com.tantch.pcg.evolutionarysearch.GeneSequence;
 import com.tantch.pcg.utils.Debug;
 import com.tantch.pcg.utils.Settings;
 
@@ -13,9 +12,10 @@ public class LevelGenerator {
 	private int v = 50;
 	private int u = 50;
 	private ArrayList<BNFSeq> seeds;
-
-	public LevelGenerator() {
+	private int roomsCnt;
+	public LevelGenerator(int numberofRooms){
 		seeds = new ArrayList<BNFSeq>();
+		this.roomsCnt = numberofRooms;
 	}
 
 	public void run() {
@@ -34,6 +34,7 @@ public class LevelGenerator {
 		}
 
 		System.out.println(seeds);
+		System.out.println("Final:" + seeds.get(0).getResult());
 
 	}
 
@@ -60,7 +61,7 @@ public class LevelGenerator {
 
 	private void calculateFitness() {
 		for (int i = 0; i < seeds.size(); i++) {
-			seeds.get(i).calculateFitnessValue();
+			seeds.get(i).calculateFitnessValue(roomsCnt);
 		}
 
 	}
@@ -79,6 +80,10 @@ public class LevelGenerator {
 	public void sortPop() {
 		seeds.sort((g1, g2) -> Double.valueOf(g2.getFitnessValue()).compareTo(Double.valueOf(g1.getFitnessValue())));
 
+	}
+
+	public ArrayList<BNFNode> getBestCandidate() {
+		return seeds.get(0).getResult();
 	}
 
 }

@@ -6,7 +6,7 @@ public class TestGrammar {
 
 	public static void main(String[] args) {
 
-	 LevelGenerator lev = new LevelGenerator();
+	 LevelGenerator lev = new LevelGenerator(20);
 	 lev.run();
 		
 		

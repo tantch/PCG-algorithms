@@ -4,9 +4,14 @@ import java.util.Random;
 
 public class DunRoom {
 
+	
+	public enum RoomType{
+		NormalRoom,BossRoom,TreasureRoom,ExitRoom,StartingRoom
+	}
+	
 	private int roomId;
 	private int x1, y1, x2, y2;
-
+	private RoomType roomType = RoomType.NormalRoom;
 	public DunRoom(int roomId, int x1, int y1, int x2, int y2) {
 		this.roomId = roomId;
 		this.x1 = x1;
@@ -26,17 +31,27 @@ public class DunRoom {
 	public int getRoomId() {
 		return roomId;
 	}
+	
+	public RoomType getRoomType(){
+		return roomType;
+	}
 
 	public void setAsBossRoom(DunMap dmap) {
 		//TODO
 		int[] pos = getPositionInRoom();
 		dmap.addMonster(pos[0], pos[1]);
-		
+		roomType = RoomType.BossRoom;
 		
 		
 		
 	}
 
-
+	public void setAsTreasureRoom(DunMap dmap){
+		int[] pos = getPositionInRoom();
+		dmap.addTreasure(pos[0], pos[1]);
+		roomType = RoomType.TreasureRoom;
+		
+		
+	}
 
 }

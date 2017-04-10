@@ -147,7 +147,8 @@ public class BNFGrammar {
 			case "BossRoom":
 				dmap.getEmptyRoom().setAsBossRoom(dmap);
 				break;
-
+			case "TreasureRoom":
+				dmap.getEmptyRoom().setAsTreasureRoom(dmap);
 			default:
 				break;
 			}

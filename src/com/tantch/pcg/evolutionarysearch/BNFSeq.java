@@ -19,7 +19,7 @@ public class BNFSeq {
 		this.seq = seq;
 	}
 
-	public void calculateFitnessValue() {
+	public void calculateFitnessValue(float roomCnt) {
 
 		res = BNFGrammar.getResult(seq);
 
@@ -30,7 +30,7 @@ public class BNFSeq {
 		 * 
 		 * }
 		 */
-		float x = res.size() / 5f;
+		float x = res.size() / roomCnt;
 		fitnessValue = (float) (-1 * Math.pow(x - 1, 2) + 1);
 
 	}
@@ -46,5 +46,9 @@ public class BNFSeq {
 
 	public int[] getSeq() {
 		return seq;
+	}
+
+	public ArrayList<BNFNode> getResult() {
+		return res;
 	}
 }

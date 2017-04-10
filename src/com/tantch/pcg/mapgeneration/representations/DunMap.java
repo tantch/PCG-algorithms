@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.tantch.pcg.assets.Monster;
 import com.tantch.pcg.assets.Player;
+import com.tantch.pcg.assets.Treasure;
 import com.tantch.pcg.mapgeneration.representations.MpCell.CellType;
 
 public class DunMap {
@@ -16,6 +17,7 @@ public class DunMap {
 
 	private Player player;
 	private Monster mons;
+	private Treasure treasure;
 	private int size;
 	private int middleRoom = -1;
 
@@ -185,7 +187,7 @@ public class DunMap {
 			for (int x = size / 2; x < size; x++) {
 				for (int y = size / 2; y < size; y++) {
 					int r = getRoomId(x, y);
-					if (r >=0) {
+					if (r >= 0) {
 						System.out.println(" Middle room is: " + r);
 						middleRoom = r;
 						return rooms.get(r);
@@ -211,11 +213,17 @@ public class DunMap {
 	}
 
 	public void addMonster(int x, int y) {
-		System.out.println("MONSTER IN " + x + "|" +  y);
+		System.out.println("MONSTER IN " + x + "|" + y);
 		mons.setPosition(x, y);
 		map[y][x].monsterInCell(mons);
 	}
 
+	public void addTreasure(int i, int j) {
+		this.treasure = new Treasure(i, j);
+	}
 
+	public Treasure getTreasure() {
+		return treasure;
+	}
 
 }

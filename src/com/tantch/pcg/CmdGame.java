@@ -17,15 +17,17 @@ public class CmdGame {
 	public static void main(String[] args) throws IOException, InterruptedException, ParseException {
 
 		MyGame game = new MyGame();
-		game.loadMusic("/home/pim/Music/Rush.mp3");
+		game.loadMusic("/home/pim/Music/01 - Brianstorm.mp3");
 		game.generateMap();
 		game.load();
+		game.generateLevel();
 		Draw.drawMap(game.getDMap(), false, true);
 		Draw.drawMap(game.getDMap(), false, false);
 		createGameFiles(game);
 
 	}
 
+	@SuppressWarnings("unchecked")
 	private static void createGameFiles(MyGame game) {
 
 		DunMap dmap = game.getDMap();
@@ -45,6 +47,15 @@ public class CmdGame {
 		}
 
 		map.put("board", board);
+		
+		JSONArray treasures =  new JSONArray();
+		JSONObject ts = new JSONObject();
+		ts.put("x",new Integer( dmap.getTreasure().getX()));
+		ts.put("y",new Integer(dmap.getTreasure().getY()));
+		treasures.add(ts);
+
+		
+		map.put("treasures", treasures);
 
 		try (FileWriter file = new FileWriter("/home/pim/Desktop/Gamefiles/map.json")) {
 
