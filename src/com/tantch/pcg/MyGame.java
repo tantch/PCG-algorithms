@@ -99,14 +99,8 @@ public class MyGame {
 		dmap.loadPlayer(player);
 		Debug.logPlayer(player);
 
-		Monster mns = new Monster();
-		mns.setStats(10, 10, 10, 10, 10, 10);
- 
-		es = new EvSearch();
-		es.init(mns);
-		es.run(Settings.EA_ITERATIONS);
-		mns.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
-		dmap.loadMonster(mns);
+		
+
 	}
 
 	public void loadMusic(String selectedSong) throws IOException, InterruptedException, ParseException {
@@ -125,10 +119,10 @@ public class MyGame {
 
 	public void generateLevel() {
 
-		 LevelGenerator lev = new LevelGenerator(20);
-		 lev.run();
-		 BNFGrammar.loadToDunMap(dmap,lev.getBestCandidate());
-		
+		LevelGenerator lev = new LevelGenerator(20);
+		lev.run();
+		BNFGrammar.loadToDunMap(dmap, lev.getBestCandidate());
+
 	}
 
 	public String getSelectedSong() {

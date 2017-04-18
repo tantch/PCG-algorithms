@@ -2,6 +2,10 @@ package com.tantch.pcg.mapgeneration.representations;
 
 import java.util.Random;
 
+import com.tantch.pcg.assets.Monster;
+import com.tantch.pcg.evolutionarysearch.EvSearch;
+import com.tantch.pcg.utils.Settings;
+
 public class DunRoom {
 
 	
@@ -37,9 +41,17 @@ public class DunRoom {
 	}
 
 	public void setAsBossRoom(DunMap dmap) {
-		//TODO
-		int[] pos = getPositionInRoom();
-		dmap.addMonster(pos[0], pos[1]);
+		Monster mns = new Monster();
+		mns.setStats(10, 10, 10, 10, 10, 10);
+		EvSearch es = new EvSearch();
+
+		es = new EvSearch();
+		es.init(mns);
+		es.run(Settings.EA_ITERATIONS);
+		mns.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
+		dmap.loadMonster(mns,roomId);
+
+		
 		roomType = RoomType.BossRoom;
 		
 		

@@ -13,11 +13,12 @@ import com.tantch.pcg.mapgeneration.representations.DunMap;
 import com.tantch.pcg.mapgeneration.representations.MpCell;
 
 public class CmdGame {
+	static String musicPath = "/home/pim/Music/01 - Brianstorm.ogg";
 
 	public static void main(String[] args) throws IOException, InterruptedException, ParseException {
-
+		
 		MyGame game = new MyGame();
-		game.loadMusic("/home/pim/Music/01 - Brianstorm.mp3");
+		game.loadMusic(musicPath);
 		game.generateMap();
 		game.load();
 		game.generateLevel();
@@ -31,15 +32,20 @@ public class CmdGame {
 	private static void createGameFiles(MyGame game) {
 
 		DunMap dmap = game.getDMap();
+		
+
+		
+		
 		JSONObject map = new JSONObject();
+		map.put("music",musicPath);
 		map.put("size", dmap.getSize());
 
 		JSONArray board = new JSONArray();
 		MpCell[][] cells = dmap.getMap();
-		for (int i=0;i<cells.length;i++) {
+		for (int i = 0; i < cells.length; i++) {
 			JSONArray list = new JSONArray();
 
-			for(int j=0;j<cells.length;j++){	
+			for (int j = 0; j < cells.length; j++) {
 				list.add(cells[i][j].getRoomId());
 			}
 			board.add(list);
@@ -48,13 +54,25 @@ public class CmdGame {
 
 		map.put("board", board);
 		
-		JSONArray treasures =  new JSONArray();
+		JSONArray monsters = new JSONArray();
+		for(int i =0;i<dmap.getMoster().size();i++){
+			JSONObject temp = new JSONObject();
+			int[] pos = dmap.getMoster().get(i).getPosition();
+			temp.put("x",new Integer(pos[0]));
+			temp.put("y",new Integer(pos[1]));
+
+			monsters.add(temp);
+		}
+		
+		map.put("monsters",monsters);
+		
+		
+		JSONArray treasures = new JSONArray();
 		JSONObject ts = new JSONObject();
-		ts.put("x",new Integer( dmap.getTreasure().getX()));
-		ts.put("y",new Integer(dmap.getTreasure().getY()));
+		ts.put("x", new Integer(dmap.getTreasure().getX()));
+		ts.put("y", new Integer(dmap.getTreasure().getY()));
 		treasures.add(ts);
 
-		
 		map.put("treasures", treasures);
 
 		try (FileWriter file = new FileWriter("/home/pim/Desktop/Gamefiles/map.json")) {
@@ -67,27 +85,24 @@ public class CmdGame {
 		}
 
 		System.out.println(map);
-		
-		
-		//player
-		
+
+		// player
+
 		Player player = dmap.getPlayer();
-		
+
 		JSONObject pl = new JSONObject();
-		
-		pl.put("px",new Integer(player.getPosition()[0]));
-		pl.put("py",new Integer(player.getPosition()[1]));
-		
-		pl.put("maxLife",player.getMaxLife());
-		pl.put("curLife",player.getCurLife());
-		pl.put("attack",player.getAttack());
+
+		pl.put("px", new Integer(player.getPosition()[0]));
+		pl.put("py", new Integer(player.getPosition()[1]));
+
+		pl.put("maxLife", player.getMaxLife());
+		pl.put("curLife", player.getCurLife());
+		pl.put("attack", player.getAttack());
 		pl.put("armor", player.getArmor());
-		pl.put("speed",player.getSpeed());
-		pl.put("luck",player.getLuck());
-		pl.put("atkSpeed",player.getAttack());
-		
-		
-		
+		pl.put("speed", player.getSpeed());
+		pl.put("luck", player.getLuck());
+		pl.put("atkSpeed", player.getAttack());
+
 		try (FileWriter file = new FileWriter("/home/pim/Desktop/Gamefiles/player.json")) {
 
 			file.write(pl.toJSONString());
@@ -98,10 +113,6 @@ public class CmdGame {
 		}
 
 		System.out.println(pl);
-		
-		
-		
-		
 
 	}
 

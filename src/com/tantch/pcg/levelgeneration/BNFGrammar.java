@@ -21,7 +21,7 @@ public class BNFGrammar {
 		// S-> <X>? <Treasure Room> <Boss Room> <Locked Exit>
 
 		BNFRule rl = new BNFRule();
-		rl.setRuleByString("X/TreasureRoom/BossRoom/LockedExit");
+		rl.setRuleByString("X/TreasureRoom/BossRoom/BossRoom/LockedExit");
 		rules.add(rl);
 
 		BNFNode tNode = new BNFNode("TreasureRoom");

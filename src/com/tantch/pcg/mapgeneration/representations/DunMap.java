@@ -16,7 +16,7 @@ public class DunMap {
 	private ArrayList<Integer> emptyRooms;
 
 	private Player player;
-	private Monster mons;
+	private ArrayList<Monster> mons;
 	private Treasure treasure;
 	private int size;
 	private int middleRoom = -1;
@@ -27,6 +27,7 @@ public class DunMap {
 		unvisitedRooms = new ArrayList<Integer>();
 		emptyRooms = new ArrayList<Integer>();
 
+		mons = new ArrayList<Monster>();
 		init();
 
 	}
@@ -39,10 +40,11 @@ public class DunMap {
 
 	}
 
-	public void loadMonster(Monster mos) {
-		this.mons = mos;
-		int[] pos = rooms.get(0).getPositionInRoom();
-		mons.setPosition(pos[0], pos[1]);
+	public void loadMonster(Monster mos, int roomId) {
+		int[] pos = rooms.get(roomId).getPositionInRoom();
+		mos.setPosition(pos[0], pos[1]);
+		mons.add(mos);
+
 	}
 
 	private void init() {
@@ -174,7 +176,7 @@ public class DunMap {
 		}
 	}
 
-	public Monster getMoster() {
+	public ArrayList<Monster> getMoster() {
 		return mons;
 	}
 
@@ -212,11 +214,11 @@ public class DunMap {
 
 	}
 
-	public void addMonster(int x, int y) {
+	/*public void addMonster(int x, int y) {
 		System.out.println("MONSTER IN " + x + "|" + y);
 		mons.setPosition(x, y);
 		map[y][x].monsterInCell(mons);
-	}
+	}*/
 
 	public void addTreasure(int i, int j) {
 		this.treasure = new Treasure(i, j);
