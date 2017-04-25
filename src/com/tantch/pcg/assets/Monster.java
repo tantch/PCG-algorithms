@@ -5,11 +5,12 @@ import java.util.Random;
 import com.tantch.pcg.evolutionarysearch.EvRepresentation;
 import com.tantch.pcg.utils.BitOperations;
 import com.tantch.pcg.utils.Debug;
+import com.tantch.pcg.utils.Settings;
 
 public class Monster implements EvRepresentation {
 
 	// evolutionary variables
-	private static int SEQSIZE = 30;
+	private static int SEQSIZE = 18;
 
 	// Base Stats
 	private String name;
@@ -26,13 +27,13 @@ public class Monster implements EvRepresentation {
 	// map
 	private int mapX, mapY;
 
-	private boolean dead=false;
+	private boolean dead = false;
 
 	public void setPosition(int x, int y) {
-		
+
 		mapX = x;
 		mapY = y;
-		
+
 	}
 
 	public int[] getPosition() {
@@ -58,43 +59,35 @@ public class Monster implements EvRepresentation {
 
 	@Override
 	public double calculateFitness() {
-		double statScore = calculateScore();
-		double dificultyScore = 27;
-		double xtemp = statScore / dificultyScore;
+		double score = calculateStatsScore();
+		double dif = 16;
+		double xtemp = score / dif;
 		double ytemp;
 
-		if (xtemp < 0.65 || xtemp > 1.14) {
-			ytemp = -Math.pow(xtemp - 0.9, 2);
-		} else {
-			ytemp = 1 - Math.pow(Math.tan(((xtemp - 0.9) * 10) / (Math.PI)), 2);
-		}
-		ytemp = ytemp * 10;
+		ytemp = -1 * Math.pow((xtemp - 0.8) * 10, 2) + 1;
 
-		Debug.log(this.getClass(), "fitness result for statsum:" + statScore + " -> " + xtemp + " | " + ytemp);
+		Debug.log(this.getClass(), "fitness result for statsum:" + score + " -> " + xtemp + " | " + ytemp);
 
 		return ytemp;
 	}
 
-	private double calculateScore() {
+	private int calculateStatsScore() {
+		int tScore = 0;
 
-		return valueToScore(luck) + valueToScore(attackSpeed) + valueToScore(attack) + valueToScore(armor)
-				+ valueToScore(maxHealth) + valueToScore(speed);
+		int tmpScore = (int) Math.floor(Math.pow(maxHealth - 1, 2));
+		tScore += tmpScore;
+		tmpScore = (int) Math.floor(Math.pow(attack - 1, 2));
+		tScore += tmpScore;
+		tmpScore = (int) Math.floor(Math.pow(armor, 3));
+		tScore += tmpScore;
+		tmpScore = (int) Math.floor(Math.pow(speed - 1, 2));
+		tScore += tmpScore;
+		tmpScore = (int) Math.floor(Math.pow(luck + 1, 3));
+		tScore += tmpScore;
+		tmpScore = (int) Math.floor(Math.pow(attackSpeed - 1, 3));
+		tScore += tmpScore;
+		return tScore;
 
-	}
-
-	private int valueToScore(int val) {
-
-		if (val < 14) {
-			return (val - 8);
-		} else if (val < 17) {
-			return ((val - 13) * 2) + 5;
-		} else if (val == 17) {
-			return 14;
-		} else if (val == 18) {
-			return 18;
-		} else {
-			return (int) (18 + Math.pow(val - 18, 2));
-		}
 	}
 
 	@Override
@@ -102,29 +95,29 @@ public class Monster implements EvRepresentation {
 
 		boolean[] seq = new boolean[SEQSIZE];
 
-		boolean[] seqStr = BitOperations.intToBits(maxHealth, 5);
+		boolean[] seqStr = BitOperations.intToBits(maxHealth, 3);
 
 		for (int i = 0; i < seqStr.length; i++) {
 			seq[i] = seqStr[i];
 		}
-		seqStr = BitOperations.intToBits(attack, 5);
+		seqStr = BitOperations.intToBits(attack, 3);
 		for (int i = 0; i < seqStr.length; i++) {
 			seq[i + 5] = seqStr[i];
 		}
-		seqStr = BitOperations.intToBits(attackSpeed, 5);
+		seqStr = BitOperations.intToBits(attackSpeed, 3);
 		for (int i = 0; i < seqStr.length; i++) {
 			seq[i + 5 * 2] = seqStr[i];
 		}
-		seqStr = BitOperations.intToBits(armor, 5);
+		seqStr = BitOperations.intToBits(armor, 3);
 		for (int i = 0; i < seqStr.length; i++) {
 			seq[i + 5 * 3] = seqStr[i];
 		}
-		seqStr = BitOperations.intToBits(speed, 5);
+		seqStr = BitOperations.intToBits(speed, 3);
 		for (int i = 0; i < seqStr.length; i++) {
 			seq[i + 5 * 4] = seqStr[i];
 		}
 
-		seqStr = BitOperations.intToBits(luck, 5);
+		seqStr = BitOperations.intToBits(luck, 3);
 		for (int i = 0; i < seqStr.length; i++) {
 			seq[i + 5 * 5] = seqStr[i];
 		}
@@ -189,19 +182,20 @@ public class Monster implements EvRepresentation {
 
 		}
 
-		maxHealth = Integer.parseInt(temp.substring(0, 5), 2);
-		attack = Integer.parseInt(temp.substring(5, 10), 2);
-		attackSpeed = Integer.parseInt(temp.substring(10, 15), 2);
-		armor = Integer.parseInt(temp.substring(15, 20), 2);
-		speed = Integer.parseInt(temp.substring(20, 25), 2);
-		luck = Integer.parseInt(temp.substring(25, 30), 2);
+		maxHealth = Integer.parseInt(temp.substring(0, 3), 2) + 1;
+		attack = Integer.parseInt(temp.substring(3, 6), 2) + 1;
+		armor = Integer.parseInt(temp.substring(6, 9), 2);
+		speed = Integer.parseInt(temp.substring(9, 12), 2) + 1;
+		luck = Integer.parseInt(temp.substring(12, 15), 2);
+		attackSpeed = Integer.parseInt(temp.substring(15, 18), 2) + 1;
 
 	}
 
 	public void die() {
 		this.dead = true;
 	}
-	public boolean isDead(){
+
+	public boolean isDead() {
 		return dead;
 	}
 

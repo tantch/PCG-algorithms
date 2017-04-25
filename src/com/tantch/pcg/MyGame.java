@@ -114,6 +114,7 @@ public class MyGame {
 			ParametersMapping.setAgentSettings(mir);
 			ParametersMapping.setAmbient(mir);
 			ParametersMapping.setPlayerStatFocus(mir);
+			ParametersMapping.setLevelParameters(mir);
 		}
 	}
 

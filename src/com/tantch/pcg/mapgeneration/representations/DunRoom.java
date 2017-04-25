@@ -54,7 +54,7 @@ public class DunRoom {
 		
 		roomType = RoomType.BossRoom;
 		
-		
+		dmap.setRoomAsFilled(roomId);
 		
 	}
 
@@ -62,7 +62,8 @@ public class DunRoom {
 		int[] pos = getPositionInRoom();
 		dmap.addTreasure(pos[0], pos[1]);
 		roomType = RoomType.TreasureRoom;
-		
+		dmap.setRoomAsFilled(roomId);
+
 		
 	}
 

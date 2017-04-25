@@ -42,22 +42,56 @@ public class BNFGrammar {
 		tNode.setAsNonTerminal();
 		rules = tNode.getRules();
 		rl = new BNFRule();
-		rl.setRuleByString("SpecialRoom");
-		rules.add(rl);
-		rl = new BNFRule();
 		rl.setRuleByString("X/X");
 		rules.add(rl);
 		rl = new BNFRule();
-		rl.setRuleByString("SpecialRoom");
+		rl.setRuleByString("X/X/X");
+		rules.add(rl);
+		rl = new BNFRule();
+		rl.setRuleByString("X/X/X/X");
+		rules.add(rl);
+		rl = new BNFRule();
+		rl.setRuleByString("Zoo");
+		rules.add(rl);
+		rl = new BNFRule();
+		rl.setRuleByString("Temple");
+		rules.add(rl);
+		rl = new BNFRule();
+		rl.setRuleByString("FakeTemple");
+		rules.add(rl);
+		rl = new BNFRule();
+		rl.setRuleByString("Shop");
+		rules.add(rl);
+		rl = new BNFRule();
+		rl.setRuleByString("Bombs");
+		rules.add(rl);
+		rl = new BNFRule();
+		rl.setRuleByString("Trap");
 		rules.add(rl);
 
+		
 		addDefinedNode("X", tNode);
 
 
 
-		tNode = new BNFNode("SpecialRoom");
+		tNode = new BNFNode("Zoo");
 		tNode.setAsTerminal();
-		addDefinedNode("SpecialRoom", tNode);
+		addDefinedNode("Zoo", tNode);
+		tNode = new BNFNode("Temple");
+		tNode.setAsTerminal();
+		addDefinedNode("Temple", tNode);
+		tNode = new BNFNode("FakeTemple");
+		tNode.setAsTerminal();
+		addDefinedNode("FakeTemple", tNode);
+		tNode = new BNFNode("Shop");
+		tNode.setAsTerminal();
+		addDefinedNode("Shop", tNode);
+		tNode = new BNFNode("Bombs");
+		tNode.setAsTerminal();
+		addDefinedNode("Bombs", tNode);
+		tNode = new BNFNode("Trap");
+		tNode.setAsTerminal();
+		addDefinedNode("Trap", tNode);
 
 	}
 

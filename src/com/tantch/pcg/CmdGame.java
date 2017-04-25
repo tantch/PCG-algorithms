@@ -7,13 +7,14 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
+import com.tantch.pcg.assets.Monster;
 import com.tantch.pcg.assets.Player;
 import com.tantch.pcg.mapgeneration.cmd.Draw;
 import com.tantch.pcg.mapgeneration.representations.DunMap;
 import com.tantch.pcg.mapgeneration.representations.MpCell;
 
 public class CmdGame {
-	static String musicPath = "/home/pim/Music/01 - Brianstorm.ogg";
+	static String musicPath = "/home/pim/Music/Anarchy.ogg";
 
 	public static void main(String[] args) throws IOException, InterruptedException, ParseException {
 		
@@ -57,10 +58,14 @@ public class CmdGame {
 		JSONArray monsters = new JSONArray();
 		for(int i =0;i<dmap.getMoster().size();i++){
 			JSONObject temp = new JSONObject();
-			int[] pos = dmap.getMoster().get(i).getPosition();
+			Monster ms = dmap.getMoster().get(i);
+			int[] pos = ms.getPosition();
 			temp.put("x",new Integer(pos[0]));
 			temp.put("y",new Integer(pos[1]));
+			temp.put("life", new Integer(ms.getMaxHealth()));
+			temp.put("armor", new Integer(ms.getArmor()));
 
+			temp.put("atkspeed", new Integer(ms.getAttackSpeed()));
 			monsters.add(temp);
 		}
 		

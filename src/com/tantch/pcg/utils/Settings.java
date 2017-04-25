@@ -28,7 +28,12 @@ public class Settings {
 	public static int PLAYER_LUCK_MULTIPLIER = 1;
 	public static int PLAYER_ATKSPEED_MULTIPLIER = 1;
 	
-	public static final float PLAYER_ATTACK_BASE_COOLDOWN = 0.5f;
-	public static final float PLAYER_MOVE_BASE_COOLDOWN = 1f;
+
+	public static float LEVEL_AGR_VALUE = 1f;
+	public static float LEVEL_CONFUSE_VALUE = 1f;
+	public static float LEVEL_FUN_VALUE = 1f;
+	public static float LEVEL_TRICK_VALUE = 1f;
+	public static float LEVEL_CALM_VALUE = 1f;
+	public static float LEVEL_POSITIVE_VALUE = 1f;
 
 }

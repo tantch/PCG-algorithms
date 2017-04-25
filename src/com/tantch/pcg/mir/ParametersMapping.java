@@ -1,5 +1,6 @@
 package com.tantch.pcg.mir;
 
+import com.sun.org.apache.xml.internal.security.encryption.AgreementMethod;
 import com.tantch.pcg.utils.Settings;
 
 public class ParametersMapping {
@@ -137,6 +138,21 @@ public class ParametersMapping {
 			break;
 		}
 
+	}
+	
+	public static void setLevelParameters(MIRTools mir){
+		
+		float aggressiveValue = mir.getAggressive();
+		float partyValue = mir.getParty();
+		float happyValue = mir.getHappy();
+
+		Settings.LEVEL_AGR_VALUE = aggressiveValue;
+		Settings.LEVEL_FUN_VALUE = partyValue;
+		Settings.LEVEL_POSITIVE_VALUE = happyValue;
+		Settings.LEVEL_TRICK_VALUE = mir.getElectronic();
+		Settings.LEVEL_CALM_VALUE = 1f- mir.getAggressive();
+		Settings.LEVEL_CONFUSE_VALUE = mir.getDanceable();
+		
 	}
 
 }

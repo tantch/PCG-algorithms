@@ -214,11 +214,10 @@ public class DunMap {
 
 	}
 
-	/*public void addMonster(int x, int y) {
-		System.out.println("MONSTER IN " + x + "|" + y);
-		mons.setPosition(x, y);
-		map[y][x].monsterInCell(mons);
-	}*/
+	/*
+	 * public void addMonster(int x, int y) { System.out.println("MONSTER IN " +
+	 * x + "|" + y); mons.setPosition(x, y); map[y][x].monsterInCell(mons); }
+	 */
 
 	public void addTreasure(int i, int j) {
 		this.treasure = new Treasure(i, j);
@@ -226,6 +225,10 @@ public class DunMap {
 
 	public Treasure getTreasure() {
 		return treasure;
+	}
+
+	public void setRoomAsFilled(int roomId) {
+		emptyRooms.remove(new Integer(roomId));
 	}
 
 }
