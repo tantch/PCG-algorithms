@@ -16,7 +16,7 @@ public class ConnectorDAgent extends DAgent {
 	private int targetid;
 	public void setTarget(DunRoom room) {
 		this.targetid = room.getRoomId();
-		int pos[] = room.getPositionInRoom();
+		int pos[] = room.getPositionInRoom(false);
 		xRem = pos[0] - posx;
 		yRem = pos[1] - posy;
 		//temp

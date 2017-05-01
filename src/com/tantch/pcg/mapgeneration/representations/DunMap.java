@@ -35,15 +35,24 @@ public class DunMap {
 	public void loadPlayer(Player player) {
 		this.player = player;
 
-		int[] pos = rooms.get(0).getPositionInRoom();
+		int[] pos = rooms.get(0).getPositionInRoom(true);
 		player.setPosition(pos[0], pos[1]);
 
 	}
 
-	public void loadMonster(Monster mos, int roomId) {
-		int[] pos = rooms.get(roomId).getPositionInRoom();
-		mos.setPosition(pos[0], pos[1]);
-		mons.add(mos);
+	public void loadMonsters(Monster mos, int roomId, int numMonsters) {
+		
+		System.out.println("Getting place for " + numMonsters + " Monsters");
+		for(int i = 0;i<numMonsters;i++){
+			Monster newMons;
+				newMons = new Monster(mos);
+			
+			int[] pos = rooms.get(roomId).getPositionInRoom(true);
+			newMons.setPosition(pos[0], pos[1]);
+			mons.add(newMons);
+
+		}
+		
 
 	}
 

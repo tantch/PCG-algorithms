@@ -183,6 +183,25 @@ public class BNFGrammar {
 				break;
 			case "TreasureRoom":
 				dmap.getEmptyRoom().setAsTreasureRoom(dmap);
+				break;
+			case "Zoo":
+				dmap.getEmptyRoom().setAsZooRoom(dmap);
+				break;
+			case "Temple":
+				dmap.getEmptyRoom().setAsTempleRoom(dmap,true);
+				break;
+			case "FakeTemple":
+				dmap.getEmptyRoom().setAsTempleRoom(dmap,false);
+				break;
+			case "Shop":
+				dmap.getEmptyRoom().setAsShopRoom(dmap);
+				break;
+			case "Bombs":
+				dmap.getEmptyRoom().setAsBombRoom(dmap);
+				break;
+			case "Traps":
+				dmap.getEmptyRoom().setAsTrapRoom(dmap);
+				break;
 			default:
 				break;
 			}

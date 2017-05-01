@@ -28,6 +28,23 @@ public class Monster implements EvRepresentation {
 	private int mapX, mapY;
 
 	private boolean dead = false;
+	public Monster(Monster mos){
+		
+		this.name = mos.name;
+		this.typeName = mos.typeName;
+		this.maxHealth = mos.maxHealth;
+		this.attack = mos.attack;
+		this.attackSpeed = mos.attackSpeed;
+		this.armor = mos.armor;
+		this.speed = mos.speed;
+		this.luck = mos.luck;
+	}	
+	
+
+	public Monster() {
+		// TODO Auto-generated constructor stub
+	}
+
 
 	public void setPosition(int x, int y) {
 
@@ -198,5 +215,8 @@ public class Monster implements EvRepresentation {
 	public boolean isDead() {
 		return dead;
 	}
+
+	
+
 
 }

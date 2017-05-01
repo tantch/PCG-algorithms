@@ -71,7 +71,7 @@ public class MyGame {
 		}
 
 		dmap.markAsVisited(room2);
-		int[] ipos = room1.getPositionInRoom();
+		int[] ipos = room1.getPositionInRoom(false);
 		ag.setInitialPosition(ipos[0], ipos[1]);
 		ag.setCurrentDirection(rd.nextInt(4));
 		ag.setParameters(Settings.AGENT_TURNPROB);
