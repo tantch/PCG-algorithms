@@ -51,10 +51,10 @@ public class MpCell {
 	}
 
 	public int getRoomId() {
-		if(roomId==-1){
-			if(type==CellType.EMPTY){
+		if (roomId == -1) {
+			if (type == CellType.EMPTY) {
 				return -1;
-			}else{
+			} else {
 				return -2;
 			}
 		}
@@ -107,7 +107,7 @@ public class MpCell {
 				updateCounterForId(dmap, rmcnts, x - 1, y - 1);
 
 			}
-			if (y < dmap.getSize() && dmap.getCellType(x - 1, y + 1) == CellType.ROOM) {
+			if (y+1 < dmap.getSize() && dmap.getCellType(x - 1, y + 1) == CellType.ROOM) {
 
 				updateCounterForId(dmap, rmcnts, x - 1, y + 1);
 
@@ -115,20 +115,20 @@ public class MpCell {
 
 		}
 
-		if (x < dmap.getSize() && dmap.getCellType(x + 1, y) == CellType.ROOM) {
+		if (x+1 < dmap.getSize() && dmap.getCellType(x + 1, y) == CellType.ROOM) {
+				updateCounterForId(dmap, rmcnts, x + 1, y);
 
-			updateCounterForId(dmap, rmcnts, x + 1, y);
+				if (y > 0 && dmap.getCellType(x + 1, y - 1) == CellType.ROOM) {
 
-			if (y > 0 && dmap.getCellType(x + 1, y - 1) == CellType.ROOM) {
+					updateCounterForId(dmap, rmcnts, x + 1, y - 1);
 
-				updateCounterForId(dmap, rmcnts, x + 1, y - 1);
+				}
+				if (y < dmap.getSize() && dmap.getCellType(x + 1, y + 1) == CellType.ROOM) {
 
-			}
-			if (y < dmap.getSize() && dmap.getCellType(x + 1, y + 1) == CellType.ROOM) {
+					updateCounterForId(dmap, rmcnts, x + 1, y + 1);
 
-				updateCounterForId(dmap, rmcnts, x + 1, y + 1);
-
-			}
+				}
+			
 		}
 
 		if (y > 0 && dmap.getCellType(x, y - 1) == CellType.ROOM) {
@@ -161,12 +161,6 @@ public class MpCell {
 
 	public void monsterInCell(Monster ms) {
 		this.mns = ms;
-	}
-
-	public void receiveAttack() {
-		if (mns != null) {
-			mns.die();
-		}
 	}
 
 }

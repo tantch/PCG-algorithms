@@ -59,7 +59,7 @@ public class DunRoom {
 		Monster mns = new Monster();
 		mns.setStats(10, 10, 10, 10, 10, 10);
 		EvSearch es = new EvSearch();
-
+		//TODO add dificulty level
 		es = new EvSearch();
 		es.init(mns);
 		es.run(Settings.EA_ITERATIONS);
@@ -93,7 +93,7 @@ public class DunRoom {
 		es.init(mns);
 		es.run(Settings.EA_ITERATIONS);
 		mns.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
-		int max = (int) (freeSpace * 0.75);
+		int max = (int) (freeSpace * 0.55);
 		Random rd = new Random();
 
 		dmap.loadMonsters(mns, roomId, rd.nextInt(max));

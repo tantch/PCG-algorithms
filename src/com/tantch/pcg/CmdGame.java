@@ -14,7 +14,7 @@ import com.tantch.pcg.mapgeneration.representations.DunMap;
 import com.tantch.pcg.mapgeneration.representations.MpCell;
 
 public class CmdGame {
-	static String musicPath = "/home/pim/Music/Anarchy.ogg";
+	static String musicPath = "/home/pim/Music/PianoBlack.ogg";
 
 	public static void main(String[] args) throws IOException, InterruptedException, ParseException {
 		
@@ -26,6 +26,16 @@ public class CmdGame {
 		Draw.drawMap(game.getDMap(), false, true);
 		Draw.drawMap(game.getDMap(), false, false);
 		createGameFiles(game);
+		System.out.println(PrintTools.prettyPrintGeneratedContent(game));
+
+		try (FileWriter file = new FileWriter("/home/pim/Desktop/MusicResults/" + game.getMir().getName().split("\\.")[0] + ".txt")) {
+
+			file.write(PrintTools.prettyPrintGeneratedContent(game));
+			file.flush();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 

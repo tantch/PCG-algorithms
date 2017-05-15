@@ -27,7 +27,6 @@ public class Monster implements EvRepresentation {
 	// map
 	private int mapX, mapY;
 
-	private boolean dead = false;
 	public Monster(Monster mos){
 		
 		this.name = mos.name;
@@ -206,14 +205,6 @@ public class Monster implements EvRepresentation {
 		luck = Integer.parseInt(temp.substring(12, 15), 2);
 		attackSpeed = Integer.parseInt(temp.substring(15, 18), 2) + 1;
 
-	}
-
-	public void die() {
-		this.dead = true;
-	}
-
-	public boolean isDead() {
-		return dead;
 	}
 
 	

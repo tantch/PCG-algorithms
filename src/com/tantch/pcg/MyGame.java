@@ -34,6 +34,9 @@ public class MyGame {
 	public DunMap getDMap() {
 		return dmap;
 	}
+	public MIRTools getMir(){
+		return mir;
+	}
 
 	public void generateMap() {
 
@@ -120,7 +123,7 @@ public class MyGame {
 
 	public void generateLevel() {
 
-		LevelGenerator lev = new LevelGenerator(20);
+		LevelGenerator lev = new LevelGenerator(dmap.getRooms().size());
 		lev.run();
 		BNFGrammar.loadToDunMap(dmap, lev.getBestCandidate());
 
