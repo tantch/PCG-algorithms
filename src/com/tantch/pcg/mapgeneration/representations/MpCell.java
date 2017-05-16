@@ -136,7 +136,7 @@ public class MpCell {
 			updateCounterForId(dmap, rmcnts, x, y - 1);
 
 		}
-		if (y < dmap.getSize() && dmap.getCellType(x, y + 1) == CellType.ROOM) {
+		if (y+1 < dmap.getSize() && dmap.getCellType(x, y + 1) == CellType.ROOM) {
 
 			updateCounterForId(dmap, rmcnts, x, y + 1);
 

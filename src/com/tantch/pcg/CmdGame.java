@@ -11,10 +11,11 @@ import com.tantch.pcg.assets.Monster;
 import com.tantch.pcg.assets.Player;
 import com.tantch.pcg.mapgeneration.cmd.Draw;
 import com.tantch.pcg.mapgeneration.representations.DunMap;
+import com.tantch.pcg.mapgeneration.representations.DunRoom;
 import com.tantch.pcg.mapgeneration.representations.MpCell;
 
 public class CmdGame {
-	static String musicPath = "/home/pim/Music/PianoBlack.ogg";
+	static String musicPath = "/home/pim/Music/amp2.ogg";
 
 	public static void main(String[] args) throws IOException, InterruptedException, ParseException {
 		
@@ -64,6 +65,53 @@ public class CmdGame {
 		}
 
 		map.put("board", board);
+		JSONArray roomColors = new JSONArray();
+		for(int i =0;i<dmap.getRooms().size();i++){
+			JSONObject obj = new JSONObject();
+			DunRoom room = dmap.getRooms().get(i);
+			switch (room.getRoomType()) {
+			case BossRoom:
+				obj.put("r", new Float(1f));
+				obj.put("g", new Float(0.7f));
+				obj.put("b", new Float(0.7f));
+				
+				break;
+			case ExitRoom:
+				obj.put("r", new Float(0.7f));
+				obj.put("g", new Float(1f));
+				obj.put("b", new Float(0.7f));
+				
+				break;
+			case TreasureRoom:
+				obj.put("r", new Float(1f));
+				obj.put("g", new Float(1f));
+				obj.put("b", new Float(0.7f));
+				
+				break;
+			case ZooRoom:
+				obj.put("r", new Float(1f));
+				obj.put("g", new Float(0.7f));
+				obj.put("b", new Float(1f));
+				
+				break;
+			case TempleRoom:
+				obj.put("r", new Float(0.7f));
+				obj.put("g", new Float(1f));
+				obj.put("b", new Float(1f));
+				
+				break;
+
+			default:
+				obj.put("r", new Float(0.82f));
+				obj.put("g", new Float(0.85f));
+				obj.put("b", new Float(0.82f));
+				break;
+			}
+			roomColors.add(obj);
+		}
+		
+		map.put("colors", roomColors);
+		
 		
 		JSONArray monsters = new JSONArray();
 		for(int i =0;i<dmap.getMoster().size();i++){

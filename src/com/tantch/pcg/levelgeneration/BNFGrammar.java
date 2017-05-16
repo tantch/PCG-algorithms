@@ -23,7 +23,9 @@ public class BNFGrammar {
 		BNFRule rl = new BNFRule();
 		rl.setRuleByString("X/TreasureRoom/BossRoom/BossRoom/LockedExit");
 		rules.add(rl);
-
+		rl = new BNFRule();
+		rl.setRuleByString("X/TreasureRoom/BossRoom/LockedExit");
+		rules.add(rl);
 		BNFNode tNode = new BNFNode("TreasureRoom");
 		tNode.setAsTerminal();
 		addDefinedNode("TreasureRoom", tNode);
@@ -57,7 +59,7 @@ public class BNFGrammar {
 		rl.setRuleByString("Temple");
 		rules.add(rl);
 		rl = new BNFRule();
-		rl.setRuleByString("FakeTemple");
+		rl.setRuleByString("Temple/FakeTemple");
 		rules.add(rl);
 		rl = new BNFRule();
 		rl.setRuleByString("Shop");

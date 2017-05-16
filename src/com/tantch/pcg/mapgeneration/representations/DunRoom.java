@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.tantch.pcg.assets.Monster;
+import com.tantch.pcg.assets.Temple;
 import com.tantch.pcg.evolutionarysearch.EvSearch;
 import com.tantch.pcg.utils.Settings;
 
 public class DunRoom {
 
 	public enum RoomType {
-		NormalRoom, BossRoom, TreasureRoom, ExitRoom, StartingRoom
+		NormalRoom, BossRoom, TreasureRoom, ExitRoom, StartingRoom,ZooRoom,TempleRoom
 	}
 
 	private ArrayList<int[]> emptySpaces;
@@ -97,16 +98,32 @@ public class DunRoom {
 		Random rd = new Random();
 
 		dmap.loadMonsters(mns, roomId, rd.nextInt(max));
-
-		roomType = RoomType.BossRoom;
+		roomType = RoomType.ZooRoom;
 
 		dmap.setRoomAsFilled(roomId);
 
 	}
 
 	public void setAsTempleRoom(DunMap dmap, boolean trueTemple) {
-		// TODO Auto-generated method stub
 
+		
+		Temple temple = new Temple(trueTemple);
+		Monster mns = new Monster();
+		mns.setStats(10, 10, 10, 10, 10, 10);
+		EvSearch es = new EvSearch();
+
+		es = new EvSearch();
+		es.init(mns);
+		es.run(Settings.EA_ITERATIONS);
+		mns.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
+		Random rd = new Random();
+		int monsnum = rd.nextInt(3)+1;
+		temple.setGuardian(mns,monsnum);
+		roomType = RoomType.TempleRoom;
+		dmap.setRoomAsFilled(roomId);
+		dmap.loadMonsters(mns, roomId, monsnum);
+		
+		
 	}
 
 	public void setAsShopRoom(DunMap dmap) {

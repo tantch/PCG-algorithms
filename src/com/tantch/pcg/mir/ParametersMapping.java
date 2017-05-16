@@ -80,23 +80,23 @@ public class ParametersMapping {
 
 		}
 
-		float at = aggressiveValue - relaxedValue;
+		float at = aggressiveValue - (relaxedValue*0.3f);
 
 		if (at < 0) {
 			at = 0;
 		}
 
-		float ar = sadValue - (happyValue * 0.3f);
+		float ar = (float) (sadValue - Math.pow(happyValue,2) + 0.2f);
 
 		if (ar < 0) {
 			ar = 0;
 		}
 
-		Settings.PLAYER_LIFE_MULTIPLIER = (int) (Math.pow(loudnessValue, 4) * 4);
+		Settings.PLAYER_LIFE_MULTIPLIER = (int) (Math.pow(loudnessValue, 2) * 4);
 
-		Settings.PLAYER_ATTACK_MULTIPLIER = (int) (Math.pow(at, 4) * 4);
+		Settings.PLAYER_ATTACK_MULTIPLIER = (int) (Math.pow(at, 2) * 4);
 
-		Settings.PLAYER_ARMOR_MULTIPLIER = (int) (Math.pow(ar, 4) * 4);
+		Settings.PLAYER_ARMOR_MULTIPLIER = (int) (Math.pow(ar, 2) * 4);
 
 		Settings.PLAYER_LUCK_MULTIPLIER = (int) (Math.pow(instrumentalValue * 0.4f + partyValue * 0.4f + 0.2, 2) * 4);
 
