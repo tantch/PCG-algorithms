@@ -13,7 +13,7 @@ public class TestPlayer {
 		Debug.setVerbose(true);
 		Player ps = new Player("pim");
 		ps.setDefaultStats();
-		System.out.println("Score:" + ps.calculateFitness());
+		System.out.println("Score:" + ps.calculateFitness(null));
 		System.out.print("bits: ");
 		Debug.printBitsequence(ps.getGeneSeq());
 		System.out.println(" |");

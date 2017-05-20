@@ -42,10 +42,9 @@ public class Debug {
 
 		System.out.println("Monster stats : ");
 		System.out.println("Strength: " + ms.getMaxHealth());
-		System.out.println("Charisma: " + ms.getLuck());
+		System.out.println("Charisma: " + ms.getBlastSpeed());
 		System.out.println("Constitution: " + ms.getAttackSpeed());
 		System.out.println("Dexterity: " + ms.getAttack());
-		System.out.println("Intelligence: " + ms.getArmor());
 		System.out.println("Wisdom: " + ms.getSpeed());
 
 	}

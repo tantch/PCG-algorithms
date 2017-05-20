@@ -13,12 +13,13 @@ import com.tantch.pcg.mapgeneration.cmd.Draw;
 import com.tantch.pcg.mapgeneration.representations.DunMap;
 import com.tantch.pcg.mapgeneration.representations.DunRoom;
 import com.tantch.pcg.mapgeneration.representations.MpCell;
+import com.tantch.pcg.utils.Settings;
 
 public class CmdGame {
 	static String musicPath = "/home/pim/Music/amp2.ogg";
 
 	public static void main(String[] args) throws IOException, InterruptedException, ParseException {
-		
+
 		MyGame game = new MyGame();
 		game.loadMusic(musicPath);
 		game.generateMap();
@@ -29,7 +30,8 @@ public class CmdGame {
 		createGameFiles(game);
 		System.out.println(PrintTools.prettyPrintGeneratedContent(game));
 
-		try (FileWriter file = new FileWriter("/home/pim/Desktop/MusicResults/" + game.getMir().getName().split("\\.")[0] + ".txt")) {
+		try (FileWriter file = new FileWriter(
+				"/home/pim/Desktop/MusicResults/" + game.getMir().getName().split("\\.")[0] + ".txt")) {
 
 			file.write(PrintTools.prettyPrintGeneratedContent(game));
 			file.flush();
@@ -44,12 +46,9 @@ public class CmdGame {
 	private static void createGameFiles(MyGame game) {
 
 		DunMap dmap = game.getDMap();
-		
 
-		
-		
 		JSONObject map = new JSONObject();
-		map.put("music",musicPath);
+		map.put("music", musicPath);
 		map.put("size", dmap.getSize());
 
 		JSONArray board = new JSONArray();
@@ -66,7 +65,7 @@ public class CmdGame {
 
 		map.put("board", board);
 		JSONArray roomColors = new JSONArray();
-		for(int i =0;i<dmap.getRooms().size();i++){
+		for (int i = 0; i < dmap.getRooms().size(); i++) {
 			JSONObject obj = new JSONObject();
 			DunRoom room = dmap.getRooms().get(i);
 			switch (room.getRoomType()) {
@@ -74,31 +73,31 @@ public class CmdGame {
 				obj.put("r", new Float(1f));
 				obj.put("g", new Float(0.7f));
 				obj.put("b", new Float(0.7f));
-				
+
 				break;
 			case ExitRoom:
 				obj.put("r", new Float(0.7f));
 				obj.put("g", new Float(1f));
 				obj.put("b", new Float(0.7f));
-				
+
 				break;
 			case TreasureRoom:
 				obj.put("r", new Float(1f));
 				obj.put("g", new Float(1f));
 				obj.put("b", new Float(0.7f));
-				
+
 				break;
 			case ZooRoom:
 				obj.put("r", new Float(1f));
 				obj.put("g", new Float(0.7f));
 				obj.put("b", new Float(1f));
-				
+
 				break;
 			case TempleRoom:
 				obj.put("r", new Float(0.7f));
 				obj.put("g", new Float(1f));
 				obj.put("b", new Float(1f));
-				
+
 				break;
 
 			default:
@@ -109,27 +108,28 @@ public class CmdGame {
 			}
 			roomColors.add(obj);
 		}
-		
+
 		map.put("colors", roomColors);
-		
-		
+
 		JSONArray monsters = new JSONArray();
-		for(int i =0;i<dmap.getMoster().size();i++){
+		for (int i = 0; i < dmap.getMoster().size(); i++) {
 			JSONObject temp = new JSONObject();
 			Monster ms = dmap.getMoster().get(i);
 			int[] pos = ms.getPosition();
-			temp.put("x",new Integer(pos[0]));
-			temp.put("y",new Integer(pos[1]));
+			temp.put("x", new Integer(pos[0]));
+			temp.put("y", new Integer(pos[1]));
 			temp.put("life", new Integer(ms.getMaxHealth()));
-			temp.put("armor", new Integer(ms.getArmor()));
-
+			temp.put("attack", new Integer(ms.getAttack()));
+			temp.put("blastSpeed",new Integer(ms.getBlastSpeed()));
 			temp.put("atkspeed", new Integer(ms.getAttackSpeed()));
+			temp.put("speed", new Integer(ms.getSpeed()));
+			temp.put("size",new Integer(ms.getSize()));
+			temp.put("snared",new Integer(ms.getSnared()));
 			monsters.add(temp);
 		}
-		
-		map.put("monsters",monsters);
-		
-		
+
+		map.put("monsters", monsters);
+
 		JSONArray treasures = new JSONArray();
 		JSONObject ts = new JSONObject();
 		ts.put("x", new Integer(dmap.getTreasure().getX()));
@@ -164,7 +164,15 @@ public class CmdGame {
 		pl.put("armor", player.getArmor());
 		pl.put("speed", player.getSpeed());
 		pl.put("luck", player.getLuck());
-		pl.put("atkSpeed", player.getAttack());
+		pl.put("atkSpeed", player.getAtkSpeed());
+
+		JSONObject rgb = new JSONObject();
+
+		rgb.put("r", Settings.RGB[0]);
+		rgb.put("g", Settings.RGB[1]);
+		rgb.put("b", Settings.RGB[2]);
+
+		pl.put("blastColor", rgb);
 
 		try (FileWriter file = new FileWriter("/home/pim/Desktop/Gamefiles/player.json")) {
 

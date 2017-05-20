@@ -4,7 +4,7 @@ public interface EvRepresentation {
 	
 	
 	
-	public double calculateFitness();
+	public double calculateFitness(int[] args);
 	
 	public int getGeneSeqSize();
 	public boolean[] getGeneSeq();

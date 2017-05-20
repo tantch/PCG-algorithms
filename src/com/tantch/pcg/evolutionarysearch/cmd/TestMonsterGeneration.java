@@ -9,8 +9,8 @@ public class TestMonsterGeneration {
 	public static void main(String[] args) {
 		Debug.setVerbose(false);
 		Monster ms = new Monster();
-		ms.setStats(10, 10, 10, 10, 10, 10);
-		ms.calculateFitness();
+		ms.setStats(1,1,1,1,1);
+		ms.calculateFitness(new int[]{12,0,0});
 		System.out.print("bits: ");
 		Debug.printBitsequence(ms.getGeneSeq());
 		System.out.println(" |");

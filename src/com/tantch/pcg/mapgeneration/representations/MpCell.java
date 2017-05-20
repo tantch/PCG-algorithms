@@ -65,7 +65,7 @@ public class MpCell {
 
 		boolean ret = true;
 
-		if (x == 0 || x == dmap.getSize() || y == 0 || y == dmap.getSize()) {
+		if (x == 0 || x == dmap.getSize()-1 || y == 0 || y == dmap.getSize()-1) {
 			ret = false;
 		} else if (dmap.getCellType(x, y) != CellType.EMPTY) {
 			ret = false;
@@ -123,7 +123,7 @@ public class MpCell {
 					updateCounterForId(dmap, rmcnts, x + 1, y - 1);
 
 				}
-				if (y < dmap.getSize() && dmap.getCellType(x + 1, y + 1) == CellType.ROOM) {
+				if (y+1 < dmap.getSize() && dmap.getCellType(x + 1, y + 1) == CellType.ROOM) {
 
 					updateCounterForId(dmap, rmcnts, x + 1, y + 1);
 

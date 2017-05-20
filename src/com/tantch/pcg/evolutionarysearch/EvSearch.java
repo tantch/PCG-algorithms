@@ -13,7 +13,7 @@ public class EvSearch {
 	private int u = 50;
 	private int v = 50;
 	private EvRepresentation sample;
-
+	private int[] args ;
 	private ArrayList<GeneSequence> pop;
 
 	public void run(int it) {
@@ -51,7 +51,7 @@ public class EvSearch {
 			
 			sample.loadFromGene(pop.get(i).getSeq());
 			
-			double result = sample.calculateFitness();
+			double result = sample.calculateFitness(args);
 
 			pop.get(i).setFitnessValue(result);
 
@@ -98,6 +98,9 @@ public class EvSearch {
 	public void sortPop() {
 		pop.sort((g1, g2) -> Double.valueOf(g2.getFitnessValue()).compareTo(Double.valueOf(g1.getFitnessValue())));
 
+	}
+	public void setArgs(int[] args){
+		this.args=args;
 	}
 
 }

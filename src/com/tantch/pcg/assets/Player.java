@@ -55,7 +55,7 @@ public class Player implements EvRepresentation {
 	}
 
 	@Override
-	public double calculateFitness() {
+	public double calculateFitness(int[] args) {
 		double score = calculateStatsScore();
 		double dif = 16;
 		double xtemp = score / dif;

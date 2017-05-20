@@ -10,7 +10,7 @@ import com.tantch.pcg.utils.Settings;
 public class Monster implements EvRepresentation {
 
 	// evolutionary variables
-	private static int SEQSIZE = 18;
+	private static int SEQSIZE = 15;
 
 	// Base Stats
 	private String name;
@@ -20,36 +20,42 @@ public class Monster implements EvRepresentation {
 	private int maxHealth;
 	private int attack;
 	private int attackSpeed;
-	private int armor;
 	private int speed;
-	private int luck;
-
+	private int blastSpeed;
+	private int dificultyScore = 16;
 	// map
 	private int mapX, mapY;
 
-	public Monster(Monster mos){
-		
+	private boolean snared = false;
+	private int size = 0; // -1 ,0,1
+
+	public Monster(Monster mos) {
+
 		this.name = mos.name;
 		this.typeName = mos.typeName;
 		this.maxHealth = mos.maxHealth;
 		this.attack = mos.attack;
 		this.attackSpeed = mos.attackSpeed;
-		this.armor = mos.armor;
 		this.speed = mos.speed;
-		this.luck = mos.luck;
-	}	
-	
+		this.blastSpeed = mos.blastSpeed;
+		this.size=mos.size;
+		this.dificultyScore = mos.dificultyScore;
+		this.snared= mos.snared;
+	}
 
 	public Monster() {
 		// TODO Auto-generated constructor stub
 	}
-
 
 	public void setPosition(int x, int y) {
 
 		mapX = x;
 		mapY = y;
 
+	}
+
+	public void setDif(int score) {
+		this.dificultyScore = score;
 	}
 
 	public int[] getPosition() {
@@ -64,24 +70,33 @@ public class Monster implements EvRepresentation {
 		typeName = "";
 	}
 
-	public void setStats(int health, int atk, int ats, int arm, int spd, int lck) {
+	public void setStats(int health, int atk, int ats, int spd, int lck) {
 		this.maxHealth = health;
 		this.attack = atk;
 		this.attackSpeed = ats;
-		this.armor = arm;
 		this.speed = spd;
-		this.luck = lck;
+		this.blastSpeed = lck;
 	}
 
 	@Override
-	public double calculateFitness() {
+	public double calculateFitness(int[] args) {
+		if(args != null && args.length==3){
+			this.dificultyScore = args[0];
+			this.size=args[1];
+			this.snared = args[2] == 1;
+			
+
+		}
 		double score = calculateStatsScore();
-		double dif = 16;
+		double dif = dificultyScore;
 		double xtemp = score / dif;
 		double ytemp;
 
 		ytemp = -1 * Math.pow((xtemp - 0.8) * 10, 2) + 1;
-
+		ytemp += Math.pow(size * (this.maxHealth - 2), 2) * 0.3f;
+		if (snared) {
+			ytemp -= (speed - 1) * 0.3f;
+		}
 		Debug.log(this.getClass(), "fitness result for statsum:" + score + " -> " + xtemp + " | " + ytemp);
 
 		return ytemp;
@@ -94,13 +109,12 @@ public class Monster implements EvRepresentation {
 		tScore += tmpScore;
 		tmpScore = (int) Math.floor(Math.pow(attack - 1, 2));
 		tScore += tmpScore;
-		tmpScore = (int) Math.floor(Math.pow(armor, 3));
-		tScore += tmpScore;
+
 		tmpScore = (int) Math.floor(Math.pow(speed - 1, 2));
 		tScore += tmpScore;
-		tmpScore = (int) Math.floor(Math.pow(luck + 1, 3));
+		tmpScore = (int) Math.floor(Math.pow(blastSpeed - 1, 2));
 		tScore += tmpScore;
-		tmpScore = (int) Math.floor(Math.pow(attackSpeed - 1, 3));
+		tmpScore = (int) Math.floor(Math.pow(attackSpeed - 1, 2));
 		tScore += tmpScore;
 		return tScore;
 
@@ -124,18 +138,15 @@ public class Monster implements EvRepresentation {
 		for (int i = 0; i < seqStr.length; i++) {
 			seq[i + 5 * 2] = seqStr[i];
 		}
-		seqStr = BitOperations.intToBits(armor, 3);
+
+		seqStr = BitOperations.intToBits(speed, 3);
 		for (int i = 0; i < seqStr.length; i++) {
 			seq[i + 5 * 3] = seqStr[i];
 		}
-		seqStr = BitOperations.intToBits(speed, 3);
+
+		seqStr = BitOperations.intToBits(blastSpeed, 3);
 		for (int i = 0; i < seqStr.length; i++) {
 			seq[i + 5 * 4] = seqStr[i];
-		}
-
-		seqStr = BitOperations.intToBits(luck, 3);
-		for (int i = 0; i < seqStr.length; i++) {
-			seq[i + 5 * 5] = seqStr[i];
 		}
 
 		return seq;
@@ -177,16 +188,12 @@ public class Monster implements EvRepresentation {
 		return attackSpeed;
 	}
 
-	public int getArmor() {
-		return armor;
-	}
-
 	public int getSpeed() {
 		return speed;
 	}
 
-	public int getLuck() {
-		return luck;
+	public int getBlastSpeed() {
+		return blastSpeed;
 	}
 
 	public void loadFromGene(boolean[] seq) {
@@ -200,14 +207,31 @@ public class Monster implements EvRepresentation {
 
 		maxHealth = Integer.parseInt(temp.substring(0, 3), 2) + 1;
 		attack = Integer.parseInt(temp.substring(3, 6), 2) + 1;
-		armor = Integer.parseInt(temp.substring(6, 9), 2);
-		speed = Integer.parseInt(temp.substring(9, 12), 2) + 1;
-		luck = Integer.parseInt(temp.substring(12, 15), 2);
-		attackSpeed = Integer.parseInt(temp.substring(15, 18), 2) + 1;
+		speed = Integer.parseInt(temp.substring(6, 9), 2) + 1;
+		blastSpeed = Integer.parseInt(temp.substring(9, 12), 2) + 1;
+		attackSpeed = Integer.parseInt(temp.substring(12, 15), 2) + 1;
 
 	}
 
+	public void setSnared(boolean sna) {
+		this.snared = sna;
+		
+	}
+
+	public void setSize(int s) {
+		this.size = s;
+	}
+
+	public int getSize() {
+		return size;
+	}
 	
-
-
+	public int getSnared(){
+		if(snared){
+			return 1;
+		}
+		return 0;
+	}
+	
+	
 }
