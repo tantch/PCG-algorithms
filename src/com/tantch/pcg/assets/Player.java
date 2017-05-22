@@ -82,13 +82,13 @@ public class Player implements EvRepresentation {
 		tScore += tmpScore;
 		tmpScore = (int) Math.floor(Math.pow(attack - 1, 2));
 		tScore += tmpScore;
-		tmpScore = (int) Math.floor(Math.pow(armor, 3));
+		tmpScore = (int) Math.floor(Math.pow(armor, 2));
 		tScore += tmpScore;
 		tmpScore = (int) Math.floor(Math.pow(speed - 1, 2));
 		tScore += tmpScore;
-		tmpScore = (int) Math.floor(Math.pow(luck + 1, 3));
+		tmpScore = (int) Math.floor(Math.pow(luck + 1, 2));
 		tScore += tmpScore;
-		tmpScore = (int) Math.floor(Math.pow(atkSpeed - 1, 3));
+		tmpScore = (int) Math.floor(Math.pow(atkSpeed - 1, 2));
 		tScore += tmpScore;
 		return tScore;
 	}

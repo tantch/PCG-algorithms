@@ -41,11 +41,11 @@ public class Debug {
 	public static void logMonster(Monster ms) {
 
 		System.out.println("Monster stats : ");
-		System.out.println("Strength: " + ms.getMaxHealth());
-		System.out.println("Charisma: " + ms.getBlastSpeed());
-		System.out.println("Constitution: " + ms.getAttackSpeed());
-		System.out.println("Dexterity: " + ms.getAttack());
-		System.out.println("Wisdom: " + ms.getSpeed());
+		System.out.println("Max health: " + ms.getMaxHealth());
+		System.out.println("BlastSpeed: " + ms.getBlastSpeed());
+		System.out.println("AttackSpeed: " + ms.getAttackSpeed());
+		System.out.println("Attack: " + ms.getAttack());
+		System.out.println("Speed: " + ms.getSpeed());
 
 	}
 

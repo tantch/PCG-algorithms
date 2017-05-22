@@ -7,13 +7,11 @@ import com.tantch.pcg.utils.Settings;
 
 public class TestMonsterGeneration {
 	public static void main(String[] args) {
-		Debug.setVerbose(false);
+		Debug.setVerbose(true);
 		Monster ms = new Monster();
 		ms.setStats(1,1,1,1,1);
-		ms.calculateFitness(new int[]{12,0,0});
-		System.out.print("bits: ");
-		Debug.printBitsequence(ms.getGeneSeq());
-		System.out.println(" |");
+		ms.calculateFitness(new int[]{12,1,0});
+
 
 		EvSearch es = new EvSearch();
 
@@ -21,6 +19,7 @@ public class TestMonsterGeneration {
 		es.run(Settings.EA_ITERATIONS);
 		Monster reslt = new Monster();
 		reslt.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
+		System.out.println("Final Fitness: " + reslt.calculateFitness(new int[]{12,1,0}));
 		Debug.logMonster(reslt);
 
 	}

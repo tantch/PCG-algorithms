@@ -93,7 +93,7 @@ public class Monster implements EvRepresentation {
 		double ytemp;
 
 		ytemp = -1 * Math.pow((xtemp - 0.8) * 10, 2) + 1;
-		ytemp += Math.pow(size * (this.maxHealth - 2), 2) * 0.3f;
+		ytemp += size * Math.pow((this.maxHealth - 2), 2) * 0.1f;
 		if (snared) {
 			ytemp -= (speed - 1) * 0.3f;
 		}

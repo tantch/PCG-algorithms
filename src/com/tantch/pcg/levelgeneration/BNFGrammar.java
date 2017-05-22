@@ -18,13 +18,13 @@ public class BNFGrammar {
 		S.setAsNonTerminal();
 		ArrayList<BNFRule> rules = S.getRules();
 
-		// S-> <X>? <Treasure Room> <Boss Room> <Locked Exit>
+		// S-> <X>? <Y> <Treasure Room> <Boss Room> <Locked Exit>
 
 		BNFRule rl = new BNFRule();
-		rl.setRuleByString("X/TreasureRoom/BossRoom/BossRoom/LockedExit");
+		rl.setRuleByString("X/Y/TreasureRoom/BossRoom/BossRoom/LockedExit");
 		rules.add(rl);
 		rl = new BNFRule();
-		rl.setRuleByString("X/TreasureRoom/BossRoom/LockedExit");
+		rl.setRuleByString("X/Y/TreasureRoom/BossRoom/LockedExit");
 		rules.add(rl);
 		BNFNode tNode = new BNFNode("TreasureRoom");
 		tNode.setAsTerminal();
@@ -47,19 +47,16 @@ public class BNFGrammar {
 		rl.setRuleByString("X/X");
 		rules.add(rl);
 		rl = new BNFRule();
-		rl.setRuleByString("X/X/X");
+		rl.setRuleByString("X/X/Y");
+		rules.add(rl);
+		rl = new BNFRule();
+		rl.setRuleByString("X/Y");
 		rules.add(rl);
 		rl = new BNFRule();
 		rl.setRuleByString("X/X/X/X");
 		rules.add(rl);
 		rl = new BNFRule();
 		rl.setRuleByString("Zoo");
-		rules.add(rl);
-		rl = new BNFRule();
-		rl.setRuleByString("Temple");
-		rules.add(rl);
-		rl = new BNFRule();
-		rl.setRuleByString("Temple/FakeTemple");
 		rules.add(rl);
 		rl = new BNFRule();
 		rl.setRuleByString("Shop");
@@ -73,6 +70,22 @@ public class BNFGrammar {
 
 		
 		addDefinedNode("X", tNode);
+		
+		tNode = new BNFNode("Y");
+		tNode.setAsNonTerminal();
+		rules = tNode.getRules();
+
+		rl = new BNFRule();
+		rl.setRuleByString("Temple");
+		rules.add(rl);
+		rl = new BNFRule();
+		rl.setRuleByString("Temple/FakeTemple");
+		rules.add(rl);
+
+
+		
+		addDefinedNode("Y", tNode);
+		
 
 
 

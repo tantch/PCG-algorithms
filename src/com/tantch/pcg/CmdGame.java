@@ -16,7 +16,7 @@ import com.tantch.pcg.mapgeneration.representations.MpCell;
 import com.tantch.pcg.utils.Settings;
 
 public class CmdGame {
-	static String musicPath = "/home/pim/Music/amp2.ogg";
+	static String musicPath = "/home/pim/Music/Three in the Morning - Midnight Crew.ogg";
 
 	public static void main(String[] args) throws IOException, InterruptedException, ParseException {
 
