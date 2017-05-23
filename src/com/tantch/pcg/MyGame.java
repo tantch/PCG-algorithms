@@ -126,6 +126,7 @@ public class MyGame {
 		LevelGenerator lev = new LevelGenerator(dmap.getRooms().size());
 		lev.run();
 		BNFGrammar.loadToDunMap(dmap, lev.getBestCandidate());
+		dmap.fillEmptyRooms();
 
 	}
 

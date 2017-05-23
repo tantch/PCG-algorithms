@@ -3,6 +3,7 @@ package com.tantch.pcg.mapgeneration.representations;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.tantch.pcg.assets.Item;
 import com.tantch.pcg.assets.Monster;
 import com.tantch.pcg.assets.Player;
 import com.tantch.pcg.assets.Treasure;
@@ -14,19 +15,19 @@ public class DunMap {
 	private ArrayList<DunRoom> rooms;
 	private ArrayList<Integer> unvisitedRooms;
 	private ArrayList<Integer> emptyRooms;
-
+	private ArrayList<Item> items;
 	private Player player;
 	private ArrayList<Monster> mons;
-	private Treasure treasure;
 	private int size;
 	private int middleRoom = -1;
+	private int startRoom = 0;
 
 	public DunMap(int size) {
 		this.size = size;
 		rooms = new ArrayList<DunRoom>();
 		unvisitedRooms = new ArrayList<Integer>();
 		emptyRooms = new ArrayList<Integer>();
-
+		items = new ArrayList<Item>();
 		mons = new ArrayList<Monster>();
 		init();
 
@@ -35,25 +36,38 @@ public class DunMap {
 	public void loadPlayer(Player player) {
 		this.player = player;
 
-		int[] pos = rooms.get(0).getPositionInRoom(true);
+		int[] pos = getStartRoom().getPositionInRoom(true);
 		player.setPosition(pos[0], pos[1]);
 
 	}
 
 	public void loadMonsters(Monster mos, int roomId, int numMonsters) {
-		
+
 		System.out.println("Getting place for " + numMonsters + " Monsters");
-		for(int i = 0;i<numMonsters;i++){
+		for (int i = 0; i < numMonsters; i++) {
 			Monster newMons;
-				newMons = new Monster(mos);
-			
+			newMons = new Monster(mos);
+
 			int[] pos = rooms.get(roomId).getPositionInRoom(true);
 			newMons.setPosition(pos[0], pos[1]);
 			mons.add(newMons);
 
 		}
-		
 
+	}
+
+	public void loadItem(Item item, int roomId, Item it) {
+
+		Item newItem = it;
+
+		int[] pos = rooms.get(roomId).getPositionInRoom(true);
+		newItem.setPosition(pos[0], pos[1]);
+		items.add(newItem);
+
+	}
+
+	public ArrayList<Item> getItems() {
+		return items;
 	}
 
 	private void init() {
@@ -228,16 +242,23 @@ public class DunMap {
 	 * x + "|" + y); mons.setPosition(x, y); map[y][x].monsterInCell(mons); }
 	 */
 
-	public void addTreasure(int i, int j) {
-		this.treasure = new Treasure(i, j);
-	}
-
-	public Treasure getTreasure() {
-		return treasure;
-	}
-
 	public void setRoomAsFilled(int roomId) {
 		emptyRooms.remove(new Integer(roomId));
+	}
+
+	public void setStartRoom(int roomId) {
+		startRoom = roomId;
+	}
+	public DunRoom getStartRoom(){
+		return rooms.get(startRoom);
+	}
+
+	public void fillEmptyRooms() {
+		for(int i=0;i< emptyRooms.size();i++){
+			System.out.println("Room" + emptyRooms.get(i) + "was empty");
+			DunRoom room  = rooms.get(emptyRooms.get(i));
+			room.setAsSimpleRoom(this);
+		}
 	}
 
 }

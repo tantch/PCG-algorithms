@@ -7,6 +7,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
+import com.tantch.pcg.assets.Item;
 import com.tantch.pcg.assets.Monster;
 import com.tantch.pcg.assets.Player;
 import com.tantch.pcg.mapgeneration.cmd.Draw;
@@ -16,15 +17,15 @@ import com.tantch.pcg.mapgeneration.representations.MpCell;
 import com.tantch.pcg.utils.Settings;
 
 public class CmdGame {
-	static String musicPath = "/home/pim/Music/Three in the Morning - Midnight Crew.ogg";
+	static String musicPath = "/home/pim/Music/01 - Brianstorm.ogg";
 
 	public static void main(String[] args) throws IOException, InterruptedException, ParseException {
 
 		MyGame game = new MyGame();
 		game.loadMusic(musicPath);
 		game.generateMap();
-		game.load();
 		game.generateLevel();
+		game.load();
 		Draw.drawMap(game.getDMap(), false, true);
 		Draw.drawMap(game.getDMap(), false, false);
 		createGameFiles(game);
@@ -99,6 +100,29 @@ public class CmdGame {
 				obj.put("b", new Float(1f));
 
 				break;
+				
+			case BombRoom:
+				obj.put("r", new Float(1f));
+				obj.put("g", new Float(0.8f));
+				obj.put("b", new Float(0.7f));
+
+				break;
+			case TrapRoom:
+				obj.put("r", new Float(0.7f));
+				obj.put("g", new Float(0.8f));
+				obj.put("b", new Float(1f));
+
+				break;
+			case ShopRoom:
+				obj.put("r", new Float(0.9f));
+				obj.put("g", new Float(1f));
+				obj.put("b", new Float(0.9f));
+				break;
+			case SimpleRoom:
+				obj.put("r", new Float(0.8f));
+				obj.put("g", new Float(1f));
+				obj.put("b", new Float(0.7f));
+				break;
 
 			default:
 				obj.put("r", new Float(0.82f));
@@ -117,26 +141,31 @@ public class CmdGame {
 			Monster ms = dmap.getMoster().get(i);
 			int[] pos = ms.getPosition();
 			temp.put("x", new Integer(pos[0]));
-			temp.put("y", new Integer(pos[1]));
+			temp.put("y", new Integer(pos[1])); 
 			temp.put("life", new Integer(ms.getMaxHealth()));
 			temp.put("attack", new Integer(ms.getAttack()));
-			temp.put("blastSpeed",new Integer(ms.getBlastSpeed()));
+			temp.put("blastSpeed", new Integer(ms.getBlastSpeed()));
 			temp.put("atkspeed", new Integer(ms.getAttackSpeed()));
 			temp.put("speed", new Integer(ms.getSpeed()));
-			temp.put("size",new Integer(ms.getSize()));
-			temp.put("snared",new Integer(ms.getSnared()));
+			temp.put("size", new Integer(ms.getSize()));
+			temp.put("snared", new Integer(ms.getSnared()));
 			monsters.add(temp);
 		}
 
 		map.put("monsters", monsters);
 
-		JSONArray treasures = new JSONArray();
-		JSONObject ts = new JSONObject();
-		ts.put("x", new Integer(dmap.getTreasure().getX()));
-		ts.put("y", new Integer(dmap.getTreasure().getY()));
-		treasures.add(ts);
+		JSONArray items = new JSONArray();
+		for (int i = 0; i < dmap.getItems().size(); i++) {
+			JSONObject ts = new JSONObject();
+			Item it = dmap.getItems().get(i);
+			ts.put("x", new Integer(it.getX()));
+			ts.put("y", new Integer(it.getY()));
+			ts.put("desc", it.getDescription());
+			ts.put("trueItem", new Integer(it.getTrueItem()));
 
-		map.put("treasures", treasures);
+			items.add(ts);
+		}
+		map.put("items", items);
 
 		try (FileWriter file = new FileWriter("/home/pim/Desktop/Gamefiles/map.json")) {
 

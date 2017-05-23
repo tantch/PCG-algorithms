@@ -29,6 +29,8 @@ public class Monster implements EvRepresentation {
 	private boolean snared = false;
 	private int size = 0; // -1 ,0,1
 
+	private int innactive=0;
+
 	public Monster(Monster mos) {
 
 		this.name = mos.name;
@@ -84,6 +86,7 @@ public class Monster implements EvRepresentation {
 			this.dificultyScore = args[0];
 			this.size=args[1];
 			this.snared = args[2] == 1;
+			this.innactive = args[3];
 			
 
 		}
@@ -231,6 +234,9 @@ public class Monster implements EvRepresentation {
 			return 1;
 		}
 		return 0;
+	}
+	public int getInnactive(){
+		return innactive;
 	}
 	
 	

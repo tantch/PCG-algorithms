@@ -21,10 +21,10 @@ public class BNFGrammar {
 		// S-> <X>? <Y> <Treasure Room> <Boss Room> <Locked Exit>
 
 		BNFRule rl = new BNFRule();
-		rl.setRuleByString("X/Y/TreasureRoom/BossRoom/BossRoom/LockedExit");
+		rl.setRuleByString("Start/X/Y/TreasureRoom/BossRoom/BossRoom/LockedExit");
 		rules.add(rl);
 		rl = new BNFRule();
-		rl.setRuleByString("X/Y/TreasureRoom/BossRoom/LockedExit");
+		rl.setRuleByString("Start/X/Y/TreasureRoom/BossRoom/LockedExit");
 		rules.add(rl);
 		BNFNode tNode = new BNFNode("TreasureRoom");
 		tNode.setAsTerminal();
@@ -33,6 +33,11 @@ public class BNFGrammar {
 		tNode = new BNFNode("BossRoom");
 		tNode.setAsTerminal();
 		addDefinedNode("BossRoom", tNode);
+		
+		tNode = new BNFNode("Start");
+		tNode.setAsTerminal();
+		addDefinedNode("Start", tNode);
+
 
 		tNode = new BNFNode("LockedExit");
 		tNode.setAsTerminal();
@@ -191,8 +196,15 @@ public class BNFGrammar {
 
 	public static void loadToDunMap(DunMap dmap, ArrayList<BNFNode> res) {
 
+		
+		System.out.println("RESULT SIZE:" + res.size());
 		for (BNFNode node : res) {
+			
+			System.out.println("Placing " + node.getId() + " room");
 			switch (node.getId()) {
+			case "Start":
+				dmap.getEmptyRoom().setAsStartRoom(dmap);
+				break;
 			case "BossRoom":
 				dmap.getEmptyRoom().setAsBossRoom(dmap);
 				break;
