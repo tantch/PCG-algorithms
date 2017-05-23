@@ -43,6 +43,7 @@ public class Monster implements EvRepresentation {
 		this.size=mos.size;
 		this.dificultyScore = mos.dificultyScore;
 		this.snared= mos.snared;
+		this.innactive=mos.innactive;
 	}
 
 	public Monster() {
@@ -82,7 +83,7 @@ public class Monster implements EvRepresentation {
 
 	@Override
 	public double calculateFitness(int[] args) {
-		if(args != null && args.length==3){
+		if(args != null && args.length==4){
 			this.dificultyScore = args[0];
 			this.size=args[1];
 			this.snared = args[2] == 1;

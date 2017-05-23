@@ -134,7 +134,7 @@ public class CmdGame {
 		}
 
 		map.put("colors", roomColors);
-
+ 
 		JSONArray monsters = new JSONArray();
 		for (int i = 0; i < dmap.getMoster().size(); i++) {
 			JSONObject temp = new JSONObject();
