@@ -136,21 +136,21 @@ public class Monster implements EvRepresentation {
 		}
 		seqStr = BitOperations.intToBits(attack, 3);
 		for (int i = 0; i < seqStr.length; i++) {
-			seq[i + 5] = seqStr[i];
+			seq[i + 3] = seqStr[i];
 		}
 		seqStr = BitOperations.intToBits(attackSpeed, 3);
 		for (int i = 0; i < seqStr.length; i++) {
-			seq[i + 5 * 2] = seqStr[i];
+			seq[i + 3 * 2] = seqStr[i];
 		}
 
 		seqStr = BitOperations.intToBits(speed, 3);
 		for (int i = 0; i < seqStr.length; i++) {
-			seq[i + 5 * 3] = seqStr[i];
+			seq[i + 3 * 3] = seqStr[i];
 		}
 
 		seqStr = BitOperations.intToBits(blastSpeed, 3);
 		for (int i = 0; i < seqStr.length; i++) {
-			seq[i + 5 * 4] = seqStr[i];
+			seq[i + 3 * 4] = seqStr[i];
 		}
 
 		return seq;

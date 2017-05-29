@@ -149,6 +149,8 @@ public class CmdGame {
 			temp.put("speed", new Integer(ms.getSpeed()));
 			temp.put("size", new Integer(ms.getSize()));
 			temp.put("snared", new Integer(ms.getSnared()));
+			temp.put("innactive", new Integer(ms.getInnactive()));
+
 			monsters.add(temp);
 		}
 
@@ -162,7 +164,9 @@ public class CmdGame {
 			ts.put("y", new Integer(it.getY()));
 			ts.put("desc", it.getDescription());
 			ts.put("trueItem", new Integer(it.getTrueItem()));
-
+			ts.put("type",it.getType().toString());
+			ts.put("effect",new Integer(it.getEffect()));
+			ts.put("value",new Integer(it.getValue()));
 			items.add(ts);
 		}
 		map.put("items", items);

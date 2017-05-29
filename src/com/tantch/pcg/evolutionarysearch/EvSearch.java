@@ -101,6 +101,7 @@ public class EvSearch {
 	}
 	public void setArgs(int[] args){
 		this.args=args;
+		System.out.println("args:" + args);
 	}
 
 }

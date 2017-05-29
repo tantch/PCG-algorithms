@@ -56,10 +56,9 @@ public class DunMap {
 
 	}
 
-	public void loadItem(Item item, int roomId, Item it) {
+	public void loadItem(Item it, int roomId) {
 
 		Item newItem = it;
-
 		int[] pos = rooms.get(roomId).getPositionInRoom(true);
 		newItem.setPosition(pos[0], pos[1]);
 		items.add(newItem);

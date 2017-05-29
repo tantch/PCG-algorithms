@@ -11,7 +11,7 @@ import com.tantch.pcg.utils.Settings;
 public class DunRoom {
 
 	public enum RoomType {
-		NormalRoom, BossRoom,SimpleRoom, TreasureRoom, ExitRoom, StartingRoom, ZooRoom, TempleRoom,ShopRoom,TrapRoom,BombRoom
+		NormalRoom, BossRoom, SimpleRoom, TreasureRoom, ExitRoom, StartingRoom, ZooRoom, TempleRoom, ShopRoom, TrapRoom, BombRoom
 	}
 
 	private ArrayList<int[]> emptySpaces;
@@ -63,18 +63,18 @@ public class DunRoom {
 
 		int size = 1;
 		int snared = 0;
-		int inactive= 0;
+		int inactive = 0;
 
 		EvSearch es = new EvSearch();
 		// TODO add dificulty level
 		es = new EvSearch();
 		es.init(mns);
-		es.setArgs(new int[] { dif, size, snared ,inactive});
+		es.setArgs(new int[] { dif, size, snared, inactive });
 		es.run(Settings.EA_ITERATIONS);
 		mns.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
-		/*mns.setDif(dif);
-		mns.setSize(size);
-		mns.setSnared(snared ==1);*/
+		/*
+		 * mns.setDif(dif); mns.setSize(size); mns.setSnared(snared ==1);
+		 */
 		/*
 		 * int max = (int) (freeSpace * 0.75); Random rd = new Random();
 		 */
@@ -89,9 +89,20 @@ public class DunRoom {
 
 	public void setAsTreasureRoom(DunMap dmap) {
 		Item it = new Item("Treasure");
-		it.setTrueItem(true);
-		dmap.loadItem(it, roomId, it);
-		
+		int trueItem = 1;
+		int value = 2;
+
+		EvSearch es = new EvSearch();
+
+		es.init(it);
+		es.setArgs(new int[] { trueItem, value });
+		es.run(Settings.EA_ITERATIONS);
+
+		it.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
+		System.out.println(it.getType());
+
+		dmap.loadItem(it, roomId);
+
 		roomType = RoomType.TreasureRoom;
 		dmap.setRoomAsFilled(roomId);
 
@@ -104,16 +115,16 @@ public class DunRoom {
 		EvSearch es = new EvSearch();
 		int size = -1;
 		int snared = 0;
-		int inactive= 0;
+		int inactive = 0;
 
 		es = new EvSearch();
 		es.init(mns);
-		es.setArgs(new int[] { dif, size, snared,inactive });
+		es.setArgs(new int[] { dif, size, snared, inactive });
 		es.run(Settings.EA_ITERATIONS);
 		mns.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
-		/*mns.setDif(dif);
-		mns.setSize(size);
-		mns.setSnared(snared ==1);*/
+		/*
+		 * mns.setDif(dif); mns.setSize(size); mns.setSnared(snared ==1);
+		 */
 		int max = (int) (freeSpace * 0.55);
 		Random rd = new Random();
 
@@ -131,58 +142,106 @@ public class DunRoom {
 		int dif = 12;
 		int size = 0;
 		int snared = 0;
-		int inactive= 1;
+		int inactive = 1;
 		EvSearch es = new EvSearch();
 
 		es = new EvSearch();
 		es.init(mns);
-		es.setArgs(new int[] { dif, size, snared,inactive});
+		es.setArgs(new int[] { dif, size, snared, inactive });
 
 		es.run(Settings.EA_ITERATIONS);
 		mns.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
-		/*mns.setDif(dif);
-		mns.setSize(size);
-		mns.setSnared(snared ==1);*/
+		/*
+		 * mns.setDif(dif); mns.setSize(size); mns.setSnared(snared ==1);
+		 */
 		Random rd = new Random();
 		int monsnum = rd.nextInt(3) + 1;
-		roomType = RoomType.TempleRoom;
-		dmap.setRoomAsFilled(roomId);
 		dmap.loadMonsters(mns, roomId, monsnum);
-		Item it = new Item("temple Treasure");
-		it.setTrueItem(trueTemple);
-		dmap.loadItem(it, roomId, it);
+
+		Item it = new Item("temple treasure");
+		int trueItem = 0;
+		int value = 1;
+		if (trueTemple) {
+			trueItem = 1;
+		}
+		es = new EvSearch();
+
+		es.init(it);
+		es.setArgs(new int[] { trueItem, value });
+		es.run(Settings.EA_ITERATIONS);
+
+		it.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
+		System.out.println(it.getType());
+
+		dmap.loadItem(it, roomId);
+
+		roomType = RoomType.TempleRoom;
+
+		dmap.setRoomAsFilled(roomId);
+
 	}
 
 	public void setAsShopRoom(DunMap dmap) {
 		Monster mns = new Monster();
-		mns.setStats(2, 2,2, 2, 2);
+		mns.setStats(2, 2, 2, 2, 2);
 		int dif = 30;
 		int size = 0;
 		int snared = 0;
-		int inactive= 1;
+		int inactive = 1;
 		EvSearch es = new EvSearch();
 
 		es = new EvSearch();
 		es.init(mns);
-		es.setArgs(new int[] { dif, size, snared,inactive});
+		es.setArgs(new int[] { dif, size, snared, inactive });
 
 		es.run(Settings.EA_ITERATIONS);
 		mns.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
 		roomType = RoomType.ShopRoom;
 		dmap.setRoomAsFilled(roomId);
 		dmap.loadMonsters(mns, roomId, 1);
-		Item it = new Item("shop1");
-		it.setTrueItem(true);
-		dmap.loadItem(it, roomId, it);
-		
-		Item it2 = new Item("shop2");
-		it2.setTrueItem(true);
-		dmap.loadItem(it2, roomId, it);
-		Item it3 = new Item("shop3");
-		it3.setTrueItem(true);
-		dmap.loadItem(it3, roomId, it);
-		
-		
+
+		Item it = new Item("shop treasure 1");
+		int trueItem = 1;
+		int value = 1;
+
+		es = new EvSearch();
+
+		es.init(it);
+		es.setArgs(new int[] { trueItem, value });
+		es.run(Settings.EA_ITERATIONS);
+
+		it.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
+
+		dmap.loadItem(it, roomId);
+
+		Item it2 = new Item("shop treasure 2");
+		trueItem = 1;
+		value = 1;
+
+		es = new EvSearch();
+
+		es.init(it2);
+		es.setArgs(new int[] { trueItem, value });
+		es.run(Settings.EA_ITERATIONS);
+
+		it2.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
+
+		dmap.loadItem(it2, roomId);
+
+		Item it3 = new Item("shop treasure 3");
+		trueItem = 1;
+		value = 2;
+
+		es = new EvSearch();
+
+		es.init(it3);
+		es.setArgs(new int[] { trueItem, value });
+		es.run(Settings.EA_ITERATIONS);
+
+		it3.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
+
+		dmap.loadItem(it3, roomId);
+
 	}
 
 	public void setAsBombRoom(DunMap dmap) {
@@ -192,78 +251,101 @@ public class DunRoom {
 		int dif = 12;
 		int size = 0;
 		int snared = 1;
-		int inactive= 0;
+		int inactive = 0;
 		EvSearch es = new EvSearch();
 
 		es = new EvSearch();
 		es.init(mns);
-		es.setArgs(new int[] { dif, size, snared,inactive});
+		es.setArgs(new int[] { dif, size, snared, inactive });
 
 		es.run(Settings.EA_ITERATIONS);
 		mns.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
-		/*mns.setDif(dif);
-		mns.setSize(size);
-		mns.setSnared(snared ==1);*/
+		/*
+		 * mns.setDif(dif); mns.setSize(size); mns.setSnared(snared ==1);
+		 */
 		Random rd = new Random();
-		
-		int monsnum = rd.nextInt(Math.abs(x2 -x1)) + 1;
+
+		int monsnum = rd.nextInt(Math.abs(x2 - x1)) + 1;
 		roomType = RoomType.BombRoom;
 		dmap.setRoomAsFilled(roomId);
 		dmap.loadMonsters(mns, roomId, monsnum);
 
-		
-		
 	}
 
 	public void setAsTrapRoom(DunMap dmap) {
-		Item it = new Item("trap Treasure");
-		it.setTrueItem(false);
-		dmap.loadItem(it, roomId, it);
-		
+		Item it = new Item("Trap");
+		int trueItem = 0;
+		int value = 2;
+
+		EvSearch es = new EvSearch();
+
+		es.init(it);
+		es.setArgs(new int[] { trueItem, value });
+		es.run(Settings.EA_ITERATIONS);
+
+		it.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
+		System.out.println(it.getType());
+
+		dmap.loadItem(it, roomId);
+
 		roomType = RoomType.TrapRoom;
 		dmap.setRoomAsFilled(roomId);
 
-	
-	
 	}
 
 	public void setAsStartRoom(DunMap dmap) {
 		// TODO Auto-generated method stub
-		
+
 		roomType = RoomType.StartingRoom;
 		dmap.setStartRoom(roomId);
 		dmap.setRoomAsFilled(roomId);
-		
+
 	}
 
 	public void setAsSimpleRoom(DunMap dmap) {
-		
+
 		Monster mns = new Monster();
 		mns.setStats(1, 1, 1, 1, 1);
 		int dif = 10;
 		int size = 0;
 		int snared = 0;
-		int inactive= 0;
+		int inactive = 0;
 		EvSearch es = new EvSearch();
 
 		es = new EvSearch();
 		es.init(mns);
-		es.setArgs(new int[] { dif, size, snared,inactive});
+		es.setArgs(new int[] { dif, size, snared, inactive });
 
 		es.run(Settings.EA_ITERATIONS);
 		mns.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
-		/*mns.setDif(dif);
-		mns.setSize(size);
-		mns.setSnared(snared ==1);*/
+		/*
+		 * mns.setDif(dif); mns.setSize(size); mns.setSnared(snared ==1);
+		 */
 		Random rd = new Random();
-		
-		int monsnum = (rd.nextInt(Math.abs(x2 -x1)) + 1 ) % 5;
 
-		dmap.loadMonsters(mns, roomId, monsnum);
+		int assetsnum = (rd.nextInt(Math.abs(x2 - x1)) + 1) % 5;
 
-		
-		
-		
+		int itemsn = rd.nextInt(4) / 4;
+
+		dmap.loadMonsters(mns, roomId, assetsnum - itemsn);
+
+		if (itemsn == 1) {
+
+			Item it = new Item("simple");
+			int trueItem = rd.nextInt(2);
+			int value = 1;
+
+			es = new EvSearch();
+
+			es.init(it);
+			es.setArgs(new int[] { trueItem, value });
+			es.run(Settings.EA_ITERATIONS);
+
+			it.loadFromGene(es.getCurrentPopulation().get(0).getSeq());
+			System.out.println(it.getType());
+			dmap.loadItem(it, roomId);
+		}
+
 		roomType = RoomType.SimpleRoom;
 	}
 
