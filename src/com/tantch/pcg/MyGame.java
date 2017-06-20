@@ -118,6 +118,7 @@ public class MyGame {
 			ParametersMapping.setAmbient(mir);
 			ParametersMapping.setPlayerStatFocus(mir);
 			ParametersMapping.setLevelParameters(mir);
+			ParametersMapping.analiseGenreParameters(mir);
 		}
 	}
 

@@ -20,6 +20,9 @@ public class Item implements EvRepresentation {
 	private int SEQSIZE = 6;
 	private int effect;
 	private int value;// 1,2
+	public static int POTATOCOUNT = 0;
+	public static int CARROTCOUNT = 0;
+	public static int SHIELDCOUNT = 0;
 
 	public Item(String description) {
 
@@ -68,9 +71,16 @@ public class Item implements EvRepresentation {
 			xtemp = (effect / value) / 4.0;
 			ytemp += -1 * Math.pow((xtemp - 0.8), 2) + 1;
 		} else {
-			xtemp = ((8 - effect) / value) /4.0;
-			ytemp += -1 * Math.pow((xtemp - 0.8) , 2) + 1;
+			xtemp = ((8 - effect) / value) / 4.0;
+			ytemp += -1 * Math.pow((xtemp - 0.8), 2) + 1;
 
+		}
+		if (trueItem && type == ItemType.Potato) {
+			ytemp -=  (Item.POTATOCOUNT ) * 0.5f;
+		}else if (trueItem && type == ItemType.Carrot) {
+			ytemp -= (Item.CARROTCOUNT) * 0.5f;
+		}else if (trueItem && type == ItemType.Shield) {
+			ytemp -= (Item.SHIELDCOUNT) * 0.5f;
 		}
 		Debug.log(this.getClass(), "fitness result -> " + xtemp + " | " + ytemp);
 

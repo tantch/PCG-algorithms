@@ -30,6 +30,8 @@ public class MIRTester {
 					ParametersMapping.setAgentSettings(mir);
 					ParametersMapping.setAmbient(mir);
 					ParametersMapping.setPlayerStatFocus(mir);
+					ParametersMapping.setLevelParameters(mir);
+					ParametersMapping.analiseGenreParameters(mir);
 					writer.println(mir.getName() + ";" + mir.getAcoustic() + ";" + mir.getAggressive() + ";"
 							+ mir.getAvgLoudness() + ";" + mir.getBeatCount() + ";" + mir.getBpmG() + ";"
 							+ mir.getDanceable() + ";" + mir.getDark() + ";" + mir.getElectronic() + ";"

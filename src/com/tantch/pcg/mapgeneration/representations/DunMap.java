@@ -7,6 +7,7 @@ import com.tantch.pcg.assets.Item;
 import com.tantch.pcg.assets.Monster;
 import com.tantch.pcg.assets.Player;
 import com.tantch.pcg.assets.Treasure;
+import com.tantch.pcg.assets.Item.ItemType;
 import com.tantch.pcg.mapgeneration.representations.MpCell.CellType;
 
 public class DunMap {
@@ -59,6 +60,13 @@ public class DunMap {
 	public void loadItem(Item it, int roomId) {
 
 		Item newItem = it;
+		if(it.getType() == ItemType.Potato){
+			Item.POTATOCOUNT++;
+		}else if(it.getType() == ItemType.Carrot){
+			Item.CARROTCOUNT++;
+		}else if(it.getType() == ItemType.Shield){
+			Item.SHIELDCOUNT++;
+		}
 		int[] pos = rooms.get(roomId).getPositionInRoom(true);
 		newItem.setPosition(pos[0], pos[1]);
 		items.add(newItem);

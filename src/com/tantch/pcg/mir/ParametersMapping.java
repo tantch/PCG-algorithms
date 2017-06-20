@@ -18,7 +18,7 @@ public class ParametersMapping {
 		} else if (sizex > 1) {
 			sizex = 1;
 		}
-		Settings.MAPSIZE = (int) (Math.pow(sizex + 0.3, 2) * 25 + 30);
+		Settings.MAPSIZE = (int) (Math.pow(sizex + 0.3, 2) * 20 + 30);
 		float beatsx = 1 - ((mir.getBpmG() - BPMLB) / (BPMUB - BPMLB));
 
 		Settings.MINROOMSIZE = (int) (Math.pow(beatsx, 2) * 2 + 3);
@@ -36,6 +36,7 @@ public class ParametersMapping {
 
 		if (res < 1) {
 			res = 1;
+			
 		}
 
 		Settings.AGENT_TURNPROB = res;
@@ -47,9 +48,9 @@ public class ParametersMapping {
 
 		float light = ((1 - mir.getDark()) * 0.2f + 0.8f);
 
-		Settings.RGB[0] = mir.getAggressive()  * light ;
-		Settings.RGB[1] = mir.getDanceable()  * light ;
-		Settings.RGB[2] = mir.getSad()* light;
+		Settings.RGB[0] = mir.getAggressive() * light;
+		Settings.RGB[1] = mir.getDanceable() * light;
+		Settings.RGB[2] = mir.getSad() * light;
 
 	}
 
@@ -80,13 +81,13 @@ public class ParametersMapping {
 
 		}
 
-		float at = aggressiveValue - (relaxedValue*0.3f);
+		float at = aggressiveValue - (relaxedValue * 0.3f);
 
 		if (at < 0) {
 			at = 0;
 		}
 
-		float ar = (float) (sadValue - Math.pow(happyValue,2) + 0.2f);
+		float ar = (float) (sadValue - Math.pow(happyValue, 2) + 0.2f);
 
 		if (ar < 0) {
 			ar = 0;
@@ -139,9 +140,9 @@ public class ParametersMapping {
 		}
 
 	}
-	
-	public static void setLevelParameters(MIRTools mir){
-		
+
+	public static void setLevelParameters(MIRTools mir) {
+
 		float aggressiveValue = mir.getAggressive();
 		float partyValue = mir.getParty();
 		float happyValue = mir.getHappy();
@@ -150,9 +151,63 @@ public class ParametersMapping {
 		Settings.LEVEL_FUN_VALUE = partyValue;
 		Settings.LEVEL_POSITIVE_VALUE = happyValue;
 		Settings.LEVEL_TRICK_VALUE = mir.getElectronic();
-		Settings.LEVEL_CALM_VALUE = 1f- mir.getAggressive();
+		Settings.LEVEL_CALM_VALUE = 1f - mir.getAggressive();
 		Settings.LEVEL_CONFUSE_VALUE = mir.getDanceable();
+
+	}
+
+	public static void analiseGenreParameters(MIRTools mir) {
+
+		String dorm = mir.getGenreDor();
+
+		switch (dorm) {
 		
+		case "electronic":
+			String ele = mir.getGenreEle();
+			
+			if(ele == "ambient"){
+				Settings.MINROOMSIZE++;
+			}else if(ele == "dnb"){
+				Settings.MONSTERS_SPEED_MULTIPLIER++;
+			}else if(ele == "house"){
+				Settings.MONSTERS_LIFE_MULTIPLIER++;
+				
+			}else if(ele == "techno"){
+				Settings.MONSTERS_BLASTSPEED_MULTIPLIER--;
+			}else if(ele == "trance"){
+				Settings.MONSTERS_ATKSPEED_MULTIPLIER--;
+			}
+			
+			break;
+			
+		case "alternative":
+			Settings.AGENT_TURNPROB+=10;
+			
+			break;
+		case "blues":
+			Settings.MONSTERS_BLASTSPEED_MULTIPLIER--;
+			Settings.LEVEL_CALM_VALUE+=0.10f;
+			break;
+		case "folkcountry":
+			Settings.MONSTERS_ATKSPEED_MULTIPLIER++;
+			break;
+		case "funksoulrnb":
+			Settings.LEVEL_CONFUSE_VALUE+=0.10f;
+			break;
+		case "jazz":
+			Settings.MONSTERS_SPEED_MULTIPLIER--;
+			break;
+		case "pop":
+			Settings.MONSTERS_LIFE_MULTIPLIER++;
+			break;
+		case "raphiphop":
+			Settings.LEVEL_TRICK_VALUE++;
+			break;
+		case "rock":
+			Settings.MONSTERS_ATTACK_MULTIPLIER++;
+			break;
+		}
+
 	}
 
 }

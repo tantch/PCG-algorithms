@@ -101,6 +101,13 @@ public class Monster implements EvRepresentation {
 		if (snared) {
 			ytemp -= (speed - 1) * 0.3f;
 		}
+		ytemp += 0.1 * ((Settings.MONSTERS_SPEED_MULTIPLIER - 1) / 2f) * (speed - 1);
+		ytemp += 0.1 * ((Settings.MONSTERS_LIFE_MULTIPLIER - 1) / 2f) * (maxHealth - 1);
+		ytemp += 0.1 * ((Settings.MONSTERS_ATTACK_MULTIPLIER - 1) / 2f) * (attack - 1);
+		ytemp += 0.1 * ((Settings.MONSTERS_BLASTSPEED_MULTIPLIER - 1) / 2f) * blastSpeed;
+		ytemp += 0.1 * ((Settings.MONSTERS_ATKSPEED_MULTIPLIER - 1) / 2f) * (attackSpeed - 1);
+		
+		
 		Debug.log(this.getClass(), "fitness result for statsum:" + score + " -> " + xtemp + " | " + ytemp);
 
 		return ytemp;

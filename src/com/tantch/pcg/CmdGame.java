@@ -1,5 +1,6 @@
 package com.tantch.pcg;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -17,9 +18,25 @@ import com.tantch.pcg.mapgeneration.representations.MpCell;
 import com.tantch.pcg.utils.Settings;
 
 public class CmdGame {
-	static String musicPath = "/home/pim/Music/01 - Brianstorm.ogg";
+	static String musicPath;
+	static String basePath;
 
 	public static void main(String[] args) throws IOException, InterruptedException, ParseException {
+
+		if (args.length == 2) {
+			musicPath = args[0];
+			basePath = args[1];
+			System.out.println("Music file : " + musicPath);
+			System.out.println("Base folder Path : " + basePath);
+			new File(basePath + "Gamefiles/").mkdirs();
+			new File(basePath + "MusicResults/").mkdirs();
+
+		} else {
+			System.out.println("Wrong use of arguments");
+
+			System.out.println("<program> <musicFilePath> <GameFilesFolderPath>");
+			return;
+		}
 
 		MyGame game = new MyGame();
 		game.loadMusic(musicPath);
@@ -32,7 +49,7 @@ public class CmdGame {
 		System.out.println(PrintTools.prettyPrintGeneratedContent(game));
 
 		try (FileWriter file = new FileWriter(
-				"/home/pim/Desktop/MusicResults/" + game.getMir().getName().split("\\.")[0] + ".txt")) {
+				basePath + "MusicResults/" + game.getMir().getName().split("\\.")[0] + ".txt")) {
 
 			file.write(PrintTools.prettyPrintGeneratedContent(game));
 			file.flush();
@@ -100,7 +117,7 @@ public class CmdGame {
 				obj.put("b", new Float(1f));
 
 				break;
-				
+
 			case BombRoom:
 				obj.put("r", new Float(1f));
 				obj.put("g", new Float(0.8f));
@@ -134,14 +151,14 @@ public class CmdGame {
 		}
 
 		map.put("colors", roomColors);
- 
+
 		JSONArray monsters = new JSONArray();
 		for (int i = 0; i < dmap.getMoster().size(); i++) {
 			JSONObject temp = new JSONObject();
 			Monster ms = dmap.getMoster().get(i);
 			int[] pos = ms.getPosition();
 			temp.put("x", new Integer(pos[0]));
-			temp.put("y", new Integer(pos[1])); 
+			temp.put("y", new Integer(pos[1]));
 			temp.put("life", new Integer(ms.getMaxHealth()));
 			temp.put("attack", new Integer(ms.getAttack()));
 			temp.put("blastSpeed", new Integer(ms.getBlastSpeed()));
@@ -164,14 +181,14 @@ public class CmdGame {
 			ts.put("y", new Integer(it.getY()));
 			ts.put("desc", it.getDescription());
 			ts.put("trueItem", new Integer(it.getTrueItem()));
-			ts.put("type",it.getType().toString());
-			ts.put("effect",new Integer(it.getEffect()));
-			ts.put("value",new Integer(it.getValue()));
+			ts.put("type", it.getType().toString());
+			ts.put("effect", new Integer(it.getEffect()));
+			ts.put("value", new Integer(it.getValue()));
 			items.add(ts);
 		}
 		map.put("items", items);
 
-		try (FileWriter file = new FileWriter("/home/pim/Desktop/Gamefiles/map.json")) {
+		try (FileWriter file = new FileWriter(basePath + "Gamefiles/map.json")) {
 
 			file.write(map.toJSONString());
 			file.flush();
@@ -207,7 +224,7 @@ public class CmdGame {
 
 		pl.put("blastColor", rgb);
 
-		try (FileWriter file = new FileWriter("/home/pim/Desktop/Gamefiles/player.json")) {
+		try (FileWriter file = new FileWriter(basePath + "Gamefiles/player.json")) {
 
 			file.write(pl.toJSONString());
 			file.flush();

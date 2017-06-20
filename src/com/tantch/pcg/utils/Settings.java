@@ -2,6 +2,11 @@ package com.tantch.pcg.utils;
 
 public class Settings {
 
+	public static int MONSTERS_SPEED_MULTIPLIER = 1;
+	public static int MONSTERS_LIFE_MULTIPLIER = 1;
+	public static int MONSTERS_ATTACK_MULTIPLIER = 1;
+	public static int MONSTERS_BLASTSPEED_MULTIPLIER = 1;
+	public static int MONSTERS_ATKSPEED_MULTIPLIER = 1;
 	public static boolean ROOMSIMPLECONNECTIONS = true;
 	// map generation settings
 	public static int MAPSIZE = 50;

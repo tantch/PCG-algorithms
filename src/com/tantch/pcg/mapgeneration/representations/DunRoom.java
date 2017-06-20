@@ -59,7 +59,7 @@ public class DunRoom {
 	public void setAsBossRoom(DunMap dmap) {
 		Monster mns = new Monster();
 		mns.setStats(1, 1, 1, 1, 1);
-		int dif = 18;
+		int dif = 24;
 
 		int size = 1;
 		int snared = 0;
